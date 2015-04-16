@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Eagle.MessageQueue
+namespace Eagle.MessageQueue.Rabbit
 {
     public class RabbitMQBus<TMessage> : IMessageQueueBus<TMessage> where TMessage : class
     {
@@ -43,6 +43,11 @@ namespace Eagle.MessageQueue
         }
 
         public void Publish(IEnumerable<TMessage> messages)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TMessage> Subscribe(int batchSize)
         {
             throw new NotImplementedException();
         }

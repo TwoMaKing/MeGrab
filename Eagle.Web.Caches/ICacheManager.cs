@@ -71,5 +71,13 @@ namespace Eagle.Web.Caches
         /// 清空所有缓存对象
         /// </summary>
         void FlushAll();
+
+        /// <summary>
+        /// 得到 分布式 Cache 提供器
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        T GetCacheProvider<T>() where T : class;
+
     }
 }

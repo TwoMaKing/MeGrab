@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EmitMapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EmitMapper\EmitMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -42,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AccountServiceRequest.cs" />
     <Compile Include="AccountServiceResponse.cs" />
+    <Compile Include="DispatchServiceResponse.cs" />
     <Compile Include="DispatchServiceRequest.cs" />
     <Compile Include="SnatchGroupDataObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

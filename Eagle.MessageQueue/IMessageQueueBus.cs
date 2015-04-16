@@ -19,8 +19,9 @@ namespace Eagle.MessageQueue
         void Publish(IEnumerable<TMessage> messages);
 
         /// <summary>
-        /// 订阅消息
+        /// 订阅消息返回 消息集合
         /// </summary>
         IEnumerable<TMessage> Subscribe(int batchSize);
+
     }
 }

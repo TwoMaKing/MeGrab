@@ -108,7 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\RedPacketController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -118,7 +118,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\json2.js" />
+    <Content Include="Scripts\json_parse.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -131,10 +137,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Ticket\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\RedPacket\RedPacket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Eagle.Common\Eagle.Common.csproj">
@@ -144,6 +146,10 @@
     <ProjectReference Include="..\Eagle.Core\Eagle.Core.csproj">
       <Project>{ddcadbee-4c66-43bd-a1c8-76265134b9f2}</Project>
       <Name>Eagle.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Domain\Eagle.Domain.csproj">
+      <Project>{3b98f11d-5383-4856-b82a-9eb6ae800603}</Project>
+      <Name>Eagle.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\MeGrab.Application\MeGrab.Application.csproj">
       <Project>{8ddc697a-d926-4fd5-8960-d63cb01a8d73}</Project>
@@ -168,6 +174,12 @@
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_ViewStart.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

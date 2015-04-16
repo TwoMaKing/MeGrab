@@ -61,7 +61,7 @@ namespace Eagle.Web.Caches
                 if (!cacheManagerDictionary.ContainsKey(cacheManagerTypeName))
                 {
                     cacheManager = (ICacheManager)AppRuntime.Instance.CurrentApplication.ObjectContainer.Resolve(cacheManagerType,
-                                                                                                          cacheManagerTypeName);
+                                                                                                                 cacheManagerTypeName);
 
                     cacheManagerDictionary.Add(cacheManagerTypeName, cacheManager);
                 }

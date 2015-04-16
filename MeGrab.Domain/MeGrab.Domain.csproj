@@ -74,6 +74,14 @@
       <Project>{3b98f11d-5383-4856-b82a-9eb6ae800603}</Project>
       <Name>Eagle.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Eagle.MessageQueue\Eagle.MessageQueue.csproj">
+      <Project>{4491a96c-6c9d-4dff-b576-fe801c2e49ad}</Project>
+      <Name>Eagle.MessageQueue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Web.Caches\Eagle.Web.Caches.csproj">
+      <Project>{6fa34017-09cb-4c8f-8ef0-d137970c614e}</Project>
+      <Name>Eagle.Web.Caches</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Eagle.Web.Security\Eagle.Web.Security.csproj">
       <Project>{80465bb6-fd12-498b-b367-80a89e19a081}</Project>
       <Name>Eagle.Web.Security</Name>

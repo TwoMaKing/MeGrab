@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Eagle.MessageQueue
+namespace Eagle.MessageQueue.Redis
 {
     public class RedisMQBus<TMessage> : IMessageQueueBus<TMessage> where TMessage : class
     {
@@ -90,6 +90,11 @@ namespace Eagle.MessageQueue
             }
             
             this.Committed = false;
+        }
+
+        public IEnumerable<TMessage> Subscribe(int batchSize)
+        {
+            throw new NotImplementedException();
         }
 
         public bool Committed

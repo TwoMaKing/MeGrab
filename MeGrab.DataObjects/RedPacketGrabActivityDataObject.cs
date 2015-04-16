@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Eagle.Domain.Application;
+using EmitMapper;
+using MeGrab.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -10,11 +13,8 @@ namespace MeGrab.DataObjects
     /// </summary>
     [Serializable()]
     [DataContract()]
-    public class RedPacketGrabActivityDataObject 
+    public class RedPacketGrabActivityDataObject : DataTransferObjectBase<RedPacketGrabActivity, Guid>
     {
-        [DataMember()]
-        public Guid Id { get; set; }
-
         /// <summary>
         /// 红包个数
         /// </summary>
@@ -70,6 +70,12 @@ namespace MeGrab.DataObjects
         public bool Finished { get; private set; }
 
         /// <summary>
+        /// 派发模式
+        /// </summary>
+        [DataMember()]
+        public DispatchMode DispatchMode { get; set; }
+
+        /// <summary>
         /// 包含的红包信息
         /// </summary>
         [DataMember()]
@@ -99,6 +105,19 @@ namespace MeGrab.DataObjects
         public override int GetHashCode()
         {
             return this.Id.GetHashCode();
+        }
+
+        protected override void DoMapFrom(RedPacketGrabActivity domainModel)
+        {
+
+        }
+
+        protected override RedPacketGrabActivity DoMapTo()
+        {
+            ObjectsMapper<RedPacketGrabActivityDataObject, RedPacketGrabActivity> mapper =
+                    ObjectMapperManager.DefaultInstance.GetMapper<RedPacketGrabActivityDataObject, RedPacketGrabActivity>();
+
+            return mapper.Map(this);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Eagle.Domain;
 using Eagle.Domain.Application;
 using Eagle.Domain.Repositories;
+using Eagle.Web.Caches;
 using MeGrab.DataObjects;
+using MeGrab.Domain.Models;
 using MeGrab.ServiceContracts;
 using System;
 using System.Collections.Generic;
@@ -17,7 +19,18 @@ namespace MeGrab.Application
 
         public void Dispatch(DispatchRequest dispatchRequest)
         {
-            throw new NotImplementedException();
+            RedPacketGrabActivityDataObject redPacketGrabActivityDataObject = dispatchRequest.RedPacketGrabActivity;
+
+            CacheFactory.GetCacheManager().AddItem<RedPacketGrabActivityDataObject>(redPacketGrabActivityDataObject.Id.ToString(),
+                                                                                    redPacketGrabActivityDataObject);
+
+            RedPacketGrabActivity redPacketGrabActivity = redPacketGrabActivityDataObject.MapTo();
+            redPacketGrabActivity.Dispatch();
+        }
+
+        public DispatchResponse GetDispatchedRedPacketGrabActivity()
+        {
+            return null;
         }
 
     }

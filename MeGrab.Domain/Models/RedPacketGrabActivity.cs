@@ -1,5 +1,7 @@
 ﻿using Eagle.Core;
 using Eagle.Domain;
+using Eagle.MessageQueue;
+using Eagle.MessageQueue.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,10 @@ namespace MeGrab.Domain.Models
     {
         public RedPacketGrabActivity() { }
 
-        public RedPacketGrabActivity(int redPacketCount, decimal totalAmount) : 
+        public RedPacketGrabActivity(int redPacketCount, decimal totalAmount) :
             this(redPacketCount, totalAmount, DispatchMode.Fixed) { }
 
-        public RedPacketGrabActivity(int redPacketCount, decimal totalAmount, DispatchMode dispatchMode) : 
+        public RedPacketGrabActivity(int redPacketCount, decimal totalAmount, DispatchMode dispatchMode) :
             this(redPacketCount, totalAmount, dispatchMode, string.Empty) { }
 
         public RedPacketGrabActivity(int redPacketCount, decimal totalAmount, DispatchMode dispatchMode, string message)
@@ -31,5 +33,40 @@ namespace MeGrab.Domain.Models
         public decimal TotalAmount { get; set; }
 
         public DispatchMode Mode { get; set; }
+
+        protected override void GenerateGiveaways()
+        {
+            if (this.Generated)
+            {
+                return;
+            }
+
+            if (this.Mode == DispatchMode.Fixed)
+            {
+
+            }
+            else if (this.Mode == DispatchMode.Random)
+            {
+
+            }
+        }
+
+        protected override void DispatchCore()
+        {
+            //// 进入 显示在首页 队列
+            //using (IMessageQueueBus<RedPacketGrabActivity> showingMQBus = new DistributedRedisMQBus<RedPacketGrabActivity>("MQ.ShowingRedPacketActivity"))
+            //{
+            //    showingMQBus.Publish(this);
+            //    showingMQBus.Commit();
+            //}
+
+            // 进入 保存队列
+            using (IMessageQueueBus<RedPacketGrabActivity> storingMQBus = new DistributedRedisMQBus<RedPacketGrabActivity>("MQ.StoringRedPacketActivity"))
+            {
+                storingMQBus.Publish(this);
+                storingMQBus.Commit();
+            }
+        }
+
     }
 }

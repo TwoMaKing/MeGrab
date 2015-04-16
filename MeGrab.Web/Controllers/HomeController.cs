@@ -15,25 +15,7 @@ namespace MeGrab.Web.Controllers
     {
         public ActionResult Index()
         {
-            SnatchGroupScenarioModel snatchGroupScenario = new SnatchGroupScenarioModel();
-
-            SnatchGroupDataObject snatchGroup = new SnatchGroupDataObject();
-            snatchGroup.Id = Guid.NewGuid();
-            snatchGroup.Name = "红包聊天室";
-
-            List<MeGrabUserDataObject> users = new List<MeGrabUserDataObject>();
-            for (int i = 0; i < 3; i++)
-            {
-                MeGrabUserDataObject user = new MeGrabUserDataObject();
-                //user.Id = Guid.NewGuid();
-                user.Name = "Test0" + i.ToString();
-                users.Add(user);
-            }
-
-            snatchGroup.Members = users;
-            snatchGroupScenario.Group = snatchGroup;
-
-            return View(snatchGroupScenario);
+            return View();
         }
 
         public ActionResult SnatchRedPacket(string redPacketActivityId)

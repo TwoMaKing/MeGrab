@@ -1,6 +1,7 @@
 ﻿using Eagle.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MeGrab.Domain.Models
 {
@@ -45,7 +46,24 @@ namespace MeGrab.Domain.Models
         /// <summary>
         /// 抢活动是否结束
         /// </summary>
-        public bool Finished { get; private set; }
+        public bool Finished { get; set; }
+
+        /// <summary>
+        /// 活动是否取消
+        /// </summary>
+        public bool Cancelled { get; set; }
+
+        /// <summary>
+        /// Giveaways是否已经生成
+        /// </summary>
+        public bool Generated
+        {
+            get
+            {
+                return this.Giveaways != null &&
+                       this.Giveaways.Count() > 0;
+            }
+        }
 
         /// <summary>
         /// 抢的物品比如红包, 电影票, 优惠券等.
@@ -55,17 +73,48 @@ namespace MeGrab.Domain.Models
         /// <summary>
         /// 参加的成员
         /// </summary>
-        public IEnumerable<MeGrabUser> Members 
-        { 
-            get 
+        public IEnumerable<MeGrabUser> Members
+        {
+            get
             {
                 return this.members;
-            } 
+            }
         }
 
-        public void Join(MeGrabUser member)
-        {
+        /// <summary>
+        /// 生成 Giveaways
+        /// </summary>
+        protected abstract void GenerateGiveaways();
 
+        /// <summary>
+        /// 发布的核心逻辑
+        /// </summary>
+        protected abstract void DispatchCore();
+
+        /// <summary>
+        /// 参加活动
+        /// </summary>
+        public virtual void Join(MeGrabUser member)
+        {
+            if (!this.members.Exists(m => m.Name == member.Name))
+            {
+                this.members.Add(member);
+            }
+        }
+
+        /// <summary>
+        /// 取消该活动
+        /// </summary>
+        public virtual void Cancel()
+        {
+            this.Cancelled = true;
+        }
+
+        public void Dispatch()
+        {
+            this.GenerateGiveaways();
+
+            this.DispatchCore();
         }
     }
 }

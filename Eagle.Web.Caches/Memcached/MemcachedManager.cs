@@ -1,4 +1,5 @@
-﻿using Enyim.Caching;
+﻿using Eagle.Core.Exceptions;
+using Enyim.Caching;
 using Enyim.Caching.Memcached;
 using System;
 using System.Collections.Generic;
@@ -77,9 +78,20 @@ namespace Eagle.Web.Caches
             memcachedClient.FlushAll();
         }
 
+        public T GetCacheProvider<T>() where T : class
+        {
+            if (typeof(T).IsAssignableFrom(typeof(MemcachedClient)))
+            {
+                return memcachedClient as T;
+            }
+
+            throw new InfrastructureException("The cache provider type provided by the current cache manager should be '{0}'.", typeof(MemcachedClient));
+        }
+
         public void Dispose()
         {
             memcachedClient.Dispose();
         }
+
     }
 }

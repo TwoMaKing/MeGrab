@@ -1,4 +1,5 @@
-﻿using MeGrab.DataObjects;
+﻿using Eagle.Domain.Application;
+using MeGrab.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace MeGrab.ServiceContracts
     /// 派发红包
     /// </summary>
     [ServiceContract]
-    public interface IRedPacketDispatchService
+    public interface IRedPacketDispatchService : IApplicationServiceContract
     {
         /// <summary>
         /// 派发红包, 将小红包放入到未领取红包的消息队列. 同时用异步的方式把派发的大红包信息存到数据库.
@@ -21,6 +22,9 @@ namespace MeGrab.ServiceContracts
         /// </summary>
         [OperationContract()]
         void Dispatch(DispatchRequest dispatchRequest);
+
+        [OperationContract()]
+        DispatchResponse GetDispatchedRedPacketGrabActivity();
     }
 
 }

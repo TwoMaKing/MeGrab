@@ -9,146 +9,40 @@
 
 <script type="text/javascript">
 
-    //$(document).ready(function () {
+    $(document).ready(function () {
 
-    //    //var webSocketConn = $.connection('/PostPush');
-    //    //webSocketConn.received(function (data) {
-    //    //    //debugger;
+        var redPacketService = $.connection.RedPacketService;
 
-    //    //});
-    //    //webSocketConn.start().done(function () {
-    //    //    $("#charStatus").val("已连接");
-    //    //});
+        redPacketService.client.redPacketActivityDispatched = function (clientRedPacketGrabActivity) {
 
-    //    var redPacketServer = $.connection.RedPacketServer;
+            //$("redPacketActivityList").append("li").append("div");
 
-    //    redPacketServer.client.redPacketDispatched = function (clientRedPacketWidget) {
+            var totalAmount = clientRedPacketGrabActivity.TotalAmount;
+            var userName = clientRedPacketGrabActivity.Dispatcher.Name;
+            var message = clientRedPacketGrabActivity.Message;
 
-    //        var totalAmount = clientRedPacketWidget.TotalAmount;
-    //        var userName = clientRedPacketWidget.Publisher.Name;
-    //        var message = clientRedPacketWidget.Message;
+            $("testInfo").html("金额:" + totalAmount + "; 用户:" + userName);
 
-    //        $("#redPacketInfo").html(userName + "发了一个红包，金额: " + totalAmount + " 留言:" + message);
-    //    };
+            redPacketService.server.DisplayNewRedPacketActivity();
+        };
 
-    //    redPacketServer.client.redPacketReceived = function (clientRedPacketWidget) {
+        $.connection.hub.start().done(function () {
+            redPacketService.server.connect();
+            redPacketService.server.DisplayNewRedPacketActivity();
+        });
 
-    //        var totalAmount = clientRedPacketWidget.TotalAmount;
-    //        var userName = clientRedPacketWidget.Publisher.Name;
-    //        var message = clientRedPacketWidget.Message;
-
-    //        $("#redPacketInfo").html(userName + "发了一个红包，金额: " + totalAmount + " 留言:" + message);
-    //    };
-
-    //    $.connection.hub.start().done(function () {
-
-    //        $("#chatStatus").html("已连接");
-
-    //        redPacketServer.server.connect();
-
-    //    });
-
-    //    $("#dispatch").click(function () {
-
-    //        var chatGroupId = $("#chatGroupId").val();
-
-    //        var chatGroupName = $("#chatGroupName").val();
-
-    //        var dispatchRequest = {};
-    //        dispatchRequest.ChatGroup = {Id: chatGroupId, Name: chatGroupName};
-
-    //        var redPacketScenario = {};
-    //        redPacketScenario.Publisher = { Id: "1000", Name: "Test01" };
-    //        redPacketScenario.DispatchDateTime = new Date().toDateString();
-    //        redPacketScenario.RedPacketCount = parseInt($("#redPacketCount").val());
-    //        redPacketScenario.TotalAmount = parseFloat($("#totalAmount").val());
-    //        redPacketScenario.Message = $("#message").val();
-    //        redPacketScenario.Mode = parseInt($("#redPacketType").val());
-
-    //        dispatchRequest.RedPacketWidget = redPacketScenario;
-    //        redPacketServer.server.dispatch(redPacketScenario);
-
-    //    });
-
-    //});
+    });
 
 
 </script>
 
 <div>
-    <div>
-        <label>聊天群名称: @Model.Group.Name</label>
-        <span>状态: <label id="chatStatus"></label></span>
-        <input id="chatGroupId" type="hidden" value="@Model.Group.Id.ToString()" />
-        <input id="chatGroupName" type="hidden" value="@Model.Group.Name" />
-    </div>
-    <div>
-        <label>成员: </label>
-        @{if (Model.Group.Members != null)
-          { 
-            <ul>
-                @foreach (var member in Model.Group.Members)
-                {
-                  <li>@member.Name</li>
-                }
-            </ul>
-          }
-        }
-    </div>
-</div>
 
-<div>
-    <div>
-        <p>
-            发红包的示例. 对于移动端平台如果是Hybird App可直接通过前端Js或者HTML5 WebSocket技术访问后台Service服务来发送红包.
-            如果是原生App则可以使用原生socketAPI来进行服务端和客户端的通信从而来发送红包以提高性能.
-            对于桌面浏览器，以MVC做简单的示例.
-        </p>
-    </div>
-    <div>
-        @*@using (Html.BeginForm("Dispatch", "Home", FormMethod.Post, new Dictionary<string,string> { { "id", "redPacketForm" } }))
-        {*@
-            <div>
-                <label>红包总数: </label>
-                <input type="text" id="redPacketCount" name="RedPacketCount" style="width:100px" />
-            </div>
+    <p id="testInfo">
 
-            <div>
-                <label>总金额: </label>
-                <input type="text" id="totalAmount" name="TotalAmount" style="width:100px" />
-            </div>
+    </p>
 
-            <div>
-                <label>留言: </label>
-                <input type="text" id="message" name="Message" style="width:200px" />
-            </div>
-
-            <div>
-                <label>类型: </label>
-                <select id="redPacketType" name="RedPacketType" style="width:100px">
-                    <option value="0" selected="selected">普通红包，每人收到固定金额</option>
-                    <option value="1">随机红包，每人抽到随机金额</option>
-                </select>
-            </div>
-            
-            <div>
-                <input id="dispatch" type="submit" value="发送红包"/>
-            </div>
-        @*}*@
-    </div>
-    <div>
-        <p>点击发送红包下面Blue Box将接收到红包的信息</p>
-        <p id="redPacketInfo" style="border:1px solid blue; width:300px; height:50px;">
-            
-        </p>
-    </div>
-
-    <div>
-        <form action="~/Home/SnatchRedPacket/1" method="get">
-            <button type="submit" value="抢红包" style="width:80px; height:20px">抢红包</button>
-        </form>
-        
-    </div>
+    <ul id="redPacketActivityList"></ul>
 
 </div>
 
