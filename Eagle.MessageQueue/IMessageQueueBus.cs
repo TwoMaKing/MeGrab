@@ -8,8 +8,19 @@ namespace Eagle.MessageQueue
 {
     public interface IMessageQueueBus<TMessage> : IUnitOfWork, IDisposable where TMessage : class
     {
+        /// <summary>
+        /// 发布消息 
+        /// </summary>
         void Publish(TMessage message);
 
+        /// <summary>
+        /// 发布消息
+        /// </summary>
         void Publish(IEnumerable<TMessage> messages);
+
+        /// <summary>
+        /// 订阅消息
+        /// </summary>
+        IEnumerable<TMessage> Subscribe(int batchSize);
     }
 }
