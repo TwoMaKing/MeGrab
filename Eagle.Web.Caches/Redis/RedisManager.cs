@@ -30,7 +30,14 @@ namespace Eagle.Web.Caches
 
         static RedisManager()
         {
-            replaceMethod = typeof(RedisClient).GetMethod("Replace", BindingFlags.Instance | BindingFlags.Public);
+            var replaceMethodInfos = from m in typeof(RedisClient).GetMethods()
+                                     let name = m.Name
+                                     let parameters = m.GetParameters()
+                                     where name == "Replace" && parameters.Count() > 3 &&
+                                           parameters[2].ParameterType == typeof(DateTime)
+                                     select m;
+                                      
+            replaceMethod = replaceMethodInfos.SingleOrDefault();
         }
 
         public RedisManager()

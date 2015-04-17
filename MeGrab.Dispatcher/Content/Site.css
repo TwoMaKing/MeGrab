@@ -77,3 +77,26 @@ textarea {
 .link a:link, .link a:visited, .link a:active {
         text-decoration: none;
     }
+
+
+.redPacketActivityFieldSet
+{   
+    border: 1px solid blue;
+    padding: 2em 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+.redPacketActivityFieldSet div
+{   
+    margin: 0.5em 0 1.5em 0;
+}
+
+.redPacketActivityFieldSet div label
+{   
+    cursor: default;
+    padding: 5px 2px;
+    width: 100px;
+    float:left;
+    line-height:10px;
+    color: green;
+}

@@ -1,10 +1,14 @@
-﻿using Eagle.Domain;
+﻿using Eagle.Core;
+using Eagle.Domain;
 using Eagle.Domain.Application;
 using Eagle.Domain.Repositories;
 using Eagle.Web.Caches;
+using EmitMapper;
 using MeGrab.DataObjects;
 using MeGrab.Domain.Models;
 using MeGrab.ServiceContracts;
+using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,25 +17,17 @@ using System.Threading.Tasks;
 
 namespace MeGrab.Application
 {
-    public class RedPacketDispatchServiceImpl : ApplicationService, IRedPacketDispatchService
+    public class RedPacketDispatchServiceImpl : DisposableObject, IRedPacketDispatchService
     {
-        public RedPacketDispatchServiceImpl(IRepositoryContext repositoryContext) : base(repositoryContext) { }
-
         public void Dispatch(DispatchRequest dispatchRequest)
         {
             RedPacketGrabActivityDataObject redPacketGrabActivityDataObject = dispatchRequest.RedPacketGrabActivity;
-
-            CacheFactory.GetCacheManager().AddItem<RedPacketGrabActivityDataObject>(redPacketGrabActivityDataObject.Id.ToString(),
-                                                                                    redPacketGrabActivityDataObject);
 
             RedPacketGrabActivity redPacketGrabActivity = redPacketGrabActivityDataObject.MapTo();
             redPacketGrabActivity.Dispatch();
         }
 
-        public DispatchResponse GetDispatchedRedPacketGrabActivity()
-        {
-            return null;
-        }
-
+        protected override void Dispose(bool disposing)
+        { }
     }
 }

@@ -24,18 +24,18 @@
 
     <div>
 
-        @{if (this.Request.IsAuthenticated)
-        {
-            <div>
-                <a href="#" target="_blank">Welcome: @this.User.Identity.Name</a>
-            </div>
-        }
-        else
-        {
-            <div>
-                <a href="#" target="_blank">没有授权.</a>
-            </div>
-        }
+        @{  if (this.Request.IsAuthenticated)
+            {
+                <div>
+                    <a href="#" target="_blank">Welcome: @this.User.Identity.Name</a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a href="#" target="_blank">没有授权.</a>
+                </div>
+            }
         }
 
     </div>

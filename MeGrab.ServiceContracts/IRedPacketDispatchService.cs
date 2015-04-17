@@ -1,12 +1,7 @@
 ﻿using Eagle.Domain.Application;
 using MeGrab.DataObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
 
 namespace MeGrab.ServiceContracts
 {
@@ -22,9 +17,6 @@ namespace MeGrab.ServiceContracts
         /// </summary>
         [OperationContract()]
         void Dispatch(DispatchRequest dispatchRequest);
-
-        [OperationContract()]
-        DispatchResponse GetDispatchedRedPacketGrabActivity();
     }
 
 }

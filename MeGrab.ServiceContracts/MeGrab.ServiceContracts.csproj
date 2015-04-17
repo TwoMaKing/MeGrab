@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRedPacketQueryService.cs" />
     <Compile Include="IRedPacketSnatchService.cs" />
     <Compile Include="IAccountService.cs" />
     <Compile Include="IMeGrabUserService.cs" />

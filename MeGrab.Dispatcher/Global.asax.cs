@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Eagle.Core.Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,10 +14,13 @@ namespace MeGrab.Dispatcher
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
+
+            AppRuntime.Instance.Create();
         }
     }
 }

@@ -37,7 +37,7 @@
       <HintPath>..\packages\Memcached\Enyim.Caching.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\Log\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MemcachedProviders">
       <HintPath>..\packages\Memcached\MemcachedProviders.dll</HintPath>

@@ -48,6 +48,8 @@
     <Compile Include="AccountServiceResponse.cs" />
     <Compile Include="DispatchServiceResponse.cs" />
     <Compile Include="DispatchServiceRequest.cs" />
+    <Compile Include="RedPacketQueryServiceRequest.cs" />
+    <Compile Include="RedPacketQueryServiceResponse.cs" />
     <Compile Include="SnatchGroupDataObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedPacketDataObject.cs" />

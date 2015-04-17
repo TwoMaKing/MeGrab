@@ -2,6 +2,9 @@
 using Eagle.Domain;
 using Eagle.MessageQueue;
 using Eagle.MessageQueue.Redis;
+using Eagle.Web.Caches;
+using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +50,7 @@ namespace MeGrab.Domain.Models
             }
             else if (this.Mode == DispatchMode.Random)
             {
-
+                
             }
         }
 
@@ -59,6 +62,16 @@ namespace MeGrab.Domain.Models
             //    showingMQBus.Publish(this);
             //    showingMQBus.Commit();
             //}
+
+            //放入缓存
+            using (ICacheManager cacheManager = CacheFactory.GetCacheManager())
+            {
+                using (RedisClient redisClient = cacheManager.GetCacheProvider<RedisClient>())
+                {
+                    IRedisTypedClient<RedPacketGrabActivity> redPacketRedisClient = redisClient.As<RedPacketGrabActivity>();
+                    redPacketRedisClient.AddItemToSortedSet(redPacketRedisClient.SortedSets["Dispatch_InMemory_RedPacketGrabActivity"], this);
+                }
+            }
 
             // 进入 保存队列
             using (IMessageQueueBus<RedPacketGrabActivity> storingMQBus = new DistributedRedisMQBus<RedPacketGrabActivity>("MQ.StoringRedPacketActivity"))
