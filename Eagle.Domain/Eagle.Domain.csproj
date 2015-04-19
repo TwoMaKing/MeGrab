@@ -48,12 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregateRoot%27.cs" />
     <Compile Include="AggregateRoot.cs" />
     <Compile Include="Application\ApplicationService.cs" />
     <Compile Include="Application\DataTransferObjectBase.cs" />
     <Compile Include="Application\IApplicationServiceContract.cs" />
     <Compile Include="Application\IDataTransferObject.cs" />
     <Compile Include="EventSourceAggregateRoot.cs" />
+    <Compile Include="Events\DomainEvent%27.cs" />
+    <Compile Include="Events\IDomainEvent%27.cs" />
+    <Compile Include="Events\IDomainEventHandler%27.cs" />
     <Compile Include="Events\InlineDomainEventHandler.cs" />
     <Compile Include="Events\Storage\DbDomainEventStorage.cs" />
     <Compile Include="Events\DomainEventHandleAttribute.cs" />
@@ -90,7 +94,7 @@
     <Compile Include="Events\IDomainEventHandler.cs" />
     <Compile Include="Events\ActionDelegateEventHandler.cs" />
     <Compile Include="Events\EventAggregator.cs" />
-    <Compile Include="Events\AsyncExecutionAttribute.cs" />
+    <Compile Include="Events\AsynchronouslyHandleAttribute.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\IEventAggregator.cs" />
     <Compile Include="Events\IEventHandler.cs" />

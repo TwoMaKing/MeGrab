@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lite\MeGrabUserRepository.cs" />
+    <Compile Include="Lite\RedPacketGrabActivityRepository.cs" />
     <Compile Include="Lite\TopicRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

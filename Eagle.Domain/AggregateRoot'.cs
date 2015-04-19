@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Eagle.Domain
 {
-    public class AggregateRoot : EntityBase, IAggregateRoot
+    public class AggregateRoot<TEntityIdentityKey> : EntityBase<TEntityIdentityKey>, IAggregateRoot<TEntityIdentityKey>
     {
         protected void RaiseEvent<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : class, IEvent
         {

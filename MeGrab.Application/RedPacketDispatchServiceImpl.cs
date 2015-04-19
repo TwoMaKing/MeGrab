@@ -22,7 +22,6 @@ namespace MeGrab.Application
         public void Dispatch(DispatchRequest dispatchRequest)
         {
             RedPacketGrabActivityDataObject redPacketGrabActivityDataObject = dispatchRequest.RedPacketGrabActivity;
-
             RedPacketGrabActivity redPacketGrabActivity = redPacketGrabActivityDataObject.MapTo();
             redPacketGrabActivity.Dispatch();
         }

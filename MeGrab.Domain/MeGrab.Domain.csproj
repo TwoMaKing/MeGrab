@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\Handlers\RedPacketGrabActivityCachingEventHandler.cs" />
+    <Compile Include="Events\RedPacketGrabActivityEvent.cs" />
+    <Compile Include="Events\Handlers\RedPacketGrabActivityMQStoreEventHandler.cs" />
     <Compile Include="Models\MeGrabMembership.cs" />
     <Compile Include="Models\MeGrabUser.cs" />
     <Compile Include="Models\DispatchMode.cs" />
@@ -104,7 +107,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Events\" />
     <Folder Include="Service\" />
   </ItemGroup>
   <ItemGroup>

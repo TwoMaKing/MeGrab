@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Eagle.Domain.Events
 {
-    public abstract class DomainEvent : IDomainEvent
+    public abstract class DomainEvent<TEntityIdentityKey> : IDomainEvent<TEntityIdentityKey>
     {
         private DateTime timestamp = DateTime.UtcNow;
 
-        private IEntity source;
+        private IEntity<TEntityIdentityKey> source;
 
         public DomainEvent() { }
 
-        public DomainEvent(IEntity source)
+        public DomainEvent(IEntity<TEntityIdentityKey> source)
         {
             this.source = source;
         }
@@ -24,9 +24,9 @@ namespace Eagle.Domain.Events
             set;
         }
 
-        public IEntity Source
+        public IEntity<TEntityIdentityKey> Source
         {
-            get 
+            get
             {
                 return this.source;
             }
@@ -38,7 +38,7 @@ namespace Eagle.Domain.Events
 
         public DateTime Timestamp
         {
-            get 
+            get
             {
                 return this.timestamp;
             }
@@ -72,7 +72,7 @@ namespace Eagle.Domain.Events
                 return false;
             }
 
-            DomainEvent other = obj as DomainEvent;
+            DomainEvent<TEntityIdentityKey> other = obj as DomainEvent<TEntityIdentityKey>;
 
             if ((object)other == (object)null)
             {
@@ -91,4 +91,5 @@ namespace Eagle.Domain.Events
                                      this.Version.GetHashCode());
         }
     }
+
 }

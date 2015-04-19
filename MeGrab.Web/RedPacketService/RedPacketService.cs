@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
+﻿using Eagle.Core;
 using MeGrab.ServiceContracts;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,12 @@ namespace MeGrab.Web
             }
         }
 
-        public void DisplayNewRedPacketActivity()
+        public void DisplayNewRedPacketActivity(DateTime displayedLast)
         {
+            using (IRedPacketQueryService redPacketQueryService = ServiceLocator.Instance.GetService<IRedPacketQueryService>())
+            {
 
+            }
 
             this.Clients.Clients(connectedUsers).redPacketActivityDispatched();
         }

@@ -7,7 +7,7 @@ using Eagle.Core.Configuration;
 
 namespace Eagle.Domain.DirectBus
 {
-    public class MessageDispatchercs : IMessageDispatcher
+    public class MessageDispatcher : IMessageDispatcher
     {
         private Dictionary<Type, List<object>> handlerDictionary = new Dictionary<Type, List<object>>();
 

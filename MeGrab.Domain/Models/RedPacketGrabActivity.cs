@@ -1,18 +1,22 @@
 ﻿using Eagle.Core;
+using Eagle.Core.Generators;
 using Eagle.Domain;
-using Eagle.MessageQueue;
-using Eagle.MessageQueue.Redis;
-using Eagle.Web.Caches;
-using ServiceStack.Redis;
-using ServiceStack.Redis.Generic;
+using MeGrab.Domain.Events;
+using ServiceStack.DataAnnotations;
+using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MeGrab.Domain.Models
 {
+    [Alias("RedPacket_Activity")]
+    [TablePrimaryKey("Id", ColumnName = "rpga_id", AutoIncrement = false)]
+    [TableColumnMappings(new string[] { 
+     "MemberLimit=rpga_limit_member", "StartDateTime=rpga_start_datetime", "ExpireDateTime=rpga_expire_datetime", 
+     "Message=rpga_message", "DispatcherId=rpga_dispatcher_id", "DispatchDateTime=rpga_dispatch_datetime", 
+     "Cancelled=rpga_cancelled", "Finished=rpga_finished", "LastModifiedUserId=rpga_last_modified_user_id" })]
     public class RedPacketGrabActivity : GrabActivity<RedPacket>
     {
         public RedPacketGrabActivity() { }
@@ -31,10 +35,13 @@ namespace MeGrab.Domain.Models
             this.Message = message;
         }
 
+        [Alias("rpga_redpacket_count")]
         public int RedPacketCount { get; set; }
 
+        [Alias("rpga_total_amount")]
         public decimal TotalAmount { get; set; }
 
+        [Alias("rpga_play_mode")]
         public DispatchMode Mode { get; set; }
 
         protected override void GenerateGiveaways()
@@ -50,35 +57,20 @@ namespace MeGrab.Domain.Models
             }
             else if (this.Mode == DispatchMode.Random)
             {
-                
+
             }
         }
 
         protected override void DispatchCore()
         {
-            //// 进入 显示在首页 队列
-            //using (IMessageQueueBus<RedPacketGrabActivity> showingMQBus = new DistributedRedisMQBus<RedPacketGrabActivity>("MQ.ShowingRedPacketActivity"))
-            //{
-            //    showingMQBus.Publish(this);
-            //    showingMQBus.Commit();
-            //}
+            this.Id = (Guid)SequenceGenerator.Instance.Next;
+            this.DispatchDateTime = DateTime.UtcNow;
 
-            //放入缓存
-            using (ICacheManager cacheManager = CacheFactory.GetCacheManager())
-            {
-                using (RedisClient redisClient = cacheManager.GetCacheProvider<RedisClient>())
-                {
-                    IRedisTypedClient<RedPacketGrabActivity> redPacketRedisClient = redisClient.As<RedPacketGrabActivity>();
-                    redPacketRedisClient.AddItemToSortedSet(redPacketRedisClient.SortedSets["Dispatch_InMemory_RedPacketGrabActivity"], this);
-                }
-            }
-
+            // 通过领域事件
+            // 放入缓存
             // 进入 保存队列
-            using (IMessageQueueBus<RedPacketGrabActivity> storingMQBus = new DistributedRedisMQBus<RedPacketGrabActivity>("MQ.StoringRedPacketActivity"))
-            {
-                storingMQBus.Publish(this);
-                storingMQBus.Commit();
-            }
+            RedPacketGrabActivityEvent @event = new RedPacketGrabActivityEvent(this);
+            this.RaiseEvent<RedPacketGrabActivityEvent>(@event);
         }
 
     }

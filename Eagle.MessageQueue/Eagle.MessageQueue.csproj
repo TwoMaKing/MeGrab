@@ -40,6 +40,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Apache.NMS">
+      <HintPath>..\packages\ActiveMQ\Apache.NMS.dll</HintPath>
+    </Reference>
+    <Reference Include="Apache.NMS.ActiveMQ">
+      <HintPath>..\packages\ActiveMQ\Apache.NMS.ActiveMQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zlib">
+      <HintPath>..\packages\ActiveMQ\Ionic.Zlib.dll</HintPath>
+    </Reference>
     <Reference Include="RabbitMQ.Client">
       <HintPath>..\packages\RabbitMQ\RabbitMQ.Client.dll</HintPath>
     </Reference>
@@ -68,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveMQBus.cs" />
     <Compile Include="DistributedRedisMQBus.cs" />
     <Compile Include="IMessageQueueBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

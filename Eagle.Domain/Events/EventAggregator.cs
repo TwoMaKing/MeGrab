@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Eagle.Domain.Events
 {
     public class EventAggregator : IEventAggregator
     {
-        private static object lockObject = new object();
+        private static readonly object lockObject = new object();
 
-        private Dictionary<Type, List<object>> eventHandlerList = new Dictionary<Type, List<object>>();
+        private readonly Dictionary<Type, List<object>> eventHandlerList = new Dictionary<Type, List<object>>();
 
-        private Func<object, object, bool> eventHandlerEquals = (eventHandlerX, eventHandlerY) =>
+        private readonly MethodInfo registerEventHandlerMethod;
+
+        private readonly Func<object, object, bool> eventHandlerEquals = (eventHandlerX, eventHandlerY) =>
         {
             var eventHandlerTypeX = eventHandlerX.GetType();
 
@@ -29,8 +33,35 @@ namespace Eagle.Domain.Events
         };
 
         public EventAggregator() 
-        { 
+        {
+            registerEventHandlerMethod = (from p in this.GetType().GetMethods()
+                                          let methodName = p.Name
+                                          let parameters = p.GetParameters()
+                                          where methodName == "Subscribe" &&
+                                          parameters != null &&
+                                          parameters.Length == 1 &&
+                                          parameters[0].ParameterType.GetGenericTypeDefinition() == typeof(IEventHandler<>)
+                                          select p).First();
+        }
 
+        public EventAggregator(object[] handlers) : this()
+        {
+            foreach (var obj in handlers)
+            {
+                var type = obj.GetType();
+                var implementedInterfaces = type.GetInterfaces();
+
+                foreach (var implementedInterface in implementedInterfaces)
+                {
+                    if (implementedInterface.IsGenericType &&
+                        implementedInterface.GetGenericTypeDefinition() == typeof(IEventHandler<>))
+                    {
+                        var eventType = implementedInterface.GetGenericArguments().First();
+                        var method = registerEventHandlerMethod.MakeGenericMethod(eventType);
+                        method.Invoke(this, new object[] { obj });
+                    }
+                }
+            }
         }
 
         public void Subscribe<TEvent>(IEventHandler<TEvent> eventHandler) where TEvent : class, IEvent
@@ -181,9 +212,9 @@ namespace Eagle.Domain.Events
                     IEventHandler<TEvent> eventHandler = handlerObject as IEventHandler<TEvent>;
                     
                     // Async parallel Operation
-                    if (eventHandler.GetType().IsDefined(typeof(AsyncExecutionAttribute), false))
+                    if (eventHandler.GetType().IsDefined(typeof(AsynchronouslyHandleAttribute), false))
                     {
-
+                        Task.Factory.StartNew((o) => eventHandler.Handle((TEvent)o), @event);
                     }
                     else
                     {
@@ -196,7 +227,58 @@ namespace Eagle.Domain.Events
         public void Publish<TEvent>(TEvent @event, Action<TEvent, bool, Exception> callback, TimeSpan? timeout) 
             where TEvent : class, IEvent
         {
-            throw new NotImplementedException();
+            if (@event == null)
+            {
+                throw new ArgumentNullException("event");
+            }
+
+            var eventType = @event.GetType();
+
+            if (this.eventHandlerList.ContainsKey(eventType) &&
+                this.eventHandlerList[eventType] != null &&
+                this.eventHandlerList[eventType].Count > 0)
+            {
+                var handlers = this.eventHandlerList[eventType];
+
+                List<Task> tasks = new List<Task>();
+                try
+                {
+                    foreach (var handler in handlers)
+                    {
+                        var eventHandler = handler as IEventHandler<TEvent>;
+                        if (eventHandler.GetType().IsDefined(typeof(AsynchronouslyHandleAttribute), false))
+                        {
+                            tasks.Add(Task.Factory.StartNew((o) => eventHandler.Handle((TEvent)o), @event));
+                        }
+                        else
+                        {
+                            eventHandler.Handle(@event);
+                        }
+                    }
+
+                    if (tasks.Count > 0)
+                    {
+                        if (timeout == null)
+                        {
+                            Task.WaitAll(tasks.ToArray());
+                        }
+                        else
+                        {
+                            Task.WaitAll(tasks.ToArray(), timeout.Value);
+                        }
+                    }
+
+                    callback(@event, true, null);
+                }
+                catch (Exception ex)
+                {
+                    callback(@event, false, ex);
+                }
+            }
+            else
+            {
+                callback(@event, false, null);
+            }
         }
     }
 }

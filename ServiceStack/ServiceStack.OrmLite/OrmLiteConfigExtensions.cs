@@ -68,6 +68,9 @@ namespace ServiceStack.OrmLite
             Type primaryKeyReferencesType = null;
             var tablePrimaryKey = modelType.FirstAttribute<TablePrimaryKeyAttribute>();
 
+            var tableColumnMappings = modelType.FirstAttribute<TableColumnMappingsAttribute>();
+            var columnMappings = tableColumnMappings == null ? null : tableColumnMappings.ColumnMappings;
+
             var tableIngoreColumns = modelType.FirstAttribute<TableIgnoreColumnsAttribute>();
             var ignoreColumns = tableIngoreColumns == null ? null : tableIngoreColumns.Columns;
 
