@@ -43,6 +43,7 @@ namespace MeGrab.Login
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
         }

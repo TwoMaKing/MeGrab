@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Eagle.Web.Security
 {
-    [Serializable()]
+
     public class PassportAuthenticationTicket
     {
         /// <summary>
