@@ -109,7 +109,7 @@ namespace MeGrab.Domain.Models
         /// <summary>
         /// 发布的核心逻辑
         /// </summary>
-        protected abstract void DispatchCore();
+        protected abstract void DispatchCore(MeGrabUser dispatcher);
 
         /// <summary>
         /// 参加活动
@@ -130,11 +130,10 @@ namespace MeGrab.Domain.Models
             this.Cancelled = true;
         }
 
-        public void Dispatch()
+        public void Dispatch(MeGrabUser dispatcher)
         {
             this.GenerateGiveaways();
-
-            this.DispatchCore();
+            this.DispatchCore(dispatcher);
         }
     }
 }

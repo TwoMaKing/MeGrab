@@ -6,6 +6,7 @@ using Eagle.Web.Caches;
 using EmitMapper;
 using MeGrab.DataObjects;
 using MeGrab.Domain.Models;
+using MeGrab.Domain.Repositories;
 using MeGrab.ServiceContracts;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Generic;
@@ -17,11 +18,34 @@ using System.Threading.Tasks;
 
 namespace MeGrab.Application
 {
-    public class RedPacketQueryServiceImpl : DisposableObject, IRedPacketQueryService
+    public class RedPacketQueryServiceImpl : ApplicationService, IRedPacketQueryService
     {
-        public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivities(int pageNumber, int pageSize)
+        private IRedPacketGrabActivityRepository redPacketGrabActivityRepository;
+
+        public RedPacketQueryServiceImpl(IRepositoryContext repositoryContext, 
+                                         IRedPacketGrabActivityRepository redPacketGrabActivityRepository) : base(repositoryContext) 
+        {
+            this.redPacketGrabActivityRepository = redPacketGrabActivityRepository;
+        }
+
+        public IEnumerable<RedPacketGrabActivityDataObject> GetIntradayRedPacketGrabActivities()
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivitiesByStartDateTime(DateTime startDateTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivitiesByExpireDateTime(DateTime expireDateTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivities(int pageNumber, int pageSize)
+        {
+            return null;
         }
 
         public RecentlyDispatchedRedPacketActivityResponse GetRecentlyDispatchedRedPacketGrabActivities(DateTime displayedLastDispatchDateTime)
@@ -62,8 +86,6 @@ namespace MeGrab.Application
                 }
             }
         }
-
-        protected override void Dispose(bool disposing) { }
 
     }
 }

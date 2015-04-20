@@ -14,6 +14,9 @@ namespace MeGrab.DataObjects
     [DataContract()]
     public class DispatchRequest
     {
+        [DataMember()]
+        public string DispatcherName { get; set; }
+
         /// <summary>
         /// 大红包信息, 聚合了N个小红包，每个小红包有金额，领取人，领取时间等字段。 
         /// 派发的时候把N个小红包都放置到未领取的红包消息队列

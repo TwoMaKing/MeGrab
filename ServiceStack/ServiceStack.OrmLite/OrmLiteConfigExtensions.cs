@@ -68,8 +68,24 @@ namespace ServiceStack.OrmLite
             Type primaryKeyReferencesType = null;
             var tablePrimaryKey = modelType.FirstAttribute<TablePrimaryKeyAttribute>();
 
+            bool hasTableColumnMappings = false;
             var tableColumnMappings = modelType.FirstAttribute<TableColumnMappingsAttribute>();
+            hasTableColumnMappings = tableColumnMappings != null;
             var columnMappings = tableColumnMappings == null ? null : tableColumnMappings.ColumnMappings;
+            var columnMappingDictionary = columnMappings.ToDictionary(m =>
+                                          {
+                                              string[] columnMappingArray = m.Split('=');
+
+                                              if (columnMappingArray == null ||
+                                                  columnMappingArray.Length == 0)
+                                              {
+                                                  return new KeyValuePair<string, string>();
+                                              }
+                                              else
+                                              {
+                                                  return new KeyValuePair<string, string>(columnMappingArray[0], columnMappingArray[1]);
+                                              }
+                                          });
 
             var tableIngoreColumns = modelType.FirstAttribute<TableIgnoreColumnsAttribute>();
             var ignoreColumns = tableIngoreColumns == null ? null : tableIngoreColumns.Columns;
@@ -168,7 +184,13 @@ namespace ServiceStack.OrmLite
 
                     Alias =  isPropertyFromTablePrimaryKey ? 
                              tablePrimaryKey.ColumnName : 
-                             aliasAttr != null ? aliasAttr.Name : null,
+                             aliasAttr != null ? 
+                             aliasAttr.Name : 
+                             hasTableColumnMappings? 
+                             columnMappingDictionary.ContainsKey(propertyInfo.Name) ? 
+                             columnMappingDictionary[propertyInfo.Name] : 
+                             null :
+                             null,
                     
                     FieldType = propertyType,
                     TreatAsType = treatAsType,

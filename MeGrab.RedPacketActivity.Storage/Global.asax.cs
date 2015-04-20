@@ -34,6 +34,8 @@ namespace MeGrab.RedPacketActivity.Storage
             AppRuntime.Instance.Create();
 
             this.InitializeRedPacketGrabActivityMQConsumer();
+
+
         }
 
         public void InitializeRedPacketGrabActivityMQConsumer()

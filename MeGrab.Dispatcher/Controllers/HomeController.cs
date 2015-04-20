@@ -2,6 +2,7 @@
 using Eagle.Core.Generators;
 using MeGrab.Application;
 using MeGrab.DataObjects;
+using MeGrab.Dispatcher.Filters;
 using MeGrab.Domain;
 using MeGrab.ServiceContracts;
 using System;
@@ -12,6 +13,7 @@ using System.Web.Mvc;
 
 namespace MeGrab.Dispatcher.Controllers
 {
+    [SSOAuthorize("http://localhost:10800/Home/Index", new string[] { "Dispatch" })]
     public class HomeController : Controller
     {
         //
@@ -22,13 +24,13 @@ namespace MeGrab.Dispatcher.Controllers
             return View();
         }
 
+
         public ActionResult Dispatch(RedPacketGrabActivityDataObject redPacketGrabActivity)
         {
             using (IRedPacketDispatchService redPacketDispatchService = ServiceLocator.Instance.GetService<IRedPacketDispatchService>()) 
             {
                 DispatchRequest dispatchRequest = new DispatchRequest();
-                redPacketGrabActivity.Id =  (Guid)IdentityGenerator.Instance.Generate();
-                redPacketGrabActivity.DispatchDateTime = DateTime.UtcNow;
+                dispatchRequest.DispatcherName = this.User.Identity.Name;
                 dispatchRequest.RedPacketGrabActivity = redPacketGrabActivity;
                 redPacketDispatchService.Dispatch(dispatchRequest);
             }

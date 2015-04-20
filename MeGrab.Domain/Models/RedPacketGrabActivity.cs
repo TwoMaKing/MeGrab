@@ -61,9 +61,10 @@ namespace MeGrab.Domain.Models
             }
         }
 
-        protected override void DispatchCore()
+        protected override void DispatchCore(MeGrabUser dispatcher)
         {
             this.Id = (Guid)SequenceGenerator.Instance.Next;
+            this.DispatcherId = dispatcher.Id;
             this.DispatchDateTime = DateTime.UtcNow;
 
             // 通过领域事件
