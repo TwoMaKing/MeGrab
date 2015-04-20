@@ -17,7 +17,6 @@ namespace MeGrab.Dispatcher
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
             ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
 
             AppRuntime.Instance.Create();

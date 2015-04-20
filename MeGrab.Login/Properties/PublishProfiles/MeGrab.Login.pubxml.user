@@ -9,104 +9,152 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <_PublishTargetUrl>C:\MeGrabPassport</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="bin/Apache.NMS.ActiveMQ.dll">
+      <publishTime>05/31/2013 17:55:44</publishTime>
+    </File>
+    <File Include="bin/Apache.NMS.dll">
+      <publishTime>05/20/2013 17:37:14</publishTime>
+    </File>
     <File Include="bin/Eagle.Common.dll">
-      <publishTime>04/11/2015 12:42:22</publishTime>
+      <publishTime>04/20/2015 19:41:18</publishTime>
     </File>
     <File Include="bin/Eagle.Core.dll">
-      <publishTime>04/11/2015 12:42:21</publishTime>
+      <publishTime>04/20/2015 19:41:17</publishTime>
+    </File>
+    <File Include="bin/Eagle.Domain.dll">
+      <publishTime>04/20/2015 19:50:58</publishTime>
+    </File>
+    <File Include="bin/Eagle.MessageQueue.dll">
+      <publishTime>04/20/2015 19:54:27</publishTime>
+    </File>
+    <File Include="bin/Eagle.Repositories.Lite.dll">
+      <publishTime>04/20/2015 19:50:59</publishTime>
+    </File>
+    <File Include="bin/Eagle.Web.Caches.dll">
+      <publishTime>04/20/2015 19:41:18</publishTime>
     </File>
     <File Include="bin/Eagle.Web.Core.dll">
-      <publishTime>04/13/2015 13:14:20</publishTime>
+      <publishTime>04/20/2015 19:50:58</publishTime>
     </File>
     <File Include="bin/Eagle.Web.Security.dll">
-      <publishTime>04/11/2015 14:30:25</publishTime>
+      <publishTime>04/20/2015 19:50:58</publishTime>
     </File>
     <File Include="bin/EmitMapper.dll">
-      <publishTime>01/06/2010 01:06:36</publishTime>
+      <publishTime>04/16/2015 16:48:33</publishTime>
     </File>
     <File Include="bin/Enyim.Caching.dll">
-      <publishTime>06/29/2008 20:45:38</publishTime>
+      <publishTime>04/16/2015 16:48:33</publishTime>
+    </File>
+    <File Include="bin/Ionic.Zlib.dll">
+      <publishTime>09/28/2010 08:45:50</publishTime>
+    </File>
+    <File Include="bin/MeGrab.Application.dll">
+      <publishTime>04/20/2015 19:54:30</publishTime>
+    </File>
+    <File Include="bin/MeGrab.DataObjects.dll">
+      <publishTime>04/20/2015 19:54:28</publishTime>
+    </File>
+    <File Include="bin/MeGrab.Domain.dll">
+      <publishTime>04/20/2015 19:54:28</publishTime>
+    </File>
+    <File Include="bin/MeGrab.Domain.Repositories.dll">
+      <publishTime>04/20/2015 19:54:28</publishTime>
     </File>
     <File Include="bin/MeGrab.Login.dll">
-      <publishTime>04/13/2015 13:14:22</publishTime>
+      <publishTime>04/20/2015 19:54:31</publishTime>
+    </File>
+    <File Include="bin/MeGrab.ServiceContracts.dll">
+      <publishTime>04/20/2015 19:54:29</publishTime>
     </File>
     <File Include="bin/MemcachedProviders.dll">
-      <publishTime>06/29/2008 20:45:38</publishTime>
+      <publishTime>04/16/2015 16:48:33</publishTime>
     </File>
     <File Include="bin/Microsoft.Practices.Unity.Configuration.dll">
-      <publishTime>07/16/2014 18:50:36</publishTime>
+      <publishTime>04/16/2015 16:48:36</publishTime>
     </File>
     <File Include="bin/Microsoft.Practices.Unity.dll">
-      <publishTime>07/16/2014 18:50:36</publishTime>
+      <publishTime>04/16/2015 16:48:36</publishTime>
     </File>
     <File Include="bin/MySql.Data.dll">
-      <publishTime>04/04/2015 14:27:02</publishTime>
+      <publishTime>04/16/2015 16:48:35</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>04/06/2015 15:40:05</publishTime>
+      <publishTime>04/16/2015 16:48:36</publishTime>
+    </File>
+    <File Include="bin/RabbitMQ.Client.dll">
+      <publishTime>04/16/2015 16:48:36</publishTime>
     </File>
     <File Include="bin/ServiceStack.Common.dll">
-      <publishTime>03/19/2015 01:08:30</publishTime>
+      <publishTime>04/16/2015 16:48:36</publishTime>
     </File>
     <File Include="bin/ServiceStack.Interfaces.dll">
-      <publishTime>03/19/2015 01:08:30</publishTime>
+      <publishTime>04/16/2015 16:48:36</publishTime>
+    </File>
+    <File Include="bin/ServiceStack.OrmLite.dll">
+      <publishTime>04/20/2015 19:17:51</publishTime>
+    </File>
+    <File Include="bin/ServiceStack.OrmLite.MySql.dll">
+      <publishTime>04/20/2015 19:17:53</publishTime>
+    </File>
+    <File Include="bin/ServiceStack.OrmLite.SqlServer.dll">
+      <publishTime>04/20/2015 19:17:53</publishTime>
     </File>
     <File Include="bin/ServiceStack.Redis.dll">
-      <publishTime>03/19/2015 01:08:30</publishTime>
+      <publishTime>04/16/2015 16:48:36</publishTime>
     </File>
     <File Include="bin/ServiceStack.Text.dll">
-      <publishTime>03/19/2015 01:08:30</publishTime>
+      <publishTime>04/16/2015 16:48:36</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
-      <publishTime>04/06/2015 15:40:08</publishTime>
+      <publishTime>04/16/2015 16:48:33</publishTime>
     </File>
     <File Include="bin/System.Web.Http.dll">
-      <publishTime>04/06/2015 15:40:10</publishTime>
+      <publishTime>04/16/2015 16:48:34</publishTime>
     </File>
     <File Include="bin/System.Web.Http.WebHost.dll">
-      <publishTime>04/06/2015 15:40:11</publishTime>
+      <publishTime>04/16/2015 16:48:34</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>04/04/2015 14:18:31</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>04/04/2015 14:18:31</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Account/ChangePassword.cshtml">
-      <publishTime>04/04/2015 14:18:31</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Account/ChangePasswordSuccess.cshtml">
-      <publishTime>04/04/2015 14:18:31</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Account/CreateUser.cshtml">
-      <publishTime>04/10/2015 22:11:35</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>04/10/2015 22:11:06</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
-      <publishTime>04/04/2015 14:18:31</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>04/13/2015 13:13:33</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>04/04/2015 14:18:31</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>04/06/2015 23:40:06</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
-      <publishTime>04/04/2015 14:18:31</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>04/13/2015 01:51:46</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>04/04/2015 14:18:31</publishTime>
+      <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/13/2015 13:14:23</publishTime>
+      <publishTime>04/20/2015 19:07:37</publishTime>
     </File>
   </ItemGroup>
 </Project>

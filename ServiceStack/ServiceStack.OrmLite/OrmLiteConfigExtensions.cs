@@ -72,7 +72,7 @@ namespace ServiceStack.OrmLite
             var tableColumnMappings = modelType.FirstAttribute<TableColumnMappingsAttribute>();
             hasTableColumnMappings = tableColumnMappings != null;
             var columnMappings = tableColumnMappings == null ? null : tableColumnMappings.ColumnMappings;
-            var columnMappingDictionary = columnMappings.ToDictionary(m =>
+            var columnMappingDictionary = hasTableColumnMappings ? columnMappings.ToDictionary(m =>
                                           {
                                               string[] columnMappingArray = m.Split('=');
 
@@ -85,7 +85,7 @@ namespace ServiceStack.OrmLite
                                               {
                                                   return new KeyValuePair<string, string>(columnMappingArray[0], columnMappingArray[1]);
                                               }
-                                          });
+                                          }) : null;
 
             var tableIngoreColumns = modelType.FirstAttribute<TableIgnoreColumnsAttribute>();
             var ignoreColumns = tableIngoreColumns == null ? null : tableIngoreColumns.Columns;
