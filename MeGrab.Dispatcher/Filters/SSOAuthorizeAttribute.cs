@@ -61,7 +61,7 @@ namespace MeGrab.Dispatcher.Filters
             using (HttpClient httpClient = new HttpClient(handler))
             {
                 string passportServiceUrl = ConfigurationUtils.PassportServiceUrl + token;
-
+     
                 PassportAuthenticationTicket passportAuthTicket = httpClient.GetAsync(passportServiceUrl).Result.
                     Content.ReadAsAsync<PassportAuthenticationTicket>().Result;
 
