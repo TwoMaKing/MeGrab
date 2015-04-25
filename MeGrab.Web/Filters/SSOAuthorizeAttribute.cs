@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
@@ -62,10 +63,14 @@ namespace MeGrab.Web.Filters
             using (HttpClient httpClient = new HttpClient(handler))
             {
                 string passportServiceUrl = ConfigurationUtils.PassportServiceUrl + token;
-                var formatters = new List<MediaTypeFormatter>() { new JsonMediaTypeFormatter() }; 
 
-                PassportAuthenticationTicket passportAuthTicket = httpClient.GetAsync(passportServiceUrl).Result.
-                    Content.ReadAsAsync<PassportAuthenticationTicket>(formatters).Result;
+                var formatters = new List<MediaTypeFormatter>() { new JsonMediaTypeFormatter() };
+
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage responseMessage = httpClient.GetAsync(passportServiceUrl).Result;
+                PassportAuthenticationTicket passportAuthTicket = responseMessage.Content.ReadAsAsync<PassportAuthenticationTicket>(formatters).Result;
 
                 //HttpResponseMessage responseMessage = await httpClient.GetAsync(passportServiceUrl);
                 //PassportAuthenticationTicket passportAuthTicket = await responseMessage.Content.ReadAsAsync<PassportAuthenticationTicket>();

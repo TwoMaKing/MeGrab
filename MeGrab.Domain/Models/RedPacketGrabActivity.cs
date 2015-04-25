@@ -11,12 +11,13 @@ using System.Text;
 
 namespace MeGrab.Domain.Models
 {
-    [Alias("RedPacket_Activity")]
+    [Alias("redpacket_grab_activity")]
     [TablePrimaryKey("Id", ColumnName = "rpga_id", AutoIncrement = false)]
     [TableColumnMappings(new string[] { 
      "MemberLimit=rpga_limit_member", "StartDateTime=rpga_start_datetime", "ExpireDateTime=rpga_expire_datetime", 
      "Message=rpga_message", "DispatcherId=rpga_dispatcher_id", "DispatchDateTime=rpga_dispatch_datetime", 
      "Cancelled=rpga_cancelled", "Finished=rpga_finished", "LastModifiedUserId=rpga_last_modified_user_id" })]
+    [Serializable()]
     public class RedPacketGrabActivity : GrabActivity<RedPacket>
     {
         public RedPacketGrabActivity() { }
@@ -64,7 +65,7 @@ namespace MeGrab.Domain.Models
         protected override void DispatchCore(MeGrabUser dispatcher)
         {
             this.Id = (Guid)SequenceGenerator.Instance.Next;
-            this.DispatcherId = dispatcher.Id;
+            this.DispatcherId = 5;//dispatcher.Id;
             this.DispatchDateTime = DateTime.UtcNow;
 
             // 通过领域事件

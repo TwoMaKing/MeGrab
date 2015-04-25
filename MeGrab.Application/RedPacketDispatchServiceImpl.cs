@@ -33,9 +33,11 @@ namespace MeGrab.Application
         {
             RedPacketGrabActivityDataObject redPacketGrabActivityDataObject = dispatchRequest.RedPacketGrabActivity;
             RedPacketGrabActivity redPacketGrabActivity = redPacketGrabActivityDataObject.MapTo();
-            MeGrabUser currentDispatcher = userRepository.Find(new ExpressionSpecification<MeGrabUser>(
-                                                               u => u.Name.Equals(dispatchRequest.DispatcherName)));
-            
+            //MeGrabUser currentDispatcher = userRepository.Find(new ExpressionSpecification<MeGrabUser>(
+            //                                                   u => u.Name == dispatchRequest.DispatcherName));
+
+            MeGrabUser currentDispatcher = new MeGrabUser();
+
             redPacketGrabActivity.Dispatch(currentDispatcher);
         }
 

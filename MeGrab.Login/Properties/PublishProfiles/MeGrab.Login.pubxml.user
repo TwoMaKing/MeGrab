@@ -61,7 +61,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/20/2015 20:54:08</publishTime>
     </File>
     <File Include="bin/MeGrab.Login.dll">
-      <publishTime>04/20/2015 20:59:18</publishTime>
+      <publishTime>04/20/2015 21:07:27</publishTime>
     </File>
     <File Include="bin/MeGrab.ServiceContracts.dll">
       <publishTime>04/20/2015 20:54:09</publishTime>

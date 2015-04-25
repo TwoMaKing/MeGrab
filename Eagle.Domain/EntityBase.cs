@@ -11,6 +11,7 @@ namespace Eagle.Domain
     /// 实体基类
     /// </summary>
     /// <typeparam name="TIdentityKey"></typeparam>
+    [Serializable()]
     public abstract class EntityBase<TIdentityKey> : IEntity<TIdentityKey>, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

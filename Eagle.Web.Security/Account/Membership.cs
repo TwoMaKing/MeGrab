@@ -33,6 +33,7 @@ using System.Text;
 
 namespace Eagle.Web.Security
 {
+    [Serializable()]
 	public class Membership
 	{
 		/// <summary>

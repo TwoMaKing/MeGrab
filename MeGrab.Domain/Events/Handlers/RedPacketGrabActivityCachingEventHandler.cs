@@ -2,6 +2,7 @@
 using Eagle.Domain.Events;
 using Eagle.Web.Caches;
 using MeGrab.Domain.Models;
+using MeGrab.Infrastructure;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Generic;
 using System;
@@ -22,7 +23,8 @@ namespace MeGrab.Domain.Events.Handlers
                 using (RedisClient redisClient = cacheManager.GetCacheProvider<RedisClient>())
                 {
                     IRedisTypedClient<RedPacketGrabActivity> redPacketRedisClient = redisClient.As<RedPacketGrabActivity>();
-                    redPacketRedisClient.AddItemToSortedSet(redPacketRedisClient.SortedSets["Dispatch_InMemory_RedPacketGrabActivity"], 
+
+                    redPacketRedisClient.AddItemToSortedSet(redPacketRedisClient.SortedSets[RedisCacheKeys.Intraday_RedPackets], 
                                                             (RedPacketGrabActivity)message.Source);
                 }
             }

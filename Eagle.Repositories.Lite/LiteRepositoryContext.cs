@@ -90,7 +90,7 @@ namespace Eagle.Repositories.Lite
 
         protected override void DoCommit()
         {
-            using (IDbConnection dbConnection = this.LiteConnectionFactory.CreateDbConnection())
+            using (IDbConnection dbConnection = this.LiteConnectionFactory.OpenDbConnection())
             {
                 IDbTransaction dbTransaction = dbConnection.BeginTransaction();
 

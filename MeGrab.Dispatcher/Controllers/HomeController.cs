@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace MeGrab.Dispatcher.Controllers
 {
-    [SSOAuthorize("http://localhost:10800/Home/Index", new string[] { "Dispatch" })]
+    //[SSOAuthorize("http://localhost:10800/Home/Index", new string[] { "Dispatch" })]
     public class HomeController : Controller
     {
         //
@@ -23,7 +23,6 @@ namespace MeGrab.Dispatcher.Controllers
         {
             return View();
         }
-
 
         public ActionResult Dispatch(RedPacketGrabActivityDataObject redPacketGrabActivity)
         {
@@ -35,7 +34,7 @@ namespace MeGrab.Dispatcher.Controllers
                 redPacketDispatchService.Dispatch(dispatchRequest);
             }
 
-            return View();
+            return View("Index");
         }
     }
 }

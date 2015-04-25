@@ -100,3 +100,12 @@ textarea {
     line-height:10px;
     color: green;
 }
+
+.clearfix:after 
+{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}

@@ -64,10 +64,13 @@ namespace MeGrab.Dispatcher.Filters
             {
                 string passportServiceUrl = ConfigurationUtils.PassportServiceUrl + token;
 
-                var formatters = new List<MediaTypeFormatter>() { new JsonMediaTypeFormatter()}; 
+                var formatters = new List<MediaTypeFormatter>() { new JsonMediaTypeFormatter()};
 
-                PassportAuthenticationTicket passportAuthTicket = httpClient.GetAsync(passportServiceUrl).Result.
-                    Content.ReadAsAsync<PassportAuthenticationTicket>(formatters).Result;
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage responseMessage = httpClient.GetAsync(passportServiceUrl).Result;
+                PassportAuthenticationTicket passportAuthTicket = responseMessage.Content.ReadAsAsync<PassportAuthenticationTicket>(formatters).Result;
 
                 //HttpResponseMessage responseMessage = await httpClient.GetAsync(passportServiceUrl);
                 //PassportAuthenticationTicket passportAuthTicket = await responseMessage.Content.ReadAsAsync<PassportAuthenticationTicket>();

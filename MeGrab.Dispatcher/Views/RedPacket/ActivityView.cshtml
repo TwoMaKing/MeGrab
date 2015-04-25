@@ -1,0 +1,104 @@
+﻿@model MeGrab.Dispatcher.Models.RedPacketGrabActivityModel
+@using MeGrab.DataObjects;
+
+@{
+    ViewBag.Title = "抢红包活动";
+
+    DateTime initialDateTime = new DateTime(2015, 4, 20);
+    List<string> dateTimeList = new List<string>();
+
+    for (int i = 1; i < 21; i++)
+    {
+        dateTimeList.Add(initialDateTime.AddDays(i).ToString("yyyy-MM-dd"));
+    }
+
+}
+
+<style>
+    .redPacketActivity {
+        padding: 10px 16px 10px 10px;
+        margin: 0 0 10px 0;
+        box-shadow: 0 0 2px rgba(0,0,0,0.2);
+        border-radius: 2px;
+    }
+
+    .redPacketActivity_face {
+        float: left;
+    }
+
+    .redPacketActivity h1 {
+    }
+
+    .redPacketActivity p {
+    }
+
+    .redPacketActivity_handle {
+    }
+
+        .redPacketActivity_handle ul {
+        }
+</style>
+
+<div>
+    <h2>查询红包活动</h2>
+
+    <form action="~/RedPacket/RedPacketGrabActivitiesByStartDateTime" method="get" enctype="application/x-www-form-urlencoded">
+        <div>
+            <label>开始日期时间</label>
+            @Html.DropDownListFor(m => m.StartDateTime, dateTimeList.Select(d => new SelectListItem() { Value = d, Text = d }), new { name = "startDateTime" })
+        </div>
+        <div>
+            <input type="submit" value="查看发布的红包活动"></div>
+    </form>
+
+</div>
+
+<div>
+
+    @{
+        if (Model != null &&
+            Model.RedPacketGrabActivityList != null)
+        {
+            foreach (RedPacketGrabActivityDataObject activity in Model.RedPacketGrabActivityList)
+            {
+                <div class="redPacketActivity clearfix">
+                    <div class="redPacketActivity_face">
+                        <img src="http://3w.beva.cn/p/res/224/20140116_9f2e5449838edba1.jpg" alt="" style="width:100px;height:100px" />
+                    </div>
+                    <div>
+                        <h1>抢红包活动</h1>
+                        <div>
+                            <p>
+                                开始日期: @activity.StartDateTime.ToString()
+                            </p>
+                            <p>
+                                结束日期: @activity.ExpireDateTime.ToString()
+                            </p>
+                            <p>
+                                总金额: @activity.TotalAmount
+                            </p>
+                            <p>
+                                红包个数: @activity.RedPacketCount
+                            </p>
+                        </div>
+                        <div class="redPacketActivity_handle">
+                            <ul>
+                                <li>
+                                    当前参加人数: 10
+                                </li>
+                                <li>
+                                    评论: 5
+                                </li>
+                                <li>
+                                    收藏: 100
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+
+
+</div>

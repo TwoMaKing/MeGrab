@@ -6,8 +6,18 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div>
-        @RenderBody()
-    </div>
+    <div class="page">
+        <div id="main">
+            @if (Request.IsAuthenticated)
+            {
+                <div id="logindisplay">Welcome <strong>@User.Identity.Name</strong>!</div>
+            }
+        </div>
+        <div>
+            @RenderBody()
+        </div>
+        <div id="footer">
+        </div>
+    </div>    
 </body>
 </html>

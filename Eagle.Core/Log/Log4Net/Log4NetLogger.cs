@@ -9,7 +9,7 @@ namespace Eagle.Core.Log
 {
     public class Log4NetLogger : ILogger
     {
-        private ILog currentLogHandler = LogManager.GetLogger("");
+        private ILog currentLogHandler = LogManager.GetLogger("RollingLog");
 
         public Log4NetLogger() { }
  

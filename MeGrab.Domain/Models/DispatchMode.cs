@@ -5,6 +5,7 @@ namespace MeGrab.Domain.Models
     /// <summary>
     /// 派发模式
     /// </summary>
+    [Serializable()]
     public enum DispatchMode
     {
         /// <summary>

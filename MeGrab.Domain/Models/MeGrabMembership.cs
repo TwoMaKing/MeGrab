@@ -9,6 +9,7 @@ namespace MeGrab.Domain.Models
 {
     [Alias("webapp_membership")]
     [TablePrimaryKey("UserId", ColumnName="UserId", AutoIncrement=false)]
+    [Serializable()]
     public class MeGrabMembership : Membership
     {
         public override bool Equals(object obj)

@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 
 namespace Eagle.Domain
 {
+    [Serializable()]
     public class AggregateRoot<TEntityIdentityKey> : EntityBase<TEntityIdentityKey>, IAggregateRoot<TEntityIdentityKey>
     {
-        protected void RaiseEvent<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : class, IEvent
+        protected void RaiseEvent<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : class, IDomainEvent<TEntityIdentityKey>
         {
-            IEnumerable<IEventHandler<TDomainEvent>> eventHandlers = ServiceLocator.Instance.ResolveAll<IEventHandler<TDomainEvent>>();
+            IEnumerable<IDomainEventHandler<TDomainEvent, TEntityIdentityKey>> eventHandlers =
+                ServiceLocator.Instance.ResolveAll<IDomainEventHandler<TDomainEvent, TEntityIdentityKey>>();
 
             if (eventHandlers != null &&
                 eventHandlers.Count() > 0)
@@ -33,9 +35,10 @@ namespace Eagle.Domain
         }
 
         protected void RaiseEvent<TDomainEvent>(TDomainEvent domainEvent, Action<TDomainEvent, bool, Exception> callback, TimeSpan? timeout = null)
-                where TDomainEvent : class, IEvent
+                where TDomainEvent : class, IDomainEvent<TEntityIdentityKey>
         {
-            IEnumerable<IEventHandler<TDomainEvent>> eventHandlers = ServiceLocator.Instance.ResolveAll<IEventHandler<TDomainEvent>>();
+            IEnumerable<IDomainEventHandler<TDomainEvent, TEntityIdentityKey>> eventHandlers =
+                ServiceLocator.Instance.ResolveAll<IDomainEventHandler<TDomainEvent, TEntityIdentityKey>>();
 
             if (eventHandlers != null &&
                 eventHandlers.Count() > 0)

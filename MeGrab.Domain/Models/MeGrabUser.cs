@@ -13,6 +13,7 @@ namespace MeGrab.Domain.Models
     [Alias("webapp_users")]
     [TablePrimaryKey("Id", ColumnName = "UserId", AutoIncrement = true, ReferencesType= typeof(MeGrabMembership))]
     [TableIgnoreColumns(new string[] { "Accounts" })]
+    [Serializable()]
     public class MeGrabUser : User, IAggregateRoot
     {
         public bool Enabled { get; set; }

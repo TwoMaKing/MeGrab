@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -23,6 +25,11 @@ namespace MeGrab.RedPacketActivity.Storage
     // visit http://go.microsoft.com/?LinkId=9394801
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static IConnectionFactory activeMQConnectionfactory;
+        private static IConnection redPacketGrabActivityMQConnection;
+        private static ISession redPacketGrabActivityMQsession;
+        private static IMessageConsumer redPacketGrabActivityConsumer;
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -33,44 +40,56 @@ namespace MeGrab.RedPacketActivity.Storage
 
             AppRuntime.Instance.Create();
 
-            this.InitializeRedPacketGrabActivityMQConsumer();
-
-
+            InitializeRedPacketGrabActivityMQConsumer();
         }
 
-        public void InitializeRedPacketGrabActivityMQConsumer()
+        private static void InitializeRedPacketGrabActivityMQConsumer()
         {
             string brokerUri = ConfigurationManager.AppSettings["RedPacketGrabActivityStoringMQ"];
 
             //创建连接工厂
-            IConnectionFactory connectionfactory = new ConnectionFactory(brokerUri);
+            activeMQConnectionfactory = new ConnectionFactory(brokerUri);
             //通过工厂构建连接
-            IConnection connection = connectionfactory.CreateConnection();
+            redPacketGrabActivityMQConnection = activeMQConnectionfactory.CreateConnection();
             //这个是连接的客户端名称标识
-            connection.ClientId = "MQ.StoringRedPacketActivity.ConnectionId";
+            redPacketGrabActivityMQConnection.ClientId = "MQ.StoringRedPacketActivity.ConnectionId";
             //启动连接，监听的话要主动启动连接
-            connection.Start();
+            redPacketGrabActivityMQConnection.Start();
             //通过连接创建一个会话
-            ISession session = connection.CreateSession();
+            redPacketGrabActivityMQsession = redPacketGrabActivityMQConnection.CreateSession();
             //通过会话创建一个消费者，这里就是Queue这种会话类型的监听参数设置
-            IMessageConsumer consumer = session.CreateConsumer(new ActiveMQQueue("MQ.StoringRedPacketActivity"));
+            redPacketGrabActivityConsumer = redPacketGrabActivityMQsession.CreateConsumer(new ActiveMQQueue("MQ.StoringRedPacketActivity"));
             //注册监听事件
-            consumer.Listener += new MessageListener(StoreRedPacketGrabActivity); 
+            redPacketGrabActivityConsumer.Listener += new MessageListener(StoreRedPacketGrabActivity); 
         }
 
-        private void StoreRedPacketGrabActivity(IMessage message)
+        private static void StoreRedPacketGrabActivity(IMessage message)
         {
-            RedPacketGrabActivity redPacketGrabActivity = message.ToObject<RedPacketGrabActivity>();
-
-            using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>())
+            Task redPacketGrabActivityAddTask = Task.Factory.StartNew(() =>
             {
-                IRedPacketGrabActivityRepository repository = (IRedPacketGrabActivityRepository)
-                                                               repositoryContext.GetRepository<RedPacketGrabActivity, Guid>();
+                RedPacketGrabActivity redPacketGrabActivity = (RedPacketGrabActivity)((ActiveMQObjectMessage)message).Body;
 
-                repository.Add(redPacketGrabActivity);
+                using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>("DapperRepositoryContext"))
+                {
+                    IRedPacketGrabActivityRepository repository = (IRedPacketGrabActivityRepository)
+                                                                  repositoryContext.GetRepository<RedPacketGrabActivity, Guid>();
 
-                repositoryContext.Commit();
-            }
+                    repository.Add(redPacketGrabActivity);
+                    
+                    try
+                    {
+                        repositoryContext.Commit();
+                    }
+                    catch(Exception ex)
+                    {
+                        redPacketGrabActivityMQConnection.Stop();
+                        redPacketGrabActivityMQConnection.Close();
+                        InitializeRedPacketGrabActivityMQConsumer();
+                    }
+                }
+           });
+
+           redPacketGrabActivityAddTask.Wait();
         }
     }
 }

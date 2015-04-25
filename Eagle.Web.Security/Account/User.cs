@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Eagle.Web.Security
 {
-    
+    [Serializable()]
     public class User
     {
         public int Id 

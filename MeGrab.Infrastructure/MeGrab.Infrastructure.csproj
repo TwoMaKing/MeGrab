@@ -43,6 +43,7 @@
     <Compile Include="ConfigurationUtils.cs" />
     <Compile Include="GlobalApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RedisCacheKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Eagle.Core\Eagle.Core.csproj">

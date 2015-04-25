@@ -1,4 +1,8 @@
 ﻿using Eagle.Core;
+using Eagle.Core.Query;
+using Eagle.Core.SqlQueries;
+using Eagle.Core.SqlQueries.Criterias;
+using Eagle.Core.SqlQueries.DialectProvider;
 using Eagle.Domain;
 using Eagle.Domain.Application;
 using Eagle.Domain.Repositories;
@@ -21,21 +25,32 @@ namespace MeGrab.Application
     public class RedPacketQueryServiceImpl : ApplicationService, IRedPacketQueryService
     {
         private IRedPacketGrabActivityRepository redPacketGrabActivityRepository;
-
+        private IRedPacketGrabActivitySqlRepository redPacketGrabActivitySqlRepository;
+        
         public RedPacketQueryServiceImpl(IRepositoryContext repositoryContext, 
-                                         IRedPacketGrabActivityRepository redPacketGrabActivityRepository) : base(repositoryContext) 
+                                         IRedPacketGrabActivityRepository redPacketGrabActivityRepository,
+                                         IRedPacketGrabActivitySqlRepository redPacketGrabActivitySqlRepository) : base(repositoryContext) 
         {
             this.redPacketGrabActivityRepository = redPacketGrabActivityRepository;
+            this.redPacketGrabActivitySqlRepository = redPacketGrabActivitySqlRepository;
         }
 
         public IEnumerable<RedPacketGrabActivityDataObject> GetIntradayRedPacketGrabActivities()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivitiesByStartDateTime(DateTime startDateTime)
         {
-            throw new NotImplementedException();
+            ISqlCriteriaExpression expression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+
+            expression.Equals("rpga_start_datetime", startDateTime);
+            IEnumerable<RedPacketGrabActivity> redPacketGrabActivities = redPacketGrabActivitySqlRepository.FindAll(expression);
+
+            ObjectsMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject> mapper =
+                ObjectMapperManager.DefaultInstance.GetMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject>();
+                
+            return mapper.MapEnum(redPacketGrabActivities);
         }
 
         public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivitiesByExpireDateTime(DateTime expireDateTime)

@@ -68,7 +68,9 @@
     <Compile Include="Repositories\EventPublisherDomainRepository.cs" />
     <Compile Include="Repositories\EventSourceDomainRepository.cs" />
     <Compile Include="Repositories\IDomainRepository.cs" />
+    <Compile Include="Repositories\ISqlRepository.cs" />
     <Compile Include="Repositories\RepositoryException.cs" />
+    <Compile Include="Repositories\SqlRepository.cs" />
     <Compile Include="TypePropertiesCache.cs" />
     <Compile Include="DirectBus\DirectBus.cs" />
     <Compile Include="DirectBus\DirectCommandBus.cs" />

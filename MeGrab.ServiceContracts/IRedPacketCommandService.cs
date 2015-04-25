@@ -9,7 +9,10 @@ namespace MeGrab.ServiceContracts
 {
     public interface IRedPacketCommandService : IApplicationServiceContract
     {
-        void SaveRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity);
+        void AddNewRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity);
 
+        void UpdateRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity);
+
+        void DeleteRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity);
     }
 }

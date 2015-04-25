@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\RedPacket.cs" />
     <Compile Include="Repositories\IGrabActivityRepository.cs" />
+    <Compile Include="Repositories\IGrabActivitySqlRepository.cs" />
     <Compile Include="Repositories\ISnatchGroupRepository.cs" />
     <Compile Include="Repositories\ITopicRepository.cs" />
     <Compile Include="Repositories\IMeGrabUserRepository.cs" />
@@ -100,6 +101,10 @@
     <ProjectReference Include="..\Eagle.Web.Security\Eagle.Web.Security.csproj">
       <Project>{80465bb6-fd12-498b-b367-80a89e19a081}</Project>
       <Name>Eagle.Web.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MeGrab.Infrastructure\MeGrab.Infrastructure.csproj">
+      <Project>{23cd4ba9-36a1-4a8e-a7d1-b1034aef3344}</Project>
+      <Name>MeGrab.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServiceStack\ServiceStack.OrmLite\ServiceStack.OrmLite.csproj">
       <Project>{96179ac6-f6f1-40c3-9fdd-4f6582f54c5c}</Project>

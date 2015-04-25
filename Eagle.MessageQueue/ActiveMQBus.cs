@@ -21,6 +21,12 @@ namespace Eagle.MessageQueue.ActiveMQ
 
         private IConnectionFactory activeMQConnectionFactory;
 
+        public ActiveMQBus(string brokerUri, string queueName)
+        {
+            this.queueName = queueName;
+            this.activeMQConnectionFactory = new ConnectionFactory(brokerUri);
+        }
+
         public ActiveMQBus(string brokerUri, string clientId, string queueName)
         {
             this.queueName = queueName;
@@ -91,11 +97,12 @@ namespace Eagle.MessageQueue.ActiveMQ
                     using (ISession session = connection.CreateSession())
                     {
                         IMessageProducer producer = session.CreateProducer(new ActiveMQQueue(this.queueName));
+                        
                         while (this.mockQueue.Count > 0)
                         {
                             TMessage message = mockQueue.Dequeue();
                             IObjectMessage objectMessage = producer.CreateObjectMessage(message);
-                            producer.Send(objectMessage, MsgDeliveryMode.NonPersistent, MsgPriority.High, TimeSpan.MinValue);
+                            producer.Send(objectMessage, MsgDeliveryMode.NonPersistent, MsgPriority.Normal, TimeSpan.MinValue);
                         }
                     }
                 }

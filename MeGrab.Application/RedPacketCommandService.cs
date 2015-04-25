@@ -28,11 +28,19 @@ namespace MeGrab.Application
             this.redPacketRepository = redPacketRepository;
         }
 
-        public void SaveRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity)
+        public void AddNewRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity)
         {
             throw new NotImplementedException();
         }
 
+        public void UpdateRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void DeleteRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace MeGrab.Domain.Models
     /// <summary>
     /// 抢购活动
     /// </summary>
+    [Serializable()]
     public abstract class GrabActivity<TGiveaway> : AggregateRoot<Guid> //EntityBase<Guid>, IAggregateRoot<Guid>
         where TGiveaway : Giveaway, new()
     {
