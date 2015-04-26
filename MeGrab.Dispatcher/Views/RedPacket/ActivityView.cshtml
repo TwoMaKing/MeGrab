@@ -4,14 +4,13 @@
 @{
     ViewBag.Title = "抢红包活动";
 
-    DateTime initialDateTime = new DateTime(2015, 4, 20);
+    DateTime initialDateTime = new DateTime(2015, 4, 25);
     List<string> dateTimeList = new List<string>();
 
-    for (int i = 1; i < 21; i++)
+    for (int i = 1; i < 30; i++)
     {
         dateTimeList.Add(initialDateTime.AddDays(i).ToString("yyyy-MM-dd"));
     }
-
 }
 
 <style>
@@ -35,8 +34,10 @@
     .redPacketActivity_handle {
     }
 
-        .redPacketActivity_handle ul {
-        }
+    .redPacketActivity_handle ul {
+    
+    }
+
 </style>
 
 <div>

@@ -103,25 +103,27 @@ namespace Eagle.Web.Security
         /// <param name="password">The password for the user.</param>
         /// <param name="persistCookie">(Optional) true to specify that the authentication token in the cookie should be persisted beyond the current session; otherwise false. The default is false.</param>
         /// <returns><c>true</c> if the user was logged in; otherwise, <c>false</c>.</returns>
-        public static bool Login(string userNameOrEmailOrCellPhoneNo, string password, bool persistCookie = false)
+        public static LoginUserInfo Login(string userNameOrEmailOrCellPhoneNo, string password, bool persistCookie = false)
         {
             var provider = VerifyProvider();
 
             bool success = false;
 
+            LoginUserInfo loginUserInfo = null;
+
             LoginIdentityType identityType = GetLoginIdentityType(userNameOrEmailOrCellPhoneNo);
 
             if (identityType == LoginIdentityType.UserName)
             {
-                success = provider.ValidateUser(userNameOrEmailOrCellPhoneNo, password);
+                success = provider.ValidateUser(userNameOrEmailOrCellPhoneNo, password, out loginUserInfo);
             }
             else if (identityType == LoginIdentityType.Email)
             {
-                success = provider.ValidateUserByEmail(userNameOrEmailOrCellPhoneNo, password);
+                success = provider.ValidateUserByEmail(userNameOrEmailOrCellPhoneNo, password, out loginUserInfo);
             }
             else
             {
-                success = provider.ValdateUserByCellPhoneNo(userNameOrEmailOrCellPhoneNo, password);
+                success = provider.ValdateUserByCellPhoneNo(userNameOrEmailOrCellPhoneNo, password, out loginUserInfo);
             }
 
             if (success)
@@ -144,7 +146,7 @@ namespace Eagle.Web.Security
                 Response.Cookies.Add(ticketCookie);
             }
 
-            return success;
+            return loginUserInfo;
         }
 
         /// <summary>
@@ -153,25 +155,27 @@ namespace Eagle.Web.Security
         /// <param name="userName">The user name or email or cell phone no.</param>
         /// <param name="password">The password for the user.</param>
         /// <returns><c>true</c> if the user was logged in; otherwise, <c>false</c>.</returns>
-        public static string LoginAndCreateSSOToken(string userNameOrEmailOrCellPhoneNo, string password)
+        public static LoginUserInfo LoginAndCreateSSOToken(string userNameOrEmailOrCellPhoneNo, string password)
         {
             var provider = VerifyProvider();
 
             bool success = false;
 
+            LoginUserInfo loginUserInfo = null;
+
             LoginIdentityType identityType = GetLoginIdentityType(userNameOrEmailOrCellPhoneNo);
 
             if (identityType == LoginIdentityType.UserName)
             {
-                success = provider.ValidateUser(userNameOrEmailOrCellPhoneNo, password);
+                success = provider.ValidateUser(userNameOrEmailOrCellPhoneNo, password, out loginUserInfo);
             }
             else if (identityType == LoginIdentityType.Email)
             {
-                success = provider.ValidateUserByEmail(userNameOrEmailOrCellPhoneNo, password);
+                success = provider.ValidateUserByEmail(userNameOrEmailOrCellPhoneNo, password, out loginUserInfo);
             }
             else if (identityType == LoginIdentityType.CellPhoneNo)
             {
-                success = provider.ValdateUserByCellPhoneNo(userNameOrEmailOrCellPhoneNo, password);
+                success = provider.ValdateUserByCellPhoneNo(userNameOrEmailOrCellPhoneNo, password, out loginUserInfo);
             }
 
             if (success)
@@ -190,7 +194,7 @@ namespace Eagle.Web.Security
                 Response.Cookies.Add(ticketCookie);
 
                 // Create a token for SSO passport and then add to token management.
-                string token = RdbmsWebSecurity.CreatePassportToken();
+                string token = loginUserInfo.PassportToken; //RdbmsWebSecurity.CreatePassportToken();
 
                 ObjectsMapper<FormsAuthenticationTicket, PassportAuthenticationTicket> mapper =
                     ObjectMapperManager.DefaultInstance.GetMapper<FormsAuthenticationTicket, PassportAuthenticationTicket>();
@@ -198,11 +202,9 @@ namespace Eagle.Web.Security
                 PassportAuthenticationTicket passportTicket = mapper.Map(authenticationTicket);
 
                 PassportTokenManager.Instance.AddToken(token, passportTicket, DateTime.Now.AddMinutes(FormsAuthentication.Timeout.Minutes));
-
-                return token;
             }
 
-            return null;
+            return loginUserInfo;
         }
         /// <summary>
         /// Logs the user out.

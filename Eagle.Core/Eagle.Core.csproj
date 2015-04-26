@@ -76,6 +76,7 @@
     <Compile Include="DisposableObject.cs" />
     <Compile Include="Exceptions\DomainException.cs" />
     <Compile Include="Exceptions\Guard.cs" />
+    <Compile Include="Generators\CombIdentityGenerator.cs" />
     <Compile Include="Generators\IdentityGenerator.cs" />
     <Compile Include="Generators\IIdentityGenerator.cs" />
     <Compile Include="Generators\ISequenceGenerator.cs" />

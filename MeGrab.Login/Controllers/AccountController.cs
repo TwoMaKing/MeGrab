@@ -1,5 +1,6 @@
 ﻿using Eagle.Core.Extensions;
 using Eagle.Web.Security;
+using MeGrab.Infrastructure;
 using MeGrab.Login.Models;
 using System;
 using System.Collections.Generic;
@@ -33,12 +34,16 @@ namespace MeGrab.Login.Controllers
                 bool isLocalUrl = !returnUrl.HasValue() || 
                                   Url.IsLocalUrl(decodedReturnUrl);
 
-                string passportToken = RdbmsWebSecurity.LoginAndCreateSSOToken(model.UserNameOrEmailOrCellPhoneNo, model.Password);
+                LoginUserInfo loginUserInfo = RdbmsWebSecurity.LoginAndCreateSSOToken(model.UserNameOrEmailOrCellPhoneNo, model.Password);
 
-                if (!passportToken.HasValue())
+                if (loginUserInfo == null &&
+                    !loginUserInfo.PassportToken.HasValue())
                 {
                     return View(model);
                 }
+
+                // 把当前登陆用户的基本信息 存入 基于Redis 或者 MongoDB 的分布式缓存
+                this.Session[SessionKeys.SessionKey_CurrentLoginUser] = loginUserInfo;
 
                 if (isLocalUrl)
                 {
@@ -50,7 +55,8 @@ namespace MeGrab.Login.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("UserDetails", "Home", new { token = passportToken, userName = model.UserNameOrEmailOrCellPhoneNo });
+                        return RedirectToAction("UserDetails", "Home", new { token = loginUserInfo.PassportToken, 
+                                                                             userName = model.UserNameOrEmailOrCellPhoneNo });
                     }
                 }
                 else
@@ -58,7 +64,7 @@ namespace MeGrab.Login.Controllers
                     string newRedirectedUrl = string.Format("{0}{1}token={2}&username={3}&remark={4}", 
                                                                 decodedReturnUrl, 
                                                                 "?",
-                                                                passportToken, 
+                                                                loginUserInfo.PassportToken, 
                                                                 model.UserNameOrEmailOrCellPhoneNo,
                                                                 "Success");
                     return Redirect(newRedirectedUrl);
@@ -90,7 +96,7 @@ namespace MeGrab.Login.Controllers
 
                 if (token.HasValue())
                 {
-                    if (RdbmsWebSecurity.Login(model.UserName, model.Password, true))
+                    if (RdbmsWebSecurity.Login(model.UserName, model.Password, true) != null)
                     {
                         //去到个人信息页面
                         return RedirectToAction("UserDetails", "Home", new { token = token, userName = model.UserName });

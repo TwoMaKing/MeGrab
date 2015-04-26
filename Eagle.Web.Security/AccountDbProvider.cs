@@ -220,7 +220,7 @@ namespace Eagle.Web.Security
             }
         }
 
-        public MembershipUser GetUser(string userName, bool userIsOnline)
+        public MembershipUser GetMembershipUser(string userName, bool userIsOnline)
         {
             string userJoinMembershipQuery = this.ReplaceDatabaseTokens(@"SELECT WEBAPP_USERS.UserId AS Id,
                                                                                  WEBAPP_USERS.Name AS Name, 
@@ -274,6 +274,39 @@ namespace Eagle.Web.Security
             }
 
             return null;
+        }
+
+        public LoginUserInfo GetLoginUserInfo(string identityName, LoginIdentityType identityType)
+        {
+            string identityColumnName = "U.NAME";
+
+            if (identityType == LoginIdentityType.UserName)
+            {
+                identityColumnName = "U.NAME";
+            }
+            else if (identityType == LoginIdentityType.Email)
+            {
+                identityColumnName = "M.EMAIL";
+            }
+            else if (identityType == LoginIdentityType.CellPhoneNo)
+            {
+                identityColumnName = "M.CELLPHONENO";
+            }
+
+            string querySqlForUserInfo = string.Format(@"SELECT U.USERID AS Id, 
+                                                      U.NAME as Name, 
+                                                      M.EMAIL AS Email, 
+                                                      M.CELLPHONENO AS CellPhone, 
+                                                      M.CONFIRMATIONTOKEN AS PassportToken, 
+                                                      M.LASTLOGINDATE AS LastLoginDateTime 
+                                                      FROM WEBAPP_USERS U
+                                                      INNER JOIN WEBAPP_MEMBERSHIP M ON U.USERID = M.USERID 
+                                                      WHERE {0} = @UserNameOrEmailOrCellPhoneNo", identityColumnName);
+
+            using (IDbConnection dbConnection = this.CreateDbConnection())
+            {
+                return dbConnection.Query<LoginUserInfo>(querySqlForUserInfo, new { UserNameOrEmailOrCellPhoneNo = identityName }).SingleOrDefault();
+            }
         }
 
         public string GetPasswordByUserName(string userName, out bool isApproved, out int userId)

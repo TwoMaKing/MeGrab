@@ -8,6 +8,7 @@ using EmitMapper;
 using MeGrab.DataObjects;
 using MeGrab.Domain.Models;
 using MeGrab.Domain.Repositories;
+using MeGrab.Infrastructure;
 using MeGrab.ServiceContracts;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Generic;
@@ -33,10 +34,12 @@ namespace MeGrab.Application
         {
             RedPacketGrabActivityDataObject redPacketGrabActivityDataObject = dispatchRequest.RedPacketGrabActivity;
             RedPacketGrabActivity redPacketGrabActivity = redPacketGrabActivityDataObject.MapTo();
+
             //MeGrabUser currentDispatcher = userRepository.Find(new ExpressionSpecification<MeGrabUser>(
             //                                                   u => u.Name == dispatchRequest.DispatcherName));
 
             MeGrabUser currentDispatcher = new MeGrabUser();
+            currentDispatcher.Id = GlobalApplication.CurrentLoginUser.Id;
 
             redPacketGrabActivity.Dispatch(currentDispatcher);
         }

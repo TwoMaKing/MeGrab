@@ -47,7 +47,7 @@ namespace MeGrab.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (RdbmsWebSecurity.Login(loginModel.UserName, loginModel.Password, true))
+                if (RdbmsWebSecurity.Login(loginModel.UserName, loginModel.Password, true) != null)
                 {
                     if (!string.IsNullOrEmpty(returnUrl) &&
                         Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")

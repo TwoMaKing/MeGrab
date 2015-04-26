@@ -34,7 +34,7 @@ namespace Eagle.Core.Generators
                     AppRuntime.Instance.CurrentApplication.ConfigSource.Config.Generators.SequenceGenerator == null ||
                     string.IsNullOrEmpty(AppRuntime.Instance.CurrentApplication.ConfigSource.Config.Generators.SequenceGenerator.Provider))
                 {
-                    generator = new SequentialIdentityGenerator();
+                    generator = new CombIdentityGenerator();
                 }
                 else
                 {

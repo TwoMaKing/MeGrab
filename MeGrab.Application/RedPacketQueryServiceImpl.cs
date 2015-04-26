@@ -44,7 +44,7 @@ namespace MeGrab.Application
         {
             ISqlCriteriaExpression expression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
 
-            expression.Equals("rpga_start_datetime", startDateTime);
+            expression.EndsWith("rpga_start_datetime", startDateTime.ToString("yyyy-MM-dd"));
             IEnumerable<RedPacketGrabActivity> redPacketGrabActivities = redPacketGrabActivitySqlRepository.FindAll(expression);
 
             ObjectsMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject> mapper =

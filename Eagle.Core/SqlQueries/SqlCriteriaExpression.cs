@@ -24,7 +24,7 @@ namespace Eagle.Core.SqlQueries
             this.dialectProvider = dialectProvider;
         }
 
-        protected ISqlCriteriaExpression Filter(string column, Operator @operator, string sqlSubQuery, bool isOr = false, params object[] queryParams)
+        protected ISqlCriteriaExpression FilterSqlSubQuery(string column, Operator @operator, string sqlSubQuery, bool isOr = false, params object[] queryParams)
         {
             OperatorSqlCriteria sqlCriteria = OperatorSqlCriteria.Create(this.dialectProvider, column, @operator, sqlSubQuery);
 
@@ -105,17 +105,17 @@ namespace Eagle.Core.SqlQueries
 
         public ISqlCriteriaExpression Contains(string column, object value, bool isOr = false) 
         {
-             return this.Filter(column, Operator.Contains, value, isOr);
+             return this.Filter(column, Operator.Contains, "%" + value + "%", isOr);
         }
 
         public ISqlCriteriaExpression StartsWith(string column, object value, bool isOr = false) 
         {
-             return this.Filter(column, Operator.StartsWith, value, isOr);
+            return this.Filter(column, Operator.StartsWith, "%" + value, isOr);
         }
 
         public ISqlCriteriaExpression EndsWith(string column, object value, bool isOr = false) 
         {
-             return this.Filter(column, Operator.EndsWith, value, isOr);
+            return this.Filter(column, Operator.EndsWith, value + "%", isOr);
         }
 
         public ISqlCriteriaExpression GreaterThan(string column, object value, bool isOr = false) 
@@ -125,7 +125,7 @@ namespace Eagle.Core.SqlQueries
 
         public ISqlCriteriaExpression GreaterThan(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams)
         {
-            return this.Filter(column, Operator.GreaterThan, sqlSubQuery, isOr);
+            return this.FilterSqlSubQuery(column, Operator.GreaterThan, sqlSubQuery, isOr, queryParams);
         }
 
         public ISqlCriteriaExpression GreaterThanEquals(string column, object value, bool isOr = false) 
@@ -135,7 +135,7 @@ namespace Eagle.Core.SqlQueries
 
         public ISqlCriteriaExpression GreaterThanEquals(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams)
         {
-            return this.Filter(column, Operator.GreaterThanEqual, sqlSubQuery, isOr);
+            return this.FilterSqlSubQuery(column, Operator.GreaterThanEqual, sqlSubQuery, isOr, queryParams);
         }
 
         public ISqlCriteriaExpression LessThan(string column, object value, bool isOr = false) 
@@ -145,7 +145,7 @@ namespace Eagle.Core.SqlQueries
 
         public ISqlCriteriaExpression LessThan(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams)
         {
-            return this.Filter(column, Operator.LessThan, sqlSubQuery, isOr);
+            return this.FilterSqlSubQuery(column, Operator.LessThan, sqlSubQuery, isOr, queryParams);
         }
 
         public ISqlCriteriaExpression LessThanEquals(string column, object value, bool isOr = false) 
@@ -155,7 +155,7 @@ namespace Eagle.Core.SqlQueries
 
         public ISqlCriteriaExpression LessThanEquals(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams)
         {
-            return this.Filter(column, Operator.LessThanEqual, sqlSubQuery, isOr);
+            return this.FilterSqlSubQuery(column, Operator.LessThanEqual, sqlSubQuery, isOr, queryParams);
         }
 
         public ISqlCriteriaExpression In(string column, IEnumerable<object> values, bool isOr = false) 
@@ -181,7 +181,7 @@ namespace Eagle.Core.SqlQueries
 
         public ISqlCriteriaExpression In(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams)
         {
-            return this.Filter(column, Operator.In, sqlSubQuery, isOr);
+            return this.FilterSqlSubQuery(column, Operator.In, sqlSubQuery, isOr, queryParams);
         }
 
         public ISqlCriteriaExpression NotIn(string column, IEnumerable<object> values, bool isOr = false) 
@@ -207,7 +207,7 @@ namespace Eagle.Core.SqlQueries
 
         public ISqlCriteriaExpression NotIn(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams)
         {
-            return this.Filter(column, Operator.NotIn, sqlSubQuery, isOr);
+            return this.FilterSqlSubQuery(column, Operator.NotIn, sqlSubQuery, isOr, queryParams);
         }
 
         public ISqlCriteriaExpression And(ISqlCriteria sqlCriteria)

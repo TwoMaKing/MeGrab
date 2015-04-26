@@ -33,6 +33,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,15 +47,37 @@
     <Compile Include="GlobalApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedisCacheKeys.cs" />
+    <Compile Include="SessionKeys.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Eagle.Common\Eagle.Common.csproj">
+      <Project>{0cb524d0-68cb-47b8-8b9f-9915cbe19f31}</Project>
+      <Name>Eagle.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Eagle.Core\Eagle.Core.csproj">
       <Project>{ddcadbee-4c66-43bd-a1c8-76265134b9f2}</Project>
       <Name>Eagle.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferences Include="Web References\" />
+    <ProjectReference Include="..\Eagle.Domain\Eagle.Domain.csproj">
+      <Project>{3b98f11d-5383-4856-b82a-9eb6ae800603}</Project>
+      <Name>Eagle.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.MessageQueue\Eagle.MessageQueue.csproj">
+      <Project>{4491a96c-6c9d-4dff-b576-fe801c2e49ad}</Project>
+      <Name>Eagle.MessageQueue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Web.Caches\Eagle.Web.Caches.csproj">
+      <Project>{6fa34017-09cb-4c8f-8ef0-d137970c614e}</Project>
+      <Name>Eagle.Web.Caches</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Web.Core\Eagle.Web.Core.csproj">
+      <Project>{a88dc383-2528-477e-8342-6180f0a3e280}</Project>
+      <Name>Eagle.Web.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Web.Security\Eagle.Web.Security.csproj">
+      <Project>{80465bb6-fd12-498b-b367-80a89e19a081}</Project>
+      <Name>Eagle.Web.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -383,7 +383,7 @@ namespace Eagle.Web.Security
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            return this.DbProvider.GetUser(username, userIsOnline);
+            return this.DbProvider.GetMembershipUser(username, userIsOnline);
         }
 
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
@@ -440,20 +440,25 @@ namespace Eagle.Web.Security
             return isValid;
         }
 
-        public virtual bool ValidateUserByEmail(string email, string password)
+        public virtual bool ValidateUser(string username, string password, out LoginUserInfo loginUserInfo)
         {
             bool isValid = false;
             bool isApproved = false;
             int userId;
 
-            string dbPassword = this.DbProvider.GetPasswordByEmail(email, out isApproved, out userId);
+            loginUserInfo = null;
+
+            string dbPassword = this.DbProvider.GetPasswordByUserName(username, out isApproved, out userId);
 
             if (SecurityHelper.CheckPassword(password, dbPassword))
             {
                 if (isApproved)
                 {
                     isValid = true;
+
                     this.DbProvider.UpdateLastLoginDate(userId);
+
+                    loginUserInfo = this.DbProvider.GetLoginUserInfo(username, LoginIdentityType.UserName);
                 }
             }
             else
@@ -464,11 +469,41 @@ namespace Eagle.Web.Security
             return isValid;
         }
 
-        public virtual bool ValdateUserByCellPhoneNo(string cellPhoneNo, string password)
+        public virtual bool ValidateUserByEmail(string email, string password, out LoginUserInfo loginUserInfo)
         {
             bool isValid = false;
             bool isApproved = false;
             int userId;
+
+            loginUserInfo = null;
+
+            string dbPassword = this.DbProvider.GetPasswordByEmail(email, out isApproved, out userId);
+
+            if (SecurityHelper.CheckPassword(password, dbPassword))
+            {
+                if (isApproved)
+                {
+                    isValid = true;
+                    this.DbProvider.UpdateLastLoginDate(userId);
+
+                    loginUserInfo = this.DbProvider.GetLoginUserInfo(email, LoginIdentityType.Email);
+                }
+            }
+            else
+            {
+                this.DbProvider.UpdateFailureCount(userId, this.PasswordAttemptWindow, this.MaxInvalidPasswordAttempts);
+            }
+
+            return isValid;
+        }
+
+        public virtual bool ValdateUserByCellPhoneNo(string cellPhoneNo, string password, out LoginUserInfo loginUserInfo)
+        {
+            bool isValid = false;
+            bool isApproved = false;
+            int userId;
+            
+            loginUserInfo = null;
 
             string dbPassword = this.DbProvider.GetPasswordByCellPhoneNo(cellPhoneNo, out isApproved, out userId);
 
@@ -478,6 +513,11 @@ namespace Eagle.Web.Security
                 {
                     isValid = true;
                     this.DbProvider.UpdateLastLoginDate(userId);
+                    loginUserInfo = this.DbProvider.GetLoginUserInfo(cellPhoneNo, LoginIdentityType.CellPhoneNo);
+                }
+                else
+                {
+
                 }
             }
             else

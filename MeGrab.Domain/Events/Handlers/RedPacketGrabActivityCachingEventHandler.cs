@@ -24,7 +24,7 @@ namespace MeGrab.Domain.Events.Handlers
                 {
                     IRedisTypedClient<RedPacketGrabActivity> redPacketRedisClient = redisClient.As<RedPacketGrabActivity>();
 
-                    redPacketRedisClient.AddItemToSortedSet(redPacketRedisClient.SortedSets[RedisCacheKeys.Intraday_RedPackets], 
+                    redPacketRedisClient.AddItemToSortedSet(redPacketRedisClient.SortedSets[RedisCacheKeys.RedisKey_Intraday_RedPackets], 
                                                             (RedPacketGrabActivity)message.Source);
                 }
             }

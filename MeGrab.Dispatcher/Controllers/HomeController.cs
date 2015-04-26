@@ -16,9 +16,6 @@ namespace MeGrab.Dispatcher.Controllers
     //[SSOAuthorize("http://localhost:10800/Home/Index", new string[] { "Dispatch" })]
     public class HomeController : Controller
     {
-        //
-        // GET: /RedPacket/
-
         public ActionResult Index()
         {
             return View();

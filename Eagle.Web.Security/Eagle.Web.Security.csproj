@@ -57,6 +57,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -72,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AccountDbProvider.cs" />
     <Compile Include="Account\LoginIdentityType.cs" />
+    <Compile Include="Account\LoginUserInfo.cs" />
     <Compile Include="Account\Membership.cs" />
     <Compile Include="Account\PassportAuthenticationTicket.cs" />
     <Compile Include="Account\Role.cs" />

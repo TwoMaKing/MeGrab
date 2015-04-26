@@ -8,10 +8,10 @@ namespace MeGrab.Infrastructure
 {
     public sealed class RedisCacheKeys
     {
-        public static readonly string Intraday_RedPackets = "Intraday_RedPackets";
+        public static readonly string RedisKey_Intraday_RedPackets = "Intraday_RedPackets";
 
-        public static readonly string RedPackets_ByStartDateTime = "RedPackets_ByStartDateTime";
+        public static readonly string RedisKey_RedPackets_ByStartDateTime = "RedPackets_ByStartDateTime";
 
-        public static readonly string RedPackets_ByExpireDateTime = "RedPackets_ByExpireDateTime";
+        public static readonly string RedisKey_RedPackets_ByExpireDateTime = "RedPackets_ByExpireDateTime";
     }
 }

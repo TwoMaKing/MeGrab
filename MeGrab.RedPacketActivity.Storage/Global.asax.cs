@@ -3,6 +3,7 @@ using Apache.NMS.ActiveMQ;
 using Apache.NMS.ActiveMQ.Commands;
 using Eagle.Core;
 using Eagle.Core.Application;
+using Eagle.Core.Log;
 using Eagle.Domain.Repositories;
 using MeGrab.Domain;
 using MeGrab.Domain.Models;
@@ -21,8 +22,6 @@ using System.Web.Routing;
 
 namespace MeGrab.RedPacketActivity.Storage
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
     public class MvcApplication : System.Web.HttpApplication
     {
         private static IConnectionFactory activeMQConnectionfactory;
@@ -33,7 +32,6 @@ namespace MeGrab.RedPacketActivity.Storage
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -71,6 +69,8 @@ namespace MeGrab.RedPacketActivity.Storage
 
                 using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>("DapperRepositoryContext"))
                 {
+
+
                     IRedPacketGrabActivityRepository repository = (IRedPacketGrabActivityRepository)
                                                                   repositoryContext.GetRepository<RedPacketGrabActivity, Guid>();
 
@@ -82,9 +82,7 @@ namespace MeGrab.RedPacketActivity.Storage
                     }
                     catch(Exception ex)
                     {
-                        redPacketGrabActivityMQConnection.Stop();
-                        redPacketGrabActivityMQConnection.Close();
-                        InitializeRedPacketGrabActivityMQConsumer();
+                        LoggerContext.CurrentLogger.Error("保存发布的红包活动错误: ", ex);
                     }
                 }
            });

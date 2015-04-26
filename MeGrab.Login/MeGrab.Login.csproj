@@ -187,6 +187,10 @@
       <Project>{14f12408-b1a7-43e4-8f7c-e501b2680736}</Project>
       <Name>MeGrab.Domain.Repositories</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MeGrab.Infrastructure\MeGrab.Infrastructure.csproj">
+      <Project>{23cd4ba9-36a1-4a8e-a7d1-b1034aef3344}</Project>
+      <Name>MeGrab.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MeGrab.ServiceContracts\MeGrab.ServiceContracts.csproj">
       <Project>{fb36dd01-ba85-4492-b4da-6ae05cd3f0ed}</Project>
       <Name>MeGrab.ServiceContracts</Name>

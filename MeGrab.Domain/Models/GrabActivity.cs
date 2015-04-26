@@ -1,4 +1,5 @@
-﻿using Eagle.Domain;
+﻿using Eagle.Core.Generators;
+using Eagle.Domain;
 using ServiceStack.DataAnnotations;
 using ServiceStack.OrmLite;
 using System;
@@ -100,6 +101,11 @@ namespace MeGrab.Domain.Models
             {
                 return this.members;
             }
+        }
+
+        public virtual void GenerateId()
+        {
+            this.Id = (Guid)SequenceGenerator.Instance.Next;
         }
 
         /// <summary>
