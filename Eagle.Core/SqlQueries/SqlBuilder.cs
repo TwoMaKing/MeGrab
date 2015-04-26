@@ -94,21 +94,57 @@ namespace Eagle.Core.SqlQueries
 
         public ISqlBuilder InnerJoin(string joinTable, string fromKey, string joinKey)
         {
-            this.innerJoinTables.Add(" INNER JOIN " + joinTable + " ON " + fromKey + " = " + joinKey);
+            StringBuilder innerJoinTableBuilder = new StringBuilder();
+            innerJoinTableBuilder.Append(" INNER JOIN ");
+            innerJoinTableBuilder.Append(joinTable);
+            innerJoinTableBuilder.Append(" ON ");
+            innerJoinTableBuilder.Append(this.fromTable);
+            innerJoinTableBuilder.Append(".");
+            innerJoinTableBuilder.Append(fromKey);
+            innerJoinTableBuilder.Append(" = ");
+            innerJoinTableBuilder.Append(joinTable);
+            innerJoinTableBuilder.Append(".");
+            innerJoinTableBuilder.Append(joinKey);
+
+            this.innerJoinTables.Add(innerJoinTableBuilder.ToString());
 
             return this;
         }
 
         public ISqlBuilder LeftOuterJoin(string joinTable, string fromKey, string joinKey)
         {
-            this.leftOuterJoinTables.Add(" LEFT OUTER JOIN " + joinTable + " ON " + fromKey + " = " + joinKey);
+            StringBuilder leftOuterJoinTableBuilder = new StringBuilder();
+            leftOuterJoinTableBuilder.Append(" LEFT OUTER JOIN ");
+            leftOuterJoinTableBuilder.Append(joinTable);
+            leftOuterJoinTableBuilder.Append(" ON ");
+            leftOuterJoinTableBuilder.Append(this.fromTable);
+            leftOuterJoinTableBuilder.Append(".");
+            leftOuterJoinTableBuilder.Append(fromKey);
+            leftOuterJoinTableBuilder.Append(" = ");
+            leftOuterJoinTableBuilder.Append(joinTable);
+            leftOuterJoinTableBuilder.Append(".");
+            leftOuterJoinTableBuilder.Append(joinKey);
+
+            this.leftOuterJoinTables.Add(leftOuterJoinTableBuilder.ToString());
 
             return this;
         }
 
         public ISqlBuilder RightOuterJoin(string joinTable, string fromKey, string joinKey)
         {
-            this.rightOuterJoinTables.Add(" RIGHT OUTER JOIN " + joinTable + " ON " + fromKey + " = " + joinKey);
+            StringBuilder rightOuterJoinTableBuilder = new StringBuilder();
+            rightOuterJoinTableBuilder.Append(" RIGHT OUTER JOIN ");
+            rightOuterJoinTableBuilder.Append(joinTable);
+            rightOuterJoinTableBuilder.Append(" ON ");
+            rightOuterJoinTableBuilder.Append(this.fromTable);
+            rightOuterJoinTableBuilder.Append(".");
+            rightOuterJoinTableBuilder.Append(fromKey);
+            rightOuterJoinTableBuilder.Append(" = ");
+            rightOuterJoinTableBuilder.Append(joinTable);
+            rightOuterJoinTableBuilder.Append(".");
+            rightOuterJoinTableBuilder.Append(joinKey);
+
+            this.rightOuterJoinTables.Add(rightOuterJoinTableBuilder.ToString());
 
             return this;
         }

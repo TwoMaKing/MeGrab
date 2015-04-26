@@ -73,6 +73,7 @@
     <Compile Include="Models\RedPacket.cs" />
     <Compile Include="Repositories\IGrabActivityRepository.cs" />
     <Compile Include="Repositories\IGrabActivitySqlRepository.cs" />
+    <Compile Include="Repositories\IMeGrabUserSqlRepository.cs" />
     <Compile Include="Repositories\ISnatchGroupRepository.cs" />
     <Compile Include="Repositories\ITopicRepository.cs" />
     <Compile Include="Repositories\IMeGrabUserRepository.cs" />

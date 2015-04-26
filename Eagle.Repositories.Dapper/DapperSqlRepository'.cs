@@ -12,10 +12,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-
 namespace Eagle.Repositories.Dapper
 {
-    public abstract class DapperSqlRepository<TAggregateRoot> : SqlRepository<TAggregateRoot, int> where TAggregateRoot : class, IAggregateRoot<int>, IAggregateRoot, new()
+    public abstract class DapperSqlRepository<TAggregateRoot, TIdentityKey> : SqlRepository<TAggregateRoot, TIdentityKey> where TAggregateRoot : class, IAggregateRoot<TIdentityKey>, new()
     {
         private IDapperRepositoryContext dapperRepositoryContext;
 
@@ -69,14 +68,14 @@ namespace Eagle.Repositories.Dapper
             this.DapperRepositoryContext.RegisterDeleted(new CommandSqlParameters { CommandSql = deleteSqlStatement, Parameters = deleteParameters, CommandType = CommandType.Text });
         }
 
-        protected override void DoDelete(int id)
+        protected override void DoDelete(TIdentityKey id)
         {
             throw new NotImplementedException();
         }
 
         #endregion
 
-        protected override TAggregateRoot DoFindByKey(int id)
+        protected override TAggregateRoot DoFindByKey(TIdentityKey id)
         {
             throw new NotImplementedException();
         }
@@ -110,7 +109,7 @@ namespace Eagle.Repositories.Dapper
 
                 object parameters = this.GetAggregateRootListPagingQueryParametersByCriteria(sqlCriteriaExpression);
 
-                IEnumerable<TAggregateRoot> pagedAggregateRoots =
+                IEnumerable<TAggregateRoot> pagedAggregateRoots = 
                     dbConnection.Query<TAggregateRoot>(pagingSqlStatement, null, null, true, null, CommandType.Text);
 
                 int totalRecords = pagedAggregateRoots.Count();
@@ -150,4 +149,5 @@ namespace Eagle.Repositories.Dapper
         protected abstract object GetAggregateRootDeleteParameters(TAggregateRoot aggregateRoot);
 
     }
+
 }

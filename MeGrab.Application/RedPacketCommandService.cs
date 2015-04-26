@@ -20,10 +20,10 @@ namespace MeGrab.Application
 {
     public class RedPacketCommandService : ApplicationService, IRedPacketCommandService
     {
-        private IRedPacketGrabActivityRepository redPacketRepository;
+        private IRedPacketGrabActivitySqlRepository redPacketRepository;
 
         public RedPacketCommandService(IRepositoryContext repositoryContext, 
-                                       IRedPacketGrabActivityRepository redPacketRepository) : base(repositoryContext) 
+                                       IRedPacketGrabActivitySqlRepository redPacketRepository) : base(repositoryContext) 
         {
             this.redPacketRepository = redPacketRepository;
         }

@@ -61,6 +61,7 @@
     <Compile Include="DapperRepository%27.cs" />
     <Compile Include="DapperRepository.cs" />
     <Compile Include="DapperRepositoryContext.cs" />
+    <Compile Include="DapperSqlRepository%27.cs" />
     <Compile Include="DapperSqlRepository.cs" />
     <Compile Include="IDapperRepositoryContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

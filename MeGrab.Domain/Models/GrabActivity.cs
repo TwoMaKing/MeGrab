@@ -105,7 +105,11 @@ namespace MeGrab.Domain.Models
 
         public virtual void GenerateId()
         {
-            this.Id = (Guid)SequenceGenerator.Instance.Next;
+            if (this.Id == default(Guid) ||
+                this.Id == Guid.Empty)
+            {
+                this.Id = (Guid)SequenceGenerator.Instance.Next;
+            }
         }
 
         /// <summary>
@@ -116,7 +120,12 @@ namespace MeGrab.Domain.Models
         /// <summary>
         /// 发布的核心逻辑
         /// </summary>
-        protected abstract void DispatchCore(MeGrabUser dispatcher);
+        protected virtual void DispatchCore(MeGrabUser dispatcher) 
+        {
+            this.Id = (Guid)SequenceGenerator.Instance.Next;
+            this.DispatcherId = dispatcher.Id;
+            this.DispatchDateTime = DateTime.UtcNow;
+        }
 
         /// <summary>
         /// 参加活动

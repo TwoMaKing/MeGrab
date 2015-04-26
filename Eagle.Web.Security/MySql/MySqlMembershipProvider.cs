@@ -1,5 +1,4 @@
-﻿using Dappers;
-using Eagle.Common.Utils;
+﻿using Eagle.Common.Utils;
 using Eagle.Core.Exceptions;
 using System;
 using System.Collections.Generic;

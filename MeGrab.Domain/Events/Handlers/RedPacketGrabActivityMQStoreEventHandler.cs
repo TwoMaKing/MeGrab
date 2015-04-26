@@ -22,14 +22,14 @@ namespace MeGrab.Domain.Events.Handlers
             {
                 RedPacketGrabActivity activity = (RedPacketGrabActivity)message.Source;
 
-                for (int i = 1; i < 100; i++)
+                for (int i = 1; i <= 100; i++)
                 {
                     RedPacketGrabActivity nextActivity = new RedPacketGrabActivity();
                     nextActivity.Id = (Guid)SequenceGenerator.Instance.Next;
 
                     nextActivity.RedPacketCount = activity.RedPacketCount;
                     nextActivity.MemberLimit = activity.MemberLimit;
-                    nextActivity.DispatcherId = 5;
+                    nextActivity.DispatcherId = activity.DispatcherId;
                     nextActivity.DispatchDateTime = DateTime.UtcNow.AddMinutes(i);
                     nextActivity.TotalAmount = activity.TotalAmount + i;
                     nextActivity.StartDateTime = activity.StartDateTime.Value.AddHours(i);

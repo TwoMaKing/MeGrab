@@ -24,15 +24,12 @@ namespace MeGrab.Application
 {
     public class RedPacketQueryServiceImpl : ApplicationService, IRedPacketQueryService
     {
-        private IRedPacketGrabActivityRepository redPacketGrabActivityRepository;
-        private IRedPacketGrabActivitySqlRepository redPacketGrabActivitySqlRepository;
+        private IRedPacketGrabActivitySqlRepository redPacketGrabActivityRepository;
         
         public RedPacketQueryServiceImpl(IRepositoryContext repositoryContext, 
-                                         IRedPacketGrabActivityRepository redPacketGrabActivityRepository,
-                                         IRedPacketGrabActivitySqlRepository redPacketGrabActivitySqlRepository) : base(repositoryContext) 
+                                         IRedPacketGrabActivitySqlRepository redPacketGrabActivityRepository) : base(repositoryContext) 
         {
             this.redPacketGrabActivityRepository = redPacketGrabActivityRepository;
-            this.redPacketGrabActivitySqlRepository = redPacketGrabActivitySqlRepository;
         }
 
         public IEnumerable<RedPacketGrabActivityDataObject> GetIntradayRedPacketGrabActivities()
@@ -45,7 +42,7 @@ namespace MeGrab.Application
             ISqlCriteriaExpression expression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
 
             expression.EndsWith("rpga_start_datetime", startDateTime.ToString("yyyy-MM-dd"));
-            IEnumerable<RedPacketGrabActivity> redPacketGrabActivities = redPacketGrabActivitySqlRepository.FindAll(expression);
+            IEnumerable<RedPacketGrabActivity> redPacketGrabActivities = redPacketGrabActivityRepository.FindAll(expression);
 
             ObjectsMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject> mapper =
                 ObjectMapperManager.DefaultInstance.GetMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject>();

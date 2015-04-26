@@ -4,6 +4,7 @@ using MeGrab.Application;
 using MeGrab.DataObjects;
 using MeGrab.Dispatcher.Filters;
 using MeGrab.Domain;
+using MeGrab.Infrastructure;
 using MeGrab.ServiceContracts;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ using System.Web.Mvc;
 
 namespace MeGrab.Dispatcher.Controllers
 {
-    //[SSOAuthorize("http://localhost:10800/Home/Index", new string[] { "Dispatch" })]
+    [SSOAuthorize("http://localhost:10800/Home/Index", new string[] { "Dispatch" })]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -26,6 +27,7 @@ namespace MeGrab.Dispatcher.Controllers
             using (IRedPacketDispatchService redPacketDispatchService = ServiceLocator.Instance.GetService<IRedPacketDispatchService>()) 
             {
                 DispatchRequest dispatchRequest = new DispatchRequest();
+
                 dispatchRequest.DispatcherName = this.User.Identity.Name;
                 dispatchRequest.RedPacketGrabActivity = redPacketGrabActivity;
                 redPacketDispatchService.Dispatch(dispatchRequest);

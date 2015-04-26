@@ -67,10 +67,8 @@ namespace MeGrab.RedPacketActivity.Storage
             {
                 RedPacketGrabActivity redPacketGrabActivity = (RedPacketGrabActivity)((ActiveMQObjectMessage)message).Body;
 
-                using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>("DapperRepositoryContext"))
+                using (IRepositoryContext repositoryContext = ServiceLocator.Instance.GetService<IRepositoryContext>())
                 {
-
-
                     IRedPacketGrabActivityRepository repository = (IRedPacketGrabActivityRepository)
                                                                   repositoryContext.GetRepository<RedPacketGrabActivity, Guid>();
 
@@ -79,6 +77,10 @@ namespace MeGrab.RedPacketActivity.Storage
                     try
                     {
                         repositoryContext.Commit();
+                        LoggerContext.CurrentLogger.Info("保存了一个红包活动: Id:" + redPacketGrabActivity.Id + 
+                                                         "金额:" + redPacketGrabActivity.TotalAmount + 
+                                                         "个数:" + redPacketGrabActivity.RedPacketCount + 
+                                                         "开始日期时间:" + redPacketGrabActivity.StartDateTime.ToString());
                     }
                     catch(Exception ex)
                     {

@@ -16,28 +16,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/20/2013 17:37:14</publishTime>
     </File>
     <File Include="bin/Eagle.Common.dll">
-      <publishTime>04/20/2015 19:57:29</publishTime>
+      <publishTime>04/26/2015 21:29:18</publishTime>
     </File>
     <File Include="bin/Eagle.Core.dll">
-      <publishTime>04/20/2015 19:57:27</publishTime>
+      <publishTime>04/26/2015 21:29:16</publishTime>
     </File>
     <File Include="bin/Eagle.Domain.dll">
-      <publishTime>04/20/2015 19:57:32</publishTime>
+      <publishTime>04/26/2015 21:29:22</publishTime>
     </File>
     <File Include="bin/Eagle.MessageQueue.dll">
-      <publishTime>04/20/2015 19:57:32</publishTime>
+      <publishTime>04/26/2015 21:29:22</publishTime>
+    </File>
+    <File Include="bin/Eagle.Repositories.Dapper.dll">
+      <publishTime>04/26/2015 21:29:24</publishTime>
     </File>
     <File Include="bin/Eagle.Repositories.Lite.dll">
-      <publishTime>04/20/2015 19:57:34</publishTime>
+      <publishTime>04/26/2015 21:29:24</publishTime>
     </File>
     <File Include="bin/Eagle.Web.Caches.dll">
-      <publishTime>04/20/2015 19:57:32</publishTime>
+      <publishTime>04/26/2015 21:29:21</publishTime>
     </File>
     <File Include="bin/Eagle.Web.Core.dll">
-      <publishTime>04/20/2015 19:57:31</publishTime>
+      <publishTime>04/26/2015 21:29:20</publishTime>
     </File>
     <File Include="bin/Eagle.Web.Security.dll">
-      <publishTime>04/20/2015 20:54:06</publishTime>
+      <publishTime>04/26/2015 21:29:23</publishTime>
     </File>
     <File Include="bin/EmitMapper.dll">
       <publishTime>04/16/2015 16:48:33</publishTime>
@@ -49,22 +52,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/28/2010 08:45:50</publishTime>
     </File>
     <File Include="bin/MeGrab.Application.dll">
-      <publishTime>04/20/2015 20:54:10</publishTime>
+      <publishTime>04/26/2015 21:39:46</publishTime>
     </File>
     <File Include="bin/MeGrab.DataObjects.dll">
-      <publishTime>04/20/2015 20:54:08</publishTime>
+      <publishTime>04/26/2015 21:29:29</publishTime>
     </File>
     <File Include="bin/MeGrab.Domain.dll">
-      <publishTime>04/20/2015 20:54:07</publishTime>
+      <publishTime>04/26/2015 21:29:27</publishTime>
     </File>
     <File Include="bin/MeGrab.Domain.Repositories.dll">
-      <publishTime>04/20/2015 20:54:08</publishTime>
+      <publishTime>04/26/2015 21:39:45</publishTime>
+    </File>
+    <File Include="bin/MeGrab.Infrastructure.dll">
+      <publishTime>04/26/2015 21:29:25</publishTime>
     </File>
     <File Include="bin/MeGrab.Login.dll">
-      <publishTime>04/20/2015 21:07:27</publishTime>
+      <publishTime>04/26/2015 21:47:40</publishTime>
     </File>
     <File Include="bin/MeGrab.ServiceContracts.dll">
-      <publishTime>04/20/2015 20:54:09</publishTime>
+      <publishTime>04/26/2015 21:29:30</publishTime>
     </File>
     <File Include="bin/MemcachedProviders.dll">
       <publishTime>04/16/2015 16:48:33</publishTime>
@@ -91,13 +97,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/16/2015 16:48:36</publishTime>
     </File>
     <File Include="bin/ServiceStack.OrmLite.dll">
-      <publishTime>04/20/2015 19:57:28</publishTime>
+      <publishTime>04/26/2015 21:29:16</publishTime>
     </File>
     <File Include="bin/ServiceStack.OrmLite.MySql.dll">
-      <publishTime>04/20/2015 19:57:31</publishTime>
+      <publishTime>04/26/2015 21:29:19</publishTime>
     </File>
     <File Include="bin/ServiceStack.OrmLite.SqlServer.dll">
-      <publishTime>04/20/2015 19:57:29</publishTime>
+      <publishTime>04/26/2015 21:29:18</publishTime>
     </File>
     <File Include="bin/ServiceStack.Redis.dll">
       <publishTime>04/16/2015 16:48:36</publishTime>
@@ -154,7 +160,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/16/2015 16:48:27</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/20/2015 20:32:55</publishTime>
+      <publishTime>04/26/2015 21:47:41</publishTime>
     </File>
   </ItemGroup>
 </Project>

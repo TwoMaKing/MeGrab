@@ -1,5 +1,7 @@
 ﻿using Eagle.Core;
-using Eagle.Core.QuerySepcifications;
+using Eagle.Core.SqlQueries;
+using Eagle.Core.SqlQueries.Criterias;
+using Eagle.Core.SqlQueries.DialectProvider;
 using Eagle.Domain;
 using Eagle.Domain.Application;
 using Eagle.Domain.Repositories;
@@ -21,10 +23,10 @@ namespace MeGrab.Application
 {
     public class RedPacketDispatchServiceImpl : ApplicationService, IRedPacketDispatchService
     {
-        private IMeGrabUserRepository userRepository;
+        private IMeGrabUserSqlRepository userRepository;
 
         public RedPacketDispatchServiceImpl(IRepositoryContext repositoryContext, 
-                                            IMeGrabUserRepository userRepository) 
+                                            IMeGrabUserSqlRepository userRepository) 
             : base(repositoryContext) 
         {
             this.userRepository = userRepository;
@@ -35,11 +37,9 @@ namespace MeGrab.Application
             RedPacketGrabActivityDataObject redPacketGrabActivityDataObject = dispatchRequest.RedPacketGrabActivity;
             RedPacketGrabActivity redPacketGrabActivity = redPacketGrabActivityDataObject.MapTo();
 
-            //MeGrabUser currentDispatcher = userRepository.Find(new ExpressionSpecification<MeGrabUser>(
-            //                                                   u => u.Name == dispatchRequest.DispatcherName));
-
-            MeGrabUser currentDispatcher = new MeGrabUser();
-            currentDispatcher.Id = GlobalApplication.CurrentLoginUser.Id;
+            ISqlCriteriaExpression expression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+            expression.Equals("Name", dispatchRequest.DispatcherName);
+            MeGrabUser currentDispatcher = userRepository.Find(expression);
 
             redPacketGrabActivity.Dispatch(currentDispatcher);
         }
