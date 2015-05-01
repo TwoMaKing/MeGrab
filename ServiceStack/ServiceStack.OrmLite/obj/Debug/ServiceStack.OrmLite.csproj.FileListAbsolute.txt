@@ -13,3 +13,10 @@ E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite\bin\Debug\ServiceStack.Tex
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite\obj\Debug\ServiceStack.OrmLite.csprojResolveAssemblyReference.cache
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite\obj\Debug\ServiceStack.OrmLite.dll
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite\obj\Debug\ServiceStack.OrmLite.pdb
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite\bin\Debug\ServiceStack.OrmLite.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite\bin\Debug\ServiceStack.OrmLite.pdb
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite\bin\Debug\ServiceStack.Common.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite\bin\Debug\ServiceStack.Interfaces.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite\bin\Debug\ServiceStack.Text.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite\obj\Debug\ServiceStack.OrmLite.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite\obj\Debug\ServiceStack.OrmLite.pdb

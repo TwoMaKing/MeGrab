@@ -22,3 +22,14 @@ E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\Serv
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\obj\Debug\ServiceStack.OrmLite.MySqlV45.csprojResolveAssemblyReference.cache
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\obj\Debug\ServiceStack.OrmLite.MySql.dll
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\obj\Debug\ServiceStack.OrmLite.MySql.pdb
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\ServiceStack.OrmLite.MySql.dll.config
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\ServiceStack.OrmLite.MySql.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\ServiceStack.OrmLite.MySql.pdb
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\ServiceStack.Common.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\ServiceStack.OrmLite.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\ServiceStack.Text.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\ServiceStack.Interfaces.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\bin\net45_Debug\ServiceStack.OrmLite.pdb
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\obj\Debug\ServiceStack.OrmLite.MySqlV45.csprojResolveAssemblyReference.cache
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\obj\Debug\ServiceStack.OrmLite.MySql.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.MySql\obj\Debug\ServiceStack.OrmLite.MySql.pdb

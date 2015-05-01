@@ -18,3 +18,13 @@ E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\bin\Debug\Ser
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\obj\Debug\ServiceStack.OrmLite.SqlServerV45.csprojResolveAssemblyReference.cache
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\obj\Debug\ServiceStack.OrmLite.SqlServer.dll
 E:\WorkSpace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\obj\Debug\ServiceStack.OrmLite.SqlServer.pdb
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\bin\Debug\ServiceStack.OrmLite.SqlServer.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\bin\Debug\ServiceStack.OrmLite.SqlServer.pdb
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\bin\Debug\ServiceStack.Common.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\bin\Debug\ServiceStack.Interfaces.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\bin\Debug\ServiceStack.OrmLite.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\bin\Debug\ServiceStack.Text.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\bin\Debug\ServiceStack.OrmLite.pdb
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\obj\Debug\ServiceStack.OrmLite.SqlServerV45.csprojResolveAssemblyReference.cache
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\obj\Debug\ServiceStack.OrmLite.SqlServer.dll
+C:\MyProjects\MeGrab_Workspace\MeGrab\ServiceStack\ServiceStack.OrmLite.SqlServerV45\obj\Debug\ServiceStack.OrmLite.SqlServer.pdb
