@@ -70,17 +70,48 @@ namespace Eagle.Core.SqlQueries.DialectProvider
         /// <returns></returns>
         public string BuildColumnName(string name) 
         {
-            if (!name.StartsWith(this.ParameterLeftToken.ToString()))
+            string buildedColumnName = string.Empty;
+
+            if (name.Contains("."))
             {
-                name = name.Insert(0, this.ParameterLeftToken.ToString());
+                string[] splittedColumnSections = name.Split('.');
+
+                for (int i = 0; i < splittedColumnSections.Length; ++i)
+                {
+                    string sectionName = splittedColumnSections[i];
+
+                    if (!sectionName.StartsWith(this.ParameterLeftToken.ToString()))
+                    {
+                        sectionName = sectionName.Insert(0, this.ParameterLeftToken.ToString());
+                    }
+
+                    if (!sectionName.EndsWith(this.ParameterRightToken.ToString()))
+                    {
+                        sectionName = sectionName + this.ParameterRightToken.ToString();
+                    }
+
+                    if (i > 0)
+                    {
+                        buildedColumnName += "." + sectionName;
+                    }
+                }
+            }
+            else
+            {
+                buildedColumnName = name;
+
+                if (!buildedColumnName.StartsWith(this.ParameterLeftToken.ToString()))
+                {
+                    buildedColumnName = buildedColumnName.Insert(0, this.ParameterLeftToken.ToString());
+                }
+
+                if (!buildedColumnName.EndsWith(this.ParameterRightToken.ToString()))
+                {
+                    buildedColumnName = buildedColumnName + this.ParameterRightToken.ToString();
+                }
             }
 
-            if (!name.EndsWith(this.ParameterRightToken.ToString()))
-            {
-                name = name + this.ParameterRightToken.ToString();
-            }
-
-            return name;
+            return buildedColumnName;
         }
 
         /// <summary>

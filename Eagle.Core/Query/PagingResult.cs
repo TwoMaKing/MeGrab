@@ -5,17 +5,20 @@ using System.Text;
 
 namespace Eagle.Core.Query
 {
+    [Serializable()]
     public class PagingResult<T> : IPagingResult<T>
     {
         private int? totalRecords;
         private int? totalPages;
         private int? pageNumber;
         private int? pageSzie;
-        private List<T> data;
+        private IEnumerable<T> data;
 
-        public PagingResult(int? totalRecords, int? totalPages, int? pageNumber, int? pageSzie, List<T> data)
+        public PagingResult() { }
+
+        public PagingResult(int? totalRecords, int? totalPages, int? pageNumber, int? pageSzie, IEnumerable<T> data)
         {
-            this.totalPages = totalRecords;
+            this.totalRecords = totalRecords;
             this.totalPages = totalPages;
             this.pageNumber = pageNumber;
             this.pageSzie = pageSzie;
@@ -28,6 +31,10 @@ namespace Eagle.Core.Query
             { 
                 return this.totalRecords;
             }
+            set
+            {
+                this.totalRecords = value;
+            }
         }
 
         public int? TotalPages
@@ -35,6 +42,10 @@ namespace Eagle.Core.Query
             get 
             { 
                 return this.totalPages; 
+            }
+            set
+            {
+                this.totalPages = value;
             }
         }
 
@@ -44,6 +55,10 @@ namespace Eagle.Core.Query
             { 
                 return this.pageNumber; 
             }
+            set
+            {
+                this.pageNumber = value;
+            }
         }
 
         public int? PageSize
@@ -52,6 +67,10 @@ namespace Eagle.Core.Query
             {
                 return this.pageSzie;
             }
+            set
+            {
+                this.pageSzie = value;
+            }
         }
 
         public IEnumerable<T> Data
@@ -59,6 +78,10 @@ namespace Eagle.Core.Query
             get 
             {
                 return this.data;
+            }
+            set
+            {
+                this.data = value;
             }
         }
     }

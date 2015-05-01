@@ -1,4 +1,7 @@
-﻿using MeGrab.DataObjects;
+﻿using Eagle.Core;
+using Eagle.Core.Query;
+using MeGrab.DataObjects;
+using MeGrab.ServiceContracts;
 using MeGrab.Web.Filters;
 using MeGrab.Web.Models;
 using System;
@@ -10,17 +13,44 @@ using System.Web.Mvc;
 
 namespace MeGrab.Web.Controllers
 {
-    [SSOAuthorize("http://localhost:8800/Home/Index", new string[] { "SnatchRedPacket" })]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            return View();
+            return this.RedPacketGrabActivitiesByPaging(1, 10);
         }
 
-        public ActionResult SnatchRedPacket(string redPacketActivityId)
+        public ActionResult RedPacketGrabActivitiesByStartDateTime(DateTime startDateTime)
         {
-            return View("Index");
+            using (IRedPacketQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketQueryService>())
+            {
+                IEnumerable<RedPacketGrabActivityDataObject> activityDataObjectList =
+                    queryService.GetRedPacketGrabActivitiesByStartDateTime(startDateTime);
+
+                RedPacketGrabActivityModel model = new RedPacketGrabActivityModel();
+                model.StartDateTime = startDateTime;
+                model.RedPacketGrabActivityList = activityDataObjectList;
+
+                return View("Index", model);
+            }
+        }
+
+        public ActionResult RedPacketGrabActivitiesByPaging(int pageNo, int pageSize)
+        {
+            using (IRedPacketQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketQueryService>())
+            {
+                IPagingResult<RedPacketGrabActivityDataObject> pagedActivityDataObjects =
+                    queryService.GetRedPacketGrabActivities(pageNo, pageSize);
+
+                PagingRedPacketGrabActivityModel model = new PagingRedPacketGrabActivityModel();
+                model.PagingRedPacketGrabActivities = pagedActivityDataObjects.Data;
+                model.TotalRecords = pagedActivityDataObjects.TotalRecords;
+                model.TotalPages = pagedActivityDataObjects.TotalPages;
+                model.PageNo = pagedActivityDataObjects.PageNumber;
+                model.PageSize = pagedActivityDataObjects.PageSize;
+
+                return View("Index", model);
+            }
         }
 
     }

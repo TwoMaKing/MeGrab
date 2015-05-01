@@ -18,7 +18,7 @@ namespace MeGrab.Domain.Events.Handlers
         public void Handle(RedPacketGrabActivityEvent message)
         {
             //放入缓存
-            using (ICacheManager cacheManager = CacheFactory.GetCacheManager())
+            using (ICacheProvider cacheManager = CacheProviderFactory.GetCacheProvider())
             {
                 using (RedisClient redisClient = cacheManager.GetCacheProvider<RedisClient>())
                 {

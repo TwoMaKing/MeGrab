@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace MeGrab.Dispatcher.Controllers
 {
-    [SSOAuthorize("http://localhost:10800/Home/Index", new string[] { "Dispatch" })]
+    //[SSOAuthorize("http://localhost:10800/Home/Index", new string[] { "Dispatch" })]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -28,7 +28,7 @@ namespace MeGrab.Dispatcher.Controllers
             {
                 DispatchRequest dispatchRequest = new DispatchRequest();
 
-                dispatchRequest.DispatcherName = this.User.Identity.Name;
+                dispatchRequest.DispatcherName = "Philips"; //this.User.Identity.Name;
                 dispatchRequest.RedPacketGrabActivity = redPacketGrabActivity;
                 redPacketDispatchService.Dispatch(dispatchRequest);
             }

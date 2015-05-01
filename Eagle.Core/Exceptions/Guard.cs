@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Eagle.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -23,7 +24,7 @@ namespace Eagle.Core.Exceptions
         public static void NotNullOrEmpty(string argumentValue,
                                           string argumentName)
         {
-            if (argumentValue == null || argumentValue.Length == 0)
+            if (!argumentName.HasValue())
             {
                 throw new ArgumentNullException(argumentName);
             }

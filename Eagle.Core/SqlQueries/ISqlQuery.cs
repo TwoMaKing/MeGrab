@@ -71,7 +71,7 @@ namespace Eagle.Core.SqlQueries
 
         ISqlQuery Where(string wherePredicate, IEnumerable<object> paramValues);
 
-        ISqlQuery Page(string identityColumn, int pageNumber, int pageSize);
+        ISqlQuery Page(int pageNumber, int pageSize, string identityColumn, bool identityColumnIsNumberOrSequence = true);
 
         ISqlQuery Clear();
 

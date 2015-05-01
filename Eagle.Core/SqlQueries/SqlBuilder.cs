@@ -37,6 +37,8 @@ namespace Eagle.Core.SqlQueries
 
         private string identityColumn = string.Empty;
 
+        private bool identityColumnIsNumberOrSequence = true;
+
         private int pageNumber = 0;
 
         private int pageSize = 0;
@@ -373,7 +375,29 @@ namespace Eagle.Core.SqlQueries
             }
             else
             {
-                this.selectColumns.AddRange(columns);
+                string columnName;
+                string quotedColumnName;
+                string[] splittedColumnArray;
+
+                for (int columnIndex = 0; columnIndex < columns.Length; columnIndex++)
+                {
+                    columnName = columns[columnIndex];
+
+                    if (!columnName.HasValue())
+                    {
+                        continue;
+                    }
+
+                    splittedColumnArray = columnName.Split(new string[] { " AS " }, StringSplitOptions.RemoveEmptyEntries);
+                    quotedColumnName = this.DialectProvider.BuildColumnName(splittedColumnArray[0].Trim());
+
+                    if (splittedColumnArray.Length.Equals(2))
+                    {
+                        quotedColumnName += " AS " + splittedColumnArray[1].Trim();
+                    }
+
+                    this.selectColumns.Add(quotedColumnName);
+                }  
             }
 
             return this;
@@ -397,7 +421,7 @@ namespace Eagle.Core.SqlQueries
             return this;
         }
 
-        public ISqlBuilder Page(string identityColumn, int pageNumber, int pageSize)
+        public ISqlBuilder Page(int pageNumber, int pageSize, string identityColumn, bool identityColumnIsNumberOrSequence = true)
         {
             if (pageNumber <= 0)
             {
@@ -410,6 +434,8 @@ namespace Eagle.Core.SqlQueries
             }
 
             this.identityColumn = identityColumn;
+            this.identityColumnIsNumberOrSequence = identityColumnIsNumberOrSequence;
+
             this.pageNumber = pageNumber;
             this.pageSize = pageSize;
             this.usingPaging = true;
@@ -523,10 +549,10 @@ namespace Eagle.Core.SqlQueries
                                                                        orderBySql, 
                                                                        topCount, 
                                                                        skipCount, 
-                                                                       this.identityColumn, 
-                                                                       true, 
-                                                                       this.groupBySql, 
-                                                                       includedColumnSql);
+                                                                       this.identityColumn,
+                                                                       this.identityColumnIsNumberOrSequence, 
+                                                                       this.groupBySql,
+                                                                       this.selectColumns.ToArray());
             }
 
             this.querySqlBuilder = new StringBuilder();

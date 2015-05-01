@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Eagle.Core;
+using Eagle.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Eagle.Core;
-using Eagle.Domain.Repositories;
 
 namespace Eagle.Domain.Application
 {

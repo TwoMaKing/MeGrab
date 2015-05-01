@@ -9,28 +9,38 @@ using System.Threading.Tasks;
 
 namespace Eagle.Web.Caches
 {
-    public class MemcachedManager : ICacheManager
+    public class MemcachedProvider : ICacheProvider
     {
         private static MemcachedClient memcachedClient = new MemcachedClient("enyim.com/memcached");  
 
-        public void AddItem(string key, object item)
+        public void Add(string key, object item)
         {
             memcachedClient.Store(StoreMode.Add, key, item);
         }
 
-        public void AddItem(string key, object item, int expire)
+        public void Add(string key, object item, int expire)
         {
             memcachedClient.Store(StoreMode.Add, key, item, DateTime.Now.AddSeconds(expire));
         }
 
-        public void AddItem<T>(string key, T item)
+        public void Add<T>(string key, T item)
         {
             memcachedClient.Store(StoreMode.Add, key, item);
         }
 
-        public void AddItem<T>(string key, T item, int expire)
+        public void Add<T>(string key, T[] items)
+        {
+            memcachedClient.Store(StoreMode.Add, key, items);
+        }
+
+        public void Add<T>(string key, T item, int expire)
         {
             memcachedClient.Store(StoreMode.Add, key, item, DateTime.Now.AddSeconds(expire));
+        }
+
+        public void Add<T>(string key, IEnumerable<T> items, int expire)
+        {
+            memcachedClient.Store(StoreMode.Add, key, items, DateTime.Now.AddSeconds(expire));
         }
 
         public void Replace(string key, object item)
@@ -55,10 +65,10 @@ namespace Eagle.Web.Caches
 
         public bool ContainsKey(string key)
         {
-            return memcachedClient.CheckAndSet(key, new object(), 1);
+            return memcachedClient.CheckAndSet(key, new object(), 0);
         }
 
-        public object GetItem(string key)
+        public object Get(string key)
         {
             return memcachedClient.Get(key);
         }
@@ -68,7 +78,24 @@ namespace Eagle.Web.Caches
             return memcachedClient.Get<T>(key);
         }
 
-        public void RemoveItem(string key)
+        public IEnumerable<T> GetItems<T>(string key)
+        {
+            var items = memcachedClient.Get(key);
+
+            if (items == null)
+            {
+                return null;
+            }
+
+            if (typeof(IEnumerable<T>).IsAssignableFrom(items.GetType()))
+            {
+                return (IEnumerable<T>)items;
+            }
+
+            return null;
+        }
+
+        public void Remove(string key)
         {
             memcachedClient.Remove(key);
         }
@@ -92,6 +119,5 @@ namespace Eagle.Web.Caches
         {
             memcachedClient.Dispose();
         }
-
     }
 }

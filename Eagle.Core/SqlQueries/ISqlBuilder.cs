@@ -72,7 +72,7 @@ namespace Eagle.Core.SqlQueries
 
         ISqlBuilder Where(ISqlCriteriaExpression wherePredicate);
 
-        ISqlBuilder Page(string identityColumn, int pageNumber, int pageSize);
+        ISqlBuilder Page(int pageNumber, int pageSize, string identityColumn, bool identityColumnIsNumberOrSequence = true);
 
         ISqlBuilder Clear();
 

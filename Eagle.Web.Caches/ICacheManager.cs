@@ -2,82 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Eagle.Web.Caches
 {
-    public interface ICacheManager : IDisposable
+    /// <summary>
+    /// 缓存管理器
+    /// </summary>
+    public interface ICacheManager
     {
         /// <summary>
-        /// 添加对象到缓存
+        /// 得到缓存提供器
         /// </summary>
-        void AddItem(string key, object item);
+        ICacheProvider CacheProvider { get; }
 
         /// <summary>
-        /// 添加对象到缓存指定到期时间
+        /// 得到配置缓存的键的产生器
         /// </summary>
-        void AddItem(string key, object item, int expire);
+        ICacheKeyGenerator CacheKeyGenerator { get; }
 
         /// <summary>
-        /// 添加对象到缓存
+        /// 获取缓存对象，如果缓存对象不存在，则执行retrieveFunc获取对象并添加到缓存中
         /// </summary>
-        void AddItem<T>(string key, T item);
+        ///<param name="key">缓存键</param>
+        ///<param name="retrieveFunc">获取要缓存的对象的方法， 如果缓存对象不存在，则执行该retrieveFunc获得对象并添加到缓存中</param>
+        ///<param name="expire">过期时间，秒</param>
+        T Get<T>(string key, Func<T> retrieveFunc, int expire = 0);
 
         /// <summary>
-        /// 添加对象到缓存指定到期时间
+        /// 获取缓存对象集合，如果缓存对象集合不存在，则执行retrieveFunc获取对象集合并添加到缓存中
         /// </summary>
-        void AddItem<T>(string key, T item, int expire);
+        ///<param name="key">缓存键</param>
+        ///<param name="retrieveFunc">获取要缓存的对象集合的方法， 如果缓存对象不存在，则执行该retrieveFunc获得对象集合并添加到缓存中</param>
+        ///<param name="expire">过期时间，秒</param>
+        IEnumerable<T> Get<T>(string key, Func<IEnumerable<T>> retrieveFunc, int expire = 0);
 
         /// <summary>
-        /// 替换指定的缓存对象
+        /// 更新缓存
         /// </summary>
-        void Replace(string key, object item);
+        /// <param name="key">缓存键</param>
+        /// <param name="target">缓存对象</param>
+        /// <param name="expire">过期时间，秒</param>
+        void Update(string key, object target, int expire = 0);
 
         /// <summary>
-        /// 替换指定的缓存对象
+        /// 移除缓存
         /// </summary>
-        void Replace<T>(string key, T item);
-
-        /// <summary>
-        /// 替换指定的缓存对象
-        /// </summary>
-        void Replace(string key, object item, int expire);
-
-        /// <summary>
-        /// 替换指定的缓存对象
-        /// </summary>
-        void Replace<T>(string key, T item, int expire);
-
-        /// <summary>
-        /// 是否存在指定Key的Item
-        /// </summary>
-        bool ContainsKey(string key);
-
-        /// <summary>
-        /// 获取对象 By Key
-        /// </summary>
-        object GetItem(string key);
-
-        /// <summary>
-        /// 获取对象 By Key
-        /// </summary>
-        T GetItem<T>(string key);
-
-        /// <summary>
-        /// 从缓存中移除
-        /// </summary>
-        void RemoveItem(string key);
-
-        /// <summary>
-        /// 清空所有缓存对象
-        /// </summary>
-        void FlushAll();
-
-        /// <summary>
-        /// 得到 分布式 Cache 提供器
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        T GetCacheProvider<T>() where T : class;
-
+        /// <param name="key">缓存键</param>
+        void Remove(string key);
     }
 }

@@ -234,9 +234,9 @@ namespace Eagle.Core.SqlQueries
             return this;
         }
 
-        public ISqlQuery Page(string identityColumn, int pageNumber, int pageSize)
+        public ISqlQuery Page(int pageNumber, int pageSize, string identityColumn, bool identityColumnIsNumberOrSequence = true)
         {
-            this.SqlBuilder.Page(identityColumn, pageNumber, pageSize);
+            this.SqlBuilder.Page(pageNumber, pageSize, identityColumn, identityColumnIsNumberOrSequence);
 
             return this;
         }

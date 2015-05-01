@@ -1,4 +1,5 @@
-﻿using Eagle.Domain.Application;
+﻿using Eagle.Core.Query;
+using Eagle.Domain.Application;
 using MeGrab.DataObjects;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace MeGrab.ServiceContracts
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [OperationContract()]
-        IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivities(int pageNumber, int pageSize);
+        IPagingResult<RedPacketGrabActivityDataObject> GetRedPacketGrabActivities(int pageNumber, int pageSize);
        
         [OperationContract()]
         RecentlyDispatchedRedPacketActivityResponse GetRecentlyDispatchedRedPacketGrabActivities(DateTime displayedLastDispatchDateTime);

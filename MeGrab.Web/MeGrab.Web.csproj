@@ -159,6 +159,7 @@
     </Compile>
     <Compile Include="Models\ChatGroupScenarioModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\RedPacketGrabActivityModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedPacketService\RedPacketService.cs" />
   </ItemGroup>
@@ -260,6 +261,10 @@
       <Project>{ba9b8ba4-b971-429b-8f42-7d5633ebe625}</Project>
       <Name>Eagle.Repositories.Lite</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Eagle.Web.Caches\Eagle.Web.Caches.csproj">
+      <Project>{6fa34017-09cb-4c8f-8ef0-d137970c614e}</Project>
+      <Name>Eagle.Web.Caches</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Eagle.Web.Core\Eagle.Web.Core.csproj">
       <Project>{a88dc383-2528-477e-8342-6180f0a3e280}</Project>
       <Name>Eagle.Web.Core</Name>
@@ -267,6 +272,10 @@
     <ProjectReference Include="..\Eagle.Web.Security\Eagle.Web.Security.csproj">
       <Project>{80465bb6-fd12-498b-b367-80a89e19a081}</Project>
       <Name>Eagle.Web.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MeGrab.Domian.Repositories\MeGrab.Domain.Repositories.csproj">
+      <Project>{14f12408-b1a7-43e4-8f7c-e501b2680736}</Project>
+      <Name>MeGrab.Domain.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\MeGrab.Infrastructure\MeGrab.Infrastructure.csproj">
       <Project>{23cd4ba9-36a1-4a8e-a7d1-b1034aef3344}</Project>

@@ -1,4 +1,5 @@
-﻿@model MeGrab.Web.Models.SnatchGroupScenarioModel
+﻿@model MeGrab.Web.Models.PagingRedPacketGrabActivityModel
+@using MeGrab.DataObjects;
 
 @{
     ViewBag.Title = "RedPacket";
@@ -9,40 +10,142 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    //$(document).ready(function () {
 
-        var redPacketService = $.connection.RedPacketService;
+    //    var redPacketService = $.connection.RedPacketService;
 
-        redPacketService.client.redPacketActivityDispatched = function (clientRedPacketGrabActivity) {
+    //    redPacketService.client.redPacketActivityDispatched = function (clientRedPacketGrabActivity) {
 
-            //$("redPacketActivityList").append("li").append("div");
+    //        var totalAmount = clientRedPacketGrabActivity.TotalAmount;
+    //        var userName = clientRedPacketGrabActivity.Dispatcher.Name;
+    //        var message = clientRedPacketGrabActivity.Message;
 
-            var totalAmount = clientRedPacketGrabActivity.TotalAmount;
-            var userName = clientRedPacketGrabActivity.Dispatcher.Name;
-            var message = clientRedPacketGrabActivity.Message;
+    //        $("testInfo").html("金额:" + totalAmount + "; 用户:" + userName);
 
-            $("testInfo").html("金额:" + totalAmount + "; 用户:" + userName);
+    //        redPacketService.server.DisplayNewRedPacketActivity();
+    //    };
 
-            redPacketService.server.DisplayNewRedPacketActivity();
-        };
+    //    $.connection.hub.start().done(function () {
+    //        redPacketService.server.connect();
+    //        redPacketService.server.DisplayNewRedPacketActivity();
+    //    });
 
-        $.connection.hub.start().done(function () {
-            redPacketService.server.connect();
-            redPacketService.server.DisplayNewRedPacketActivity();
-        });
-
-    });
+    //});
 
 
 </script>
 
-<div>
+<style>
+    .redPacketActivity {
+        padding: 10px 16px 10px 10px;
+        margin: 0 0 10px 0;
+        box-shadow: 0 0 2px rgba(0,0,0,0.2);
+        border-radius: 2px;
+    }
 
-    <p id="testInfo">
+    .redPacketActivity_face {
+        float: left;
+    }
 
-    </p>
+    .redPacketActivity h1 {
+    }
 
-    <ul id="redPacketActivityList"></ul>
+    .redPacketActivity p {
+    }
+
+    .redPacketActivity_handle {
+    }
+
+    .redPacketActivity_handle ul {
+    }
+
+    .page 
+    {
+        margin-bottom: 20px;
+        width : 80%;
+        float : right;
+    }
+
+    .page a {
+
+        float: left;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 14px;
+        margin-right: 5px;
+        font-size: 14px;
+        color: #333;
+        border: 1px solid #ddd;
+        background-color: #f7f7f7;
+        background-repeat: repeat-x;
+        background-image: -moz-linear-gradient(top,#f7f7f7,#f2f2f2);
+        background-image: -webkit-linear-gradient(top,#f7f7f7,#f2f2f2);
+        background-image: -o-linear-gradient(top,#f7f7f7,#f2f2f2);
+        background-image: linear-gradient(top,#f7f7f7,#f2f2f2);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#f2f2f2', GradientType=0);
+    }
+
+
+
+</style>
+
+<div class="page clearfix">
+
+    <a type="text/html" href="~/Home/RedPacketGrabActivitiesByPaging?pageNo=1&pageSize=10" target="_self">1</a>
+    <a type="text/html" href="~/Home/RedPacketGrabActivitiesByPaging?pageNo=2&pageSize=10" target="_self">2</a>
+    <a type="text/html" href="~/Home/RedPacketGrabActivitiesByPaging?pageNo=3&pageSize=10" target="_self">3</a>
+    <a type="text/html" href="~/Home/RedPacketGrabActivitiesByPaging?pageNo=4&pageSize=10" target="_self">4</a>
+    <a type="text/html" href="~/Home/RedPacketGrabActivitiesByPaging?pageNo=5&pageSize=10" target="_self">5</a>
+
+</div>
+
+<div style="float: left;width:80%" class="clearfix">
+
+    @{
+        if (Model != null &&
+            Model.PagingRedPacketGrabActivities != null)
+        {
+            foreach (RedPacketGrabActivityDataObject activity in Model.PagingRedPacketGrabActivities)
+            {
+                <div class="redPacketActivity clearfix">
+                    <div class="redPacketActivity_face">
+                        <img src="http://3w.beva.cn/p/res/224/20140116_9f2e5449838edba1.jpg" alt="" style="width:100px;height:100px" />
+                    </div>
+                    <div>
+                        <h1>抢红包活动</h1>
+                        <div>
+                            <p>
+                                开始日期: @activity.StartDateTime.ToString()
+                            </p>
+                            <p>
+                                结束日期: @activity.ExpireDateTime.ToString()
+                            </p>
+                            <p>
+                                总金额: @activity.TotalAmount
+                            </p>
+                            <p>
+                                红包个数: @activity.RedPacketCount
+                            </p>
+                        </div>
+                        <div class="redPacketActivity_handle">
+                            <ul>
+                                <li>
+                                    当前参加人数: 10
+                                </li>
+                                <li>
+                                    评论: 5
+                                </li>
+                                <li>
+                                    收藏: 100
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+
 
 </div>
 

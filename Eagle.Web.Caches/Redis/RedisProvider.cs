@@ -16,7 +16,7 @@ using System.Text;
 
 namespace Eagle.Web.Caches
 {
-    public class RedisManager : ICacheManager
+    public class RedisProvider : ICacheProvider
     {
         private int expire = 3600;
         private int maxWritePoolSize = 60;
@@ -27,20 +27,34 @@ namespace Eagle.Web.Caches
         private string[] readOnlyHosts = new string[] { "127.0.0.1:6379" };
 
         private static MethodInfo replaceMethod;
+        private static readonly object lockObject = new object();
 
-        static RedisManager()
+        static RedisProvider()
         {
-            //var replaceMethodInfos = from m in typeof(RedisClient).GetMethods()
-            //                         let name = m.Name
-            //                         let parameters = m.GetParameters()
-            //                         where name == "Replace" && parameters.Count() > 3 &&
-            //                               parameters[2].ParameterType == typeof(DateTime)
-            //                         select m;
-                                      
-            //replaceMethod = replaceMethodInfos.SingleOrDefault();
+            if (replaceMethod == null)
+            {
+                lock (lockObject)
+                {
+                    if (replaceMethod == null)
+                    {
+                        MethodInfo[] allMethods = typeof(RedisClient).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                        var replaceMethodInfos = from m in allMethods
+                                                 let name = m.Name
+                                                 let parameters = m.GetParameters()
+                                                 where name == "Replace" &&
+                                                       parameters != null &&
+                                                       parameters.Count() == 3 &&
+                                                       parameters[2].ParameterType.Equals(typeof(DateTime))
+                                                 select new { MethodInfo = m };
+
+                        replaceMethod = replaceMethodInfos.SingleOrDefault().MethodInfo;
+                    }
+                }
+            }
         }
 
-        public RedisManager()
+        public RedisProvider()
         {
             this.expire = AppRuntime.Instance.CurrentApplication.ConfigSource.Config.Redis.TimeOutSeconds;
             this.maxWritePoolSize = AppRuntime.Instance.CurrentApplication.ConfigSource.Config.Redis.MaxWritePoolSize;
@@ -72,12 +86,12 @@ namespace Eagle.Web.Caches
             return (RedisClient)redisClientManager.GetClient();
         }
 
-        public void AddItem(string key, object item)
+        public void Add(string key, object item)
         {
-            this.AddItem(key, item, this.expire);
+            this.Add(key, item, this.expire);
         }
 
-        public void AddItem(string key, object item, int expire)
+        public void Add(string key, object item, int expire)
         {
             using (RedisClient redisClient = this.CreateRedisClient())
             {
@@ -87,16 +101,35 @@ namespace Eagle.Web.Caches
             }
         }
 
-        public void AddItem<T>(string key, T item)
+        public void Add<T>(string key, T item)
         {
-            this.AddItem<T>(key, item, this.expire);
+            this.Add<T>(key, item, this.expire);
         }
 
-        public void AddItem<T>(string key, T item, int expire)
+        public void Add<T>(string key, T[] items)
+        {
+            this.Add<T>(key, items, this.expire);
+        }
+
+        public void Add<T>(string key, T item, int expire)
         {
             using (RedisClient redisClient = this.CreateRedisClient())
             {
                 redisClient.Set<T>(key, item, DateTime.Now.AddSeconds(expire));
+            }
+        }
+
+        public void Add<T>(string key, IEnumerable<T> items, int expire)
+        {
+            using (RedisClient redisClient = this.CreateRedisClient())
+            {
+                IRedisTypedClient<T> redisTypeClient = redisClient.As<T>();
+
+                for (int itemIndex = 0; itemIndex < items.Count(); itemIndex++)
+                {
+                    redisTypeClient.AddItemToSortedSet(redisTypeClient.SortedSets[key], items.ElementAt(itemIndex));
+                }
+                redisTypeClient.ExpireEntryAt(key, DateTime.Now.AddSeconds(expire));
             }
         }
 
@@ -144,7 +177,7 @@ namespace Eagle.Web.Caches
             }
         }
 
-        public object GetItem(string key)
+        public object Get(string key)
         {
             using (RedisClient redisClient = this.CreateRedisClient())
             {
@@ -162,7 +195,17 @@ namespace Eagle.Web.Caches
             }
         }
 
-        public void RemoveItem(string key)
+        public IEnumerable<T> GetItems<T>(string key)
+        {
+            using (RedisClient redisClient = this.CreateRedisClient())
+            {
+                IRedisTypedClient<T> redisTypeClient = redisClient.As<T>();
+
+                return redisTypeClient.GetAllItemsFromSortedSet(redisTypeClient.SortedSets[key]);
+            }
+        }
+
+        public void Remove(string key)
         {
             using (RedisClient redisClient = this.CreateRedisClient())
             {
@@ -192,6 +235,5 @@ namespace Eagle.Web.Caches
         }
 
         public void Dispose() { }
-
     }
 }

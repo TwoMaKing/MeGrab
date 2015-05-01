@@ -25,11 +25,15 @@ namespace MeGrab.Application
     public class RedPacketQueryServiceImpl : ApplicationService, IRedPacketQueryService
     {
         private IRedPacketGrabActivitySqlRepository redPacketGrabActivityRepository;
-        
+        private ICacheManager cacheManager;
+
         public RedPacketQueryServiceImpl(IRepositoryContext repositoryContext, 
-                                         IRedPacketGrabActivitySqlRepository redPacketGrabActivityRepository) : base(repositoryContext) 
+                                         IRedPacketGrabActivitySqlRepository redPacketGrabActivityRepository,
+                                         ICacheManager cacheManager)
+            : base(repositoryContext) 
         {
             this.redPacketGrabActivityRepository = redPacketGrabActivityRepository;
+            this.cacheManager = cacheManager;
         }
 
         public IEnumerable<RedPacketGrabActivityDataObject> GetIntradayRedPacketGrabActivities()
@@ -39,30 +43,60 @@ namespace MeGrab.Application
 
         public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivitiesByStartDateTime(DateTime startDateTime)
         {
-            ISqlCriteriaExpression expression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+            string cacheKey = "RedPacketGrabActivities_Query_By_StartDateTime:" + startDateTime.ToString("yyyy-MM-dd");
 
-            expression.EndsWith("rpga_start_datetime", startDateTime.ToString("yyyy-MM-dd"));
-            IEnumerable<RedPacketGrabActivity> redPacketGrabActivities = redPacketGrabActivityRepository.FindAll(expression);
-
-            ObjectsMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject> mapper =
-                ObjectMapperManager.DefaultInstance.GetMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject>();
+            return this.cacheManager.Get<RedPacketGrabActivityDataObject>(cacheKey, () =>
                 
-            return mapper.MapEnum(redPacketGrabActivities);
+                {
+                    ISqlCriteriaExpression expression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+
+                    expression.EndsWith("rpga_start_datetime", startDateTime.ToString("yyyy-MM-dd"));
+                    IEnumerable<RedPacketGrabActivity> redPacketGrabActivities = redPacketGrabActivityRepository.FindAll(expression);
+
+                    ObjectsMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject> mapper =
+                        ObjectMapperManager.DefaultInstance.GetMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject>();
+
+                    return mapper.MapEnum(redPacketGrabActivities);
+                }, 
+                
+                3600);
         }
 
         public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivitiesByExpireDateTime(DateTime expireDateTime)
         {
+
             throw new NotImplementedException();
         }
 
-        public IEnumerable<RedPacketGrabActivityDataObject> GetRedPacketGrabActivities(int pageNumber, int pageSize)
+        public IPagingResult<RedPacketGrabActivityDataObject> GetRedPacketGrabActivities(int pageNumber, int pageSize)
         {
-            return null;
+            string cacheKey = "RedPacketGrabActivities_Paging_By_NA_PageNo:" + pageNumber.ToString() + "PageSize:" + pageSize.ToString();
+
+            return this.cacheManager.Get<PagingResult<RedPacketGrabActivityDataObject>>(cacheKey, () =>
+            {
+                ISqlCriteriaExpression expression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+
+                IPagingResult<RedPacketGrabActivity> pagedRedPacketGrabActivities = redPacketGrabActivityRepository.FindAll(expression, pageNumber, pageSize);
+
+                ObjectsMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject> mapper =
+                    ObjectMapperManager.DefaultInstance.GetMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject>();
+
+                IEnumerable<RedPacketGrabActivityDataObject> redPacketGrabActivityDataObjectList = 
+                    mapper.MapEnum(pagedRedPacketGrabActivities.Data);
+
+                return new PagingResult<RedPacketGrabActivityDataObject>(pagedRedPacketGrabActivities.TotalRecords,
+                                                                         pagedRedPacketGrabActivities.TotalPages,
+                                                                         pageNumber, 
+                                                                         pageSize,
+                                                                         redPacketGrabActivityDataObjectList);
+            },
+
+            3600);
         }
 
         public RecentlyDispatchedRedPacketActivityResponse GetRecentlyDispatchedRedPacketGrabActivities(DateTime displayedLastDispatchDateTime)
         {
-            using (ICacheManager cacheManager = CacheFactory.GetCacheManager())
+            using (ICacheProvider cacheManager = CacheProviderFactory.GetCacheProvider())
             {
                 using (RedisClient redisClient = cacheManager.GetCacheProvider<RedisClient>())
                 {

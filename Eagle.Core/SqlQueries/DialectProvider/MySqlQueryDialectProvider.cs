@@ -121,7 +121,6 @@ namespace Eagle.Core.SqlQueries.DialectProvider
             outerSqlBuilder.Append(" WHERE ");
 
             StringBuilder innerWhereClipBuilder = new StringBuilder();
-            innerWhereClipBuilder.Append(tableName);
 
             if (!string.IsNullOrEmpty(where) &&
                 !string.IsNullOrWhiteSpace(where))
@@ -213,10 +212,9 @@ namespace Eagle.Core.SqlQueries.DialectProvider
             outerSqlBuilder.Append("(");
             outerSqlBuilder.Append(" SELECT ");
             outerSqlBuilder.Append(identyColumn);
-            outerSqlBuilder.Append(" FORM ");
+            outerSqlBuilder.Append(" FROM ");
 
             StringBuilder innerWhereClipBuilder = new StringBuilder();
-            innerWhereClipBuilder.Append(tableName);
 
             if (!string.IsNullOrEmpty(where) &&
                 !string.IsNullOrWhiteSpace(where))

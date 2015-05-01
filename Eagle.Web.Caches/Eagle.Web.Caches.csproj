@@ -59,11 +59,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheFactory.cs" />
+    <Compile Include="CacheManagerBase.cs" />
+    <Compile Include="CacheProviderFactory.cs" />
+    <Compile Include="DefaultCacheManager.cs" />
+    <Compile Include="ICacheKeyGenerator.cs" />
     <Compile Include="ICacheManager.cs" />
-    <Compile Include="Memcached\MemcachedManager.cs" />
+    <Compile Include="ICacheProvider.cs" />
+    <Compile Include="Memcached\MemcachedProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Redis\RedisManager.cs" />
+    <Compile Include="Redis\RedisConfigInfo.cs" />
+    <Compile Include="Redis\RedisCacheKey.cs" />
+    <Compile Include="Redis\RedisProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Eagle.Common\Eagle.Common.csproj">
@@ -74,6 +80,9 @@
       <Project>{ddcadbee-4c66-43bd-a1c8-76265134b9f2}</Project>
       <Name>Eagle.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Default\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
