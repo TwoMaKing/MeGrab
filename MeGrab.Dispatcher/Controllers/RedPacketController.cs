@@ -27,7 +27,7 @@ namespace MeGrab.Dispatcher.Controllers
 
         public ActionResult RedPacketGrabActivitiesByStartDateTime(DateTime startDateTime)
         {
-            using(IRedPacketQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketQueryService>())
+            using(IRedPacketGrabActivityQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketGrabActivityQueryService>())
             {
                 IEnumerable<RedPacketGrabActivityDataObject> activityDataObjectList = 
                     queryService.GetRedPacketGrabActivitiesByStartDateTime(startDateTime);

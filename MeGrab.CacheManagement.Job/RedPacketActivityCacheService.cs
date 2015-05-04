@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceStack.Redis;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +9,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeGrab.CacheManagement.Job
+namespace MeGrab.Cache.Managements
 {
     public partial class RedPacketActivityCacheService : ServiceBase
     {
@@ -24,6 +25,8 @@ namespace MeGrab.CacheManagement.Job
 
         protected override void OnStop()
         {
+
         }
+
     }
 }

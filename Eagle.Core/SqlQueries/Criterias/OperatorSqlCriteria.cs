@@ -31,6 +31,34 @@ namespace Eagle.Core.SqlQueries.Criterias
             this.SqlSubQuery = sqlSubQuery;
         }
 
+        protected OperatorSqlCriteria(ISqlQueryDialectProvider dialectProvider, string columnName, Func<string, string> formatter)
+        {
+            this.DialectProvider = dialectProvider;
+            this.DbColumnName = columnName;
+            string quotedColumnName = this.DialectProvider.BuildColumnName(this.DbColumnName).Trim();
+
+            if (formatter != null)
+            {
+                string formattedColumnName = formatter(quotedColumnName);
+
+                if (formattedColumnName.HasValue())
+                {
+                    this.BuildedDbColumnName = formatter(quotedColumnName);
+                }
+                else
+                {
+                    this.BuildedDbColumnName = quotedColumnName;
+                }
+            }
+            else
+            {
+                this.BuildedDbColumnName = quotedColumnName;
+            }
+
+            string tempParameterColumn = ParameterColumnCache.Instance.GetParameterColumn(columnName);
+            this.ParameterColumnName = this.DialectProvider.BuildParameterName(tempParameterColumn).Trim();
+        }
+
         public ISqlQueryDialectProvider DialectProvider 
         {
             get;
@@ -72,7 +100,7 @@ namespace Eagle.Core.SqlQueries.Criterias
                 case Operator.GreaterThan:
                     return new GreaterThanSqlCriteria(dialectProvider, dbColumn);
                 case Operator.GreaterThanEqual:
-                    return new GreaterThanSqlCriteria(dialectProvider, dbColumn);
+                    return new GreaterThanEqualSqlCriteria(dialectProvider, dbColumn);
                 case Operator.LessThan:
                     return new LessThanSqlCriteria(dialectProvider, dbColumn);
                 case Operator.LessThanEqual:
@@ -85,6 +113,35 @@ namespace Eagle.Core.SqlQueries.Criterias
                     return new InSqlCriteria(dialectProvider, dbColumn);
                 case Operator.NotIn:
                     return new NotInSqlCriteria(dialectProvider, dbColumn);
+                default:
+                    return null;
+            }
+        }
+
+        public static OperatorSqlCriteria Create(ISqlQueryDialectProvider dialectProvider, string dbColumn, Operator @operator, Func<string, string> formatter)
+        {
+            switch (@operator)
+            {
+                case Operator.Equal:
+                    return new EqualSqlCriteria(dialectProvider, dbColumn, formatter);
+                case Operator.NotEqual:
+                    return new NotEqualSqlCriteria(dialectProvider, dbColumn, formatter);
+                case Operator.GreaterThan:
+                    return new GreaterThanSqlCriteria(dialectProvider, dbColumn, formatter);
+                case Operator.GreaterThanEqual:
+                    return new GreaterThanEqualSqlCriteria(dialectProvider, dbColumn, formatter);
+                case Operator.LessThan:
+                    return new LessThanSqlCriteria(dialectProvider, dbColumn, formatter);
+                case Operator.LessThanEqual:
+                    return new LessThanEqualSqlCriteria(dialectProvider, dbColumn, formatter);
+                case Operator.Contains:
+                case Operator.StartsWith:
+                case Operator.EndsWith:
+                    return new LikeSqlCriteria(dialectProvider, dbColumn, formatter);
+                case Operator.In:
+                    return new InSqlCriteria(dialectProvider, dbColumn, formatter);
+                case Operator.NotIn:
+                    return new NotInSqlCriteria(dialectProvider, dbColumn, formatter);
                 default:
                     return null;
             }

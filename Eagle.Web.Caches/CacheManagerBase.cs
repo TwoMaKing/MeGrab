@@ -37,7 +37,7 @@ namespace Eagle.Web.Caches
             string cacheKey = this.GetCacheKey(key);
 
             // 缓存标记
-            string cacheSign = cacheKey + "_Sign";
+            string cacheSign = string.Format("{0}_Sign", cacheKey);
             var sign = this.CacheProvider.GetItem<string>(cacheSign);
 
             var cacheItem = this.CacheProvider.GetItem<T>(cacheKey);
@@ -64,6 +64,7 @@ namespace Eagle.Web.Caches
                 });
 
                 t.Wait();
+
             }
 
             return cacheItem;
@@ -74,7 +75,7 @@ namespace Eagle.Web.Caches
             string cacheKey = this.GetCacheKey(key);
             
             // 缓存标记
-            string cacheSign = cacheKey + "_Sign";
+            string cacheSign = string.Format("{0}_Sign", cacheKey);
             var sign = this.CacheProvider.Get(cacheSign);
 
             var cacheItems = this.CacheProvider.GetItems<T>(cacheKey);

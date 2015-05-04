@@ -1,0 +1,6 @@
+﻿<%@ ServiceHost Language="C#" 
+                Debug="true" 
+                Service="MeGrab.Services.RedPacketGabActivityQueryService" 
+                CodeBehind="RedPacketGabActivityQueryService.svc.cs" 
+                Factory="System.ServiceModel.Activation.WebServiceHostFactory"
+%>

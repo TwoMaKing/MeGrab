@@ -1,4 +1,4 @@
-﻿namespace MeGrab.CacheManagement.Job
+﻿namespace MeGrab.Cache.Managements
 {
     partial class RedPacketActivityCacheService
     {

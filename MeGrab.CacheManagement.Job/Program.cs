@@ -5,7 +5,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeGrab.CacheManagement.Job
+namespace MeGrab.Cache.Managements
 {
     static class Program
     {

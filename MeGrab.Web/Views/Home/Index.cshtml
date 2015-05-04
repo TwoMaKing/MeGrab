@@ -1,4 +1,4 @@
-﻿@model MeGrab.Web.Models.PagingRedPacketGrabActivityModel
+﻿@model MeGrab.Web.Models.RedPacketGrabActivityQueriesModel
 @using MeGrab.DataObjects;
 
 @{
@@ -85,9 +85,137 @@
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#f2f2f2', GradientType=0);
     }
 
+    .selector_line
+    {
+        width:80%;
+        display:block;
+    }
 
+    .sl-key {
+        float: left;
+        width: 100px;
+        padding-left: 10px;
+    }
+
+    .sl-value-list {
+        margin-left: 110px;
+        padding-right: 130px;
+        padding-left: 10px;
+        overflow: hidden;
+        zoom: 1;
+    }
+
+    .sl-value-list ul {
+        float: left;
+        overflow: hidden;
+        zoom: 1;
+        position: relative;
+        height: 30px;
+    }
+
+    .sl-value-list li {
+        margin-right: 50px;
+        float: left;
+        _display: inline;
+        margin-right: 16px;
+        margin-bottom: 4px;
+        height: 26px;
+        line-height: 26px;
+    }
 
 </style>
+
+<div class="page clearfix">
+
+    <h1>
+        查询条件
+    </h1>
+
+    <div class="selector_line">
+        <div class="sl-key">
+            开始日期
+        </div>
+        <div class="sl-value-list">
+            <ul>
+                <li>
+
+                    @*@Html.ActionLink("今天", "RedPacketGrabActivityList", "Home", new { }, new { target = "_self" })*@
+
+                    <a target="_self" 
+                       href="~/Home/RedPacketGrabActivityList?startDateTime=@Model.SelectedStartDateTime.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">今天</a>
+                </li>
+                <li>
+                    <a target="_self" href="">明天</a>
+                </li>
+                <li>
+                    <a target="_self" href="">后天</a>
+                </li>
+                <li>
+                    选择日期
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="selector_line">
+        <div class="sl-key">
+            结束日期
+        </div>
+        <div class="sl-value-list">
+            <ul>
+                <li>
+                    <a>今天</a>
+                </li>
+                <li>
+                    <a>明天</a>
+                </li>
+                <li>
+                    <a>后天</a>
+                </li>
+                <li>
+                    选择日期
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="selector_line">
+        <div class="sl-key">
+            总金额:
+        </div>
+        <div class="sl-value-list">
+            <ul>
+                <li>
+                    <a>500-1000</a>
+                </li>
+                <li>
+                    <a>1000-1050</a>
+                </li>
+                <li>
+                    <a>1050-1100</a>
+                </li>
+                <li>
+                    <a>2000以上</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="selector_line">
+        <div class="sl-key">
+            玩法
+        </div>
+        <div class="sl-value-list">
+            <ul>
+                <li>
+                    <a>固定金额分配</a>
+                </li>
+                <li>
+                    <a>随机金额分配</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
 
 <div class="page clearfix">
 

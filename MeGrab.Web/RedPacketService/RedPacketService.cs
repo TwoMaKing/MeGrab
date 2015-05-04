@@ -37,7 +37,7 @@ namespace MeGrab.Web
 
         public void DisplayNewRedPacketActivity(DateTime displayedLast)
         {
-            using (IRedPacketQueryService redPacketQueryService = ServiceLocator.Instance.GetService<IRedPacketQueryService>())
+            using (IRedPacketGrabActivityQueryService redPacketQueryService = ServiceLocator.Instance.GetService<IRedPacketGrabActivityQueryService>())
             {
 
             }

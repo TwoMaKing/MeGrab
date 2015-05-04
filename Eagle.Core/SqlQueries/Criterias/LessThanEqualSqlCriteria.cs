@@ -13,6 +13,9 @@ namespace Eagle.Core.SqlQueries.Criterias
         public LessThanEqualSqlCriteria(ISqlQueryDialectProvider dialectProvider, string columnName, string sqlSubQuery) :
             base(dialectProvider, columnName, sqlSubQuery) { }
 
+        public LessThanEqualSqlCriteria(ISqlQueryDialectProvider dialectProvider, string columnName, Func<string, string> formatter) : 
+            base(dialectProvider, columnName, formatter) { }
+
         protected override string GetOperatorChar()
         {
             return "<=";

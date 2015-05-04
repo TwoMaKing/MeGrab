@@ -77,3 +77,19 @@ textarea {
 .link a:link, .link a:visited, .link a:active {
         text-decoration: none;
     }
+
+ul {
+    list-style:none;
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+li {
+
+    display: list-item;
+    text-align: -webkit-match-parent;
+}

@@ -1,6 +1,9 @@
-﻿using Eagle.Core;
+﻿using Eagle.Common.Util;
+using Eagle.Core;
+using Eagle.Core.Extensions;
 using Eagle.Core.Query;
 using MeGrab.DataObjects;
+using MeGrab.Domain.Models;
 using MeGrab.ServiceContracts;
 using MeGrab.Web.Filters;
 using MeGrab.Web.Models;
@@ -22,7 +25,7 @@ namespace MeGrab.Web.Controllers
 
         public ActionResult RedPacketGrabActivitiesByStartDateTime(DateTime startDateTime)
         {
-            using (IRedPacketQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketQueryService>())
+            using (IRedPacketGrabActivityQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketGrabActivityQueryService>())
             {
                 IEnumerable<RedPacketGrabActivityDataObject> activityDataObjectList =
                     queryService.GetRedPacketGrabActivitiesByStartDateTime(startDateTime);
@@ -37,21 +40,68 @@ namespace MeGrab.Web.Controllers
 
         public ActionResult RedPacketGrabActivitiesByPaging(int pageNo, int pageSize)
         {
-            using (IRedPacketQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketQueryService>())
+            using (IRedPacketGrabActivityQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketGrabActivityQueryService>())
             {
                 IPagingResult<RedPacketGrabActivityDataObject> pagedActivityDataObjects =
                     queryService.GetRedPacketGrabActivities(pageNo, pageSize);
 
-                PagingRedPacketGrabActivityModel model = new PagingRedPacketGrabActivityModel();
+                RedPacketGrabActivityQueriesModel model = new RedPacketGrabActivityQueriesModel();
                 model.PagingRedPacketGrabActivities = pagedActivityDataObjects.Data;
                 model.TotalRecords = pagedActivityDataObjects.TotalRecords;
                 model.TotalPages = pagedActivityDataObjects.TotalPages;
-                model.PageNo = pagedActivityDataObjects.PageNumber;
-                model.PageSize = pagedActivityDataObjects.PageSize;
+                model.PageNo = pagedActivityDataObjects.PageNumber.Value;
+                model.PageSize = pagedActivityDataObjects.PageSize.Value;
 
                 return View("Index", model);
             }
         }
 
+        public ActionResult RedPacketGrabActivityList(DateTime startDateTime, 
+                                                      DateTime? expireDateTime, 
+                                                      string totalAmountRange,
+                                                      DispatchMode playMode, 
+                                                      int pageNumber, 
+                                                      int pageSize)
+        {
+            using (IRedPacketGrabActivityQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketGrabActivityQueryService>())
+            {
+                RedPacketGrabActivityQueryServiceRequest queryRequest = new RedPacketGrabActivityQueryServiceRequest();
+
+                queryRequest.StartDateTimeRange = new DateTimeCriteriaRange();
+                queryRequest.StartDateTimeRange.FromDateTime = startDateTime;
+                queryRequest.StartDateTimeRange.ToDateTime = startDateTime;
+
+                queryRequest.ExpireDateTimeRange = new DateTimeCriteriaRange();
+                queryRequest.ExpireDateTimeRange.FromDateTime = expireDateTime;
+                queryRequest.ExpireDateTimeRange.ToDateTime = expireDateTime;
+
+                if (totalAmountRange.HasValue())
+                {
+                    string[] splittedTotalAmountRange = totalAmountRange.Split('-');
+                    queryRequest.TotalAmountRange = new TotalAmountCriteriaRange();
+                    queryRequest.TotalAmountRange.FromTotalAmount = LocalizationUtils.FormatStringTo2Decimal(splittedTotalAmountRange[0]);
+                    queryRequest.TotalAmountRange.ToTotalAmount = LocalizationUtils.FormatStringTo2Decimal(splittedTotalAmountRange[1]);
+                }
+
+                queryRequest.DispatchMode = playMode;
+                queryRequest.PageNumber = pageNumber;
+                queryRequest.PageSize = pageSize;
+
+                RedPacketGrabActivityQueryServiceResponse ActivityQueryResponse =
+                    queryService.GetRedPacketGrabActivitiesByQueryServiceRequest(queryRequest);
+
+                IPagingResult<RedPacketGrabActivityDataObject> pagedActivityDataObjects = 
+                    ActivityQueryResponse.RedPacketGrabActivities;
+
+                RedPacketGrabActivityQueriesModel model = new RedPacketGrabActivityQueriesModel();
+                model.PagingRedPacketGrabActivities = pagedActivityDataObjects.Data;
+                model.TotalRecords = pagedActivityDataObjects.TotalRecords;
+                model.TotalPages = pagedActivityDataObjects.TotalPages;
+                model.PageNo = pagedActivityDataObjects.PageNumber.Value;
+                model.PageSize = pagedActivityDataObjects.PageSize.Value;
+
+                return View("Index", model);
+            }
+        }
     }
 }

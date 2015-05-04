@@ -93,9 +93,40 @@ namespace Eagle.Core.SqlQueries
             return this;
         }
 
+        protected ISqlCriteriaExpression Filter(string column, Operator @operator, object value, Func<string, string> formatter, bool isOr = false)
+        {
+            OperatorSqlCriteria sqlCriteria = OperatorSqlCriteria.Create(this.dialectProvider, column, @operator, formatter);
+
+            if (this.globalSqlCriteria == null)
+            {
+                this.globalSqlCriteria = sqlCriteria;
+            }
+            else
+            {
+                if (isOr)
+                {
+                    this.Or(sqlCriteria);
+                }
+                else
+                {
+                    this.And(sqlCriteria);
+                }
+            }
+
+            this.parameterColumnValues.Add(sqlCriteria.ParameterColumnName, value);
+            this.parameterValues.Add(value);
+
+            return this;
+        }
+
         public ISqlCriteriaExpression Equals(string column, object value, bool isOr = false)
         {
             return this.Filter(column, Operator.Equal, value, isOr);
+        }
+
+        public ISqlCriteriaExpression Equals(string column, object value, Func<string, string> formatter, bool isOr = false)
+        {
+            return this.Filter(column, Operator.Equal, value, formatter, isOr);
         }
 
         public ISqlCriteriaExpression NotEquals(string column, object value, bool isOr = false)
@@ -133,6 +164,11 @@ namespace Eagle.Core.SqlQueries
             return this.Filter(column, Operator.GreaterThanEqual, value, isOr);
         }
 
+        public ISqlCriteriaExpression GreaterThanEquals(string column, object value, Func<string, string> formatter, bool isOr = false)
+        {
+            return this.Filter(column, Operator.GreaterThanEqual, value, formatter, isOr);
+        }
+
         public ISqlCriteriaExpression GreaterThanEquals(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams)
         {
             return this.FilterSqlSubQuery(column, Operator.GreaterThanEqual, sqlSubQuery, isOr, queryParams);
@@ -151,6 +187,11 @@ namespace Eagle.Core.SqlQueries
         public ISqlCriteriaExpression LessThanEquals(string column, object value, bool isOr = false) 
         {
             return this.Filter(column, Operator.LessThanEqual, value, isOr);
+        }
+
+        public ISqlCriteriaExpression LessThanEquals(string column, object value, Func<string, string> formatter, bool isOr = false)
+        {
+            return this.Filter(column, Operator.LessThanEqual, value, formatter, isOr);
         }
 
         public ISqlCriteriaExpression LessThanEquals(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams)
@@ -214,6 +255,22 @@ namespace Eagle.Core.SqlQueries
         {
             this.globalSqlCriteria = new AndSqlCriteria(this.globalSqlCriteria, sqlCriteria);
 
+            if (sqlCriteria is ISqlCriteriaExpression)
+            {
+                var parameterColumnValues = ((ISqlCriteriaExpression)sqlCriteria).ParameterColumnValues;
+
+                if (parameterColumnValues != null)
+                {
+                    foreach (KeyValuePair<string, object> paramPair in parameterColumnValues)
+                    {
+                        if (!this.ParameterColumnValues.ContainsKey(paramPair.Key))
+                        {
+                            this.ParameterColumnValues.Add(paramPair.Key, paramPair.Value);
+                        }
+                    }
+                }
+            }
+
             return this;
         }
 
@@ -229,6 +286,22 @@ namespace Eagle.Core.SqlQueries
         public ISqlCriteriaExpression Or(ISqlCriteria sqlCriteria)
         {
             this.globalSqlCriteria = new OrSqlCriteria(this.globalSqlCriteria, sqlCriteria);
+
+            if (sqlCriteria is ISqlCriteriaExpression)
+            {
+                var parameterColumnValues = ((ISqlCriteriaExpression)sqlCriteria).ParameterColumnValues;
+
+                if (parameterColumnValues != null)
+                {
+                    foreach (KeyValuePair<string, object> paramPair in parameterColumnValues)
+                    {
+                        if (!this.ParameterColumnValues.ContainsKey(paramPair.Key))
+                        {
+                            this.ParameterColumnValues.Add(paramPair.Key, paramPair.Value);
+                        }
+                    }
+                }
+            }
 
             return this;
         }
@@ -274,5 +347,6 @@ namespace Eagle.Core.SqlQueries
                 return this.dialectProvider;
             }
         }
+
     }
 }

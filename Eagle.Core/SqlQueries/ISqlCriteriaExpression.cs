@@ -13,6 +13,8 @@ namespace Eagle.Core.SqlQueries
     {
         ISqlCriteriaExpression Equals(string column, object value, bool isOr = false);
 
+        ISqlCriteriaExpression Equals(string column, object value, Func<string, string> formatter, bool isOr = false);
+
         ISqlCriteriaExpression NotEquals(string column, object value, bool isOr = false);
 
         ISqlCriteriaExpression Contains(string column, object value, bool isOr = false);
@@ -27,6 +29,8 @@ namespace Eagle.Core.SqlQueries
 
         ISqlCriteriaExpression GreaterThanEquals(string column, object value, bool isOr = false);
 
+        ISqlCriteriaExpression GreaterThanEquals(string column, object value, Func<string, string> formatter, bool isOr = false);
+
         ISqlCriteriaExpression GreaterThanEquals(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams);
 
         ISqlCriteriaExpression LessThan(string column, object value, bool isOr = false);
@@ -34,6 +38,8 @@ namespace Eagle.Core.SqlQueries
         ISqlCriteriaExpression LessThan(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams);
 
         ISqlCriteriaExpression LessThanEquals(string column, object value, bool isOr = false);
+
+        ISqlCriteriaExpression LessThanEquals(string column, object value, Func<string, string> formatter, bool isOr = false);
 
         ISqlCriteriaExpression LessThanEquals(string column, string sqlSubQuery, bool isOr = false, params object[] queryParams);
 

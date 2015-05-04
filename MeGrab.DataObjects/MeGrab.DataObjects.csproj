@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AccountServiceRequest.cs" />
     <Compile Include="AccountServiceResponse.cs" />
+    <Compile Include="FaultData.cs" />
     <Compile Include="DispatchServiceResponse.cs" />
     <Compile Include="DispatchServiceRequest.cs" />
     <Compile Include="RedPacketQueryServiceRequest.cs" />

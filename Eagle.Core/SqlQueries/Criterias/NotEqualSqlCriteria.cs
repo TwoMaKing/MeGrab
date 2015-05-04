@@ -10,6 +10,9 @@ namespace Eagle.Core.SqlQueries.Criterias
     {
         public NotEqualSqlCriteria(ISqlQueryDialectProvider dialectProvider, string columnName) : base(dialectProvider, columnName) { }
 
+        public NotEqualSqlCriteria(ISqlQueryDialectProvider dialectProvider, string columnName, Func<string, string> formatter) : 
+            base(dialectProvider, columnName, formatter) { }
+
         protected override string GetOperatorChar()
         {
             return "!=";

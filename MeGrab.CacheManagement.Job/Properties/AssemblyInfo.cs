@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MeGrab.CacheManagement.Job")]
+[assembly: AssemblyTitle("MeGrab.Cache.Managements")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("MeGrab.CacheManagement.Job")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2015")]
+[assembly: AssemblyCompany("MeGrab.Cache.Managements")]
+[assembly: AssemblyProduct("MeGrab.Cache.Managements")]
+[assembly: AssemblyCopyright("Copyright © MeGrab")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

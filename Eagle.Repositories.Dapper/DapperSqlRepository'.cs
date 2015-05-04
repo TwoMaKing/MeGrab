@@ -109,8 +109,8 @@ namespace Eagle.Repositories.Dapper
 
                 object parameters = this.GetAggregateRootListPagingQueryParametersByCriteria(sqlCriteriaExpression);
 
-                IEnumerable<TAggregateRoot> pagedAggregateRoots = 
-                    dbConnection.Query<TAggregateRoot>(pagingSqlStatement, null, null, true, null, CommandType.Text);
+                IEnumerable<TAggregateRoot> pagedAggregateRoots =
+                    dbConnection.Query<TAggregateRoot>(pagingSqlStatement, parameters, null, true, null, CommandType.Text);
 
                 int totalRecords = pagedAggregateRoots.Count();
 
