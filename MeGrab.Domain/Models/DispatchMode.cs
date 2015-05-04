@@ -7,7 +7,6 @@ namespace MeGrab.Domain.Models
     /// <summary>
     /// 派发模式
     /// </summary>
-    [Serializable()]
     [DataContract()]
     public enum DispatchMode
     {
@@ -15,14 +14,12 @@ namespace MeGrab.Domain.Models
         /// 固定金额或者数量
         /// </summary>
         [DataMember()]
-        [XmlEnum()]
         Fixed = 0,
 
         /// <summary>
         /// 随机金额或者数量
         /// </summary>
         [DataMember()]
-        [XmlEnum()]
         Random = 1
     }
 }

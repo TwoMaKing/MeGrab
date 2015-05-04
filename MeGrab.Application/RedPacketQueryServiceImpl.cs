@@ -141,15 +141,17 @@ namespace MeGrab.Application
             if (queryServiceRequest.TotalAmountRange != null)
             {
                 ISqlCriteriaExpression totalAmountSqlExpression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+                bool havingFromTotalAmount = queryServiceRequest.TotalAmountRange.FromTotalAmount.HasValue;
+                bool havingToTotalAmount = queryServiceRequest.TotalAmountRange.ToTotalAmount.HasValue;
 
-                if (queryServiceRequest.TotalAmountRange.FromTotalAmount.HasValue)
+                if (havingFromTotalAmount)
                 {
                     decimal fromTotalAmount = queryServiceRequest.TotalAmountRange.FromTotalAmount.Value;
                     totalAmountSqlExpression.GreaterThanEquals("rpga_total_amount", fromTotalAmount);
                     cacheKeyBuilder.Append(fromTotalAmount);
                 }
 
-                if (queryServiceRequest.TotalAmountRange.ToTotalAmount.HasValue)
+                if (havingToTotalAmount)
                 {
                     decimal toTotalAmount = queryServiceRequest.TotalAmountRange.ToTotalAmount.Value;
                     totalAmountSqlExpression.LessThanEquals("rpga_total_amount", toTotalAmount);
@@ -160,7 +162,11 @@ namespace MeGrab.Application
                     cacheKeyBuilder.Append("-");
                 }
 
-                expression.And(totalAmountSqlExpression);
+                if (havingFromTotalAmount ||
+                    havingToTotalAmount)
+                {
+                    expression.And(totalAmountSqlExpression);
+                }
             }
 
             if (cacheKeyBuilder.Length != 0)
@@ -172,15 +178,17 @@ namespace MeGrab.Application
             if (queryServiceRequest.RedPacketCountRange != null)
             {
                 ISqlCriteriaExpression redPacketCountSqlExpression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+                bool havingFromRedPacketCount = queryServiceRequest.RedPacketCountRange.FromRedPacketCount.HasValue;
+                bool havingToRedPacketCount = queryServiceRequest.RedPacketCountRange.ToRedPacketCount.HasValue;
 
-                if (queryServiceRequest.RedPacketCountRange.FromRedPacketCount.HasValue)
+                if (havingFromRedPacketCount)
                 {
                     int fromRedPacketCount = queryServiceRequest.RedPacketCountRange.FromRedPacketCount.Value;
                     redPacketCountSqlExpression.GreaterThanEquals("rpga_redpacket_count", fromRedPacketCount);
                     cacheKeyBuilder.Append(fromRedPacketCount);
                 }
 
-                if (queryServiceRequest.RedPacketCountRange.ToRedPacketCount.HasValue)
+                if (havingToRedPacketCount)
                 {
                     int toRedPacketCount = queryServiceRequest.RedPacketCountRange.ToRedPacketCount.Value;
                     redPacketCountSqlExpression.LessThanEquals("rpga_redpacket_count", toRedPacketCount);
@@ -191,7 +199,11 @@ namespace MeGrab.Application
                     cacheKeyBuilder.Append("-");
                 }
 
-                expression.And(redPacketCountSqlExpression);
+                if (havingFromRedPacketCount ||
+                    havingToRedPacketCount)
+                {
+                    expression.And(redPacketCountSqlExpression);
+                }
             }
 
             if (cacheKeyBuilder.Length != 0)
@@ -203,15 +215,17 @@ namespace MeGrab.Application
             if (queryServiceRequest.MemberLimitRange != null)
             {
                 ISqlCriteriaExpression memberLimitSqlExpression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+                bool havingFromMemberLimit = queryServiceRequest.MemberLimitRange.FromMemberLimit.HasValue;
+                bool havingToMemberLimit = queryServiceRequest.MemberLimitRange.ToMemberLimit.HasValue;
 
-                if (queryServiceRequest.MemberLimitRange.FromMemberLimit.HasValue)
+                if (havingFromMemberLimit)
                 {
                     int fromMemberLimit = queryServiceRequest.MemberLimitRange.FromMemberLimit.Value;
                     memberLimitSqlExpression.GreaterThanEquals("rpga_limit_member", fromMemberLimit);
                     cacheKeyBuilder.Append(fromMemberLimit);
                 }
 
-                if (queryServiceRequest.MemberLimitRange.ToMemberLimit.HasValue)
+                if (havingToMemberLimit)
                 {
                     int toMemberLimit = queryServiceRequest.MemberLimitRange.ToMemberLimit.Value;
                     memberLimitSqlExpression.LessThanEquals("rpga_limit_member", toMemberLimit);
@@ -222,7 +236,11 @@ namespace MeGrab.Application
                     cacheKeyBuilder.Append("-");
                 }
 
-                expression.And(memberLimitSqlExpression);
+                if (havingFromMemberLimit ||
+                    havingToMemberLimit)
+                {
+                    expression.And(memberLimitSqlExpression);
+                }
             }
 
             if (cacheKeyBuilder.Length != 0)
@@ -233,7 +251,7 @@ namespace MeGrab.Application
 
             if (queryServiceRequest.DispatchMode.HasValue)
             {
-                expression.Equals("rpga_play_mode", queryServiceRequest.DispatchMode.Value);
+                expression.Equals("rpga_play_mode", (int)queryServiceRequest.DispatchMode.Value);
                 cacheKeyBuilder.Append(queryServiceRequest.DispatchMode.Value);
             }
 
@@ -295,8 +313,12 @@ namespace MeGrab.Application
                 ObjectsMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject> mapper =
                     ObjectMapperManager.DefaultInstance.GetMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject>();
 
-                IEnumerable<RedPacketGrabActivityDataObject> redPacketGrabActivityDataObjectList = 
-                    mapper.MapEnum(pagedRedPacketGrabActivities.Data);
+                List<RedPacketGrabActivityDataObject> redPacketGrabActivityDataObjectList = new List<RedPacketGrabActivityDataObject>();
+
+                foreach(RedPacketGrabActivity activity in pagedRedPacketGrabActivities.Data)
+                {
+                    redPacketGrabActivityDataObjectList.Add(mapper.Map(activity));
+                }
 
                 return new PagingResult<RedPacketGrabActivityDataObject>(pagedRedPacketGrabActivities.TotalRecords,
                                                                          pagedRedPacketGrabActivities.TotalPages,
@@ -323,8 +345,12 @@ namespace MeGrab.Application
                     ObjectsMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject> mapper =
                         ObjectMapperManager.DefaultInstance.GetMapper<RedPacketGrabActivity, RedPacketGrabActivityDataObject>();
 
-                    IEnumerable<RedPacketGrabActivityDataObject> redPacketGrabActivityDataObjectList =
-                        mapper.MapEnum(pagedRedPacketGrabActivities.Data);
+                    List<RedPacketGrabActivityDataObject> redPacketGrabActivityDataObjectList = new List<RedPacketGrabActivityDataObject>();
+
+                    foreach (RedPacketGrabActivity activity in pagedRedPacketGrabActivities.Data)
+                    {
+                        redPacketGrabActivityDataObjectList.Add(mapper.Map(activity));
+                    }
 
                     return new PagingResult<RedPacketGrabActivityDataObject>(pagedRedPacketGrabActivities.TotalRecords,
                                                                              pagedRedPacketGrabActivities.TotalPages,

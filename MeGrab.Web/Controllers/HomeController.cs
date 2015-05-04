@@ -59,13 +59,15 @@ namespace MeGrab.Web.Controllers
         public ActionResult RedPacketGrabActivityList(DateTime startDateTime, 
                                                       DateTime? expireDateTime, 
                                                       string totalAmountRange,
-                                                      DispatchMode playMode, 
+                                                      DispatchMode? playMode, 
                                                       int pageNumber, 
                                                       int pageSize)
         {
             using (IRedPacketGrabActivityQueryService queryService = ServiceLocator.Instance.GetService<IRedPacketGrabActivityQueryService>())
             {
                 RedPacketGrabActivityQueryServiceRequest queryRequest = new RedPacketGrabActivityQueryServiceRequest();
+                
+                decimal?[] selectedTotalAmountRange = new decimal?[2];
 
                 queryRequest.StartDateTimeRange = new DateTimeCriteriaRange();
                 queryRequest.StartDateTimeRange.FromDateTime = startDateTime;
@@ -79,8 +81,12 @@ namespace MeGrab.Web.Controllers
                 {
                     string[] splittedTotalAmountRange = totalAmountRange.Split('-');
                     queryRequest.TotalAmountRange = new TotalAmountCriteriaRange();
+                    
                     queryRequest.TotalAmountRange.FromTotalAmount = LocalizationUtils.FormatStringTo2Decimal(splittedTotalAmountRange[0]);
                     queryRequest.TotalAmountRange.ToTotalAmount = LocalizationUtils.FormatStringTo2Decimal(splittedTotalAmountRange[1]);
+
+                    selectedTotalAmountRange[0] = queryRequest.TotalAmountRange.FromTotalAmount;
+                    selectedTotalAmountRange[1] = queryRequest.TotalAmountRange.ToTotalAmount;
                 }
 
                 queryRequest.DispatchMode = playMode;
@@ -94,6 +100,12 @@ namespace MeGrab.Web.Controllers
                     ActivityQueryResponse.RedPacketGrabActivities;
 
                 RedPacketGrabActivityQueriesModel model = new RedPacketGrabActivityQueriesModel();
+
+                model.SelectedStartDateTime = startDateTime;
+                model.SelectedExpireDateTime = expireDateTime;
+                model.SelectedTotalAmountRange = selectedTotalAmountRange;
+                model.SelectedPlayModel = playMode;
+
                 model.PagingRedPacketGrabActivities = pagedActivityDataObjects.Data;
                 model.TotalRecords = pagedActivityDataObjects.TotalRecords;
                 model.TotalPages = pagedActivityDataObjects.TotalPages;

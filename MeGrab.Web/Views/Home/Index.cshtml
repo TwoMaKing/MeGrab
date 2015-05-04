@@ -4,6 +4,8 @@
 @{
     ViewBag.Title = "RedPacket";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var currentDate = new DateTime(2015, 4, 27);
 }
 
 <h2>RedPacket</h2>
@@ -138,17 +140,16 @@
         <div class="sl-value-list">
             <ul>
                 <li>
-
-                    @*@Html.ActionLink("今天", "RedPacketGrabActivityList", "Home", new { }, new { target = "_self" })*@
-
                     <a target="_self" 
-                       href="~/Home/RedPacketGrabActivityList?startDateTime=@Model.SelectedStartDateTime.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">今天</a>
+                       href="~/Home/RedPacketGrabActivityList?startDateTime=@currentDate.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">今天</a>
                 </li>
                 <li>
-                    <a target="_self" href="">明天</a>
+                    <a target="_self" 
+                       href="~/Home/RedPacketGrabActivityList?startDateTime=@currentDate.AddDays(1).ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">明天</a>
                 </li>
                 <li>
-                    <a target="_self" href="">后天</a>
+                    <a target="_self" 
+                       href="~/Home/RedPacketGrabActivityList?startDateTime=@currentDate.AddDays(2).ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">后天</a>
                 </li>
                 <li>
                     选择日期
@@ -184,16 +185,16 @@
         <div class="sl-value-list">
             <ul>
                 <li>
-                    <a>500-1000</a>
+                    <a target="_self" href="~/Home/RedPacketGrabActivityList?startDateTime=@Model.SelectedStartDateTime.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=500-1000&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">500-1000</a>
                 </li>
                 <li>
-                    <a>1000-1050</a>
+                    <a target="_self" href="~/Home/RedPacketGrabActivityList?startDateTime=@Model.SelectedStartDateTime.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=1000-1050&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">1000-1050</a>
                 </li>
                 <li>
-                    <a>1050-1100</a>
+                    <a target="_self" href="~/Home/RedPacketGrabActivityList?startDateTime=@Model.SelectedStartDateTime.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=1050-1100&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">1050-1100</a>
                 </li>
                 <li>
-                    <a>2000以上</a>
+                    <a target="_self" href="~/Home/RedPacketGrabActivityList?startDateTime=@Model.SelectedStartDateTime.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=1200-&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">1200以上</a>
                 </li>
             </ul>
         </div>
@@ -205,10 +206,10 @@
         <div class="sl-value-list">
             <ul>
                 <li>
-                    <a>固定金额分配</a>
+                    <a target="_self" href="~/Home/RedPacketGrabActivityList?startDateTime=@Model.SelectedStartDateTime.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=Fixed&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">固定金额分配</a>
                 </li>
                 <li>
-                    <a>随机金额分配</a>
+                    <a target="_self" href="~/Home/RedPacketGrabActivityList?startDateTime=@Model.SelectedStartDateTime.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=Random&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">随机金额分配</a>
                 </li>
             </ul>
         </div>

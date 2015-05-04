@@ -29,7 +29,8 @@ namespace MeGrab.Web.Models
     public class RedPacketGrabActivityQueriesModel
     {
         private DateTime selectedStartDateTime = new DateTime(2015, 04, 27);
-        private int[] selectedTotalAmountRange = new int[] { 1000, 2000 };
+        private decimal?[] selectedTotalAmountRange = new decimal?[2];
+
         private int pageNo = 1;
         private int pageSize = 10;
 
@@ -47,7 +48,7 @@ namespace MeGrab.Web.Models
 
         public DateTime? SelectedExpireDateTime { get; set; }
 
-        public int[] SelectedTotalAmountRange 
+        public decimal?[] SelectedTotalAmountRange 
         {
             get 
             {
@@ -59,7 +60,7 @@ namespace MeGrab.Web.Models
             }
         }
 
-        public DispatchMode SelectedPlayModel { get; set; }
+        public DispatchMode? SelectedPlayModel { get; set; }
 
         public int? TotalRecords { get; set; }
 
