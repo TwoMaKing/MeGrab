@@ -61,6 +61,8 @@
   <ItemGroup>
     <Compile Include="CacheManagerBase.cs" />
     <Compile Include="CacheProviderFactory.cs" />
+    <Compile Include="CachingAttribute.cs" />
+    <Compile Include="CachingMethod.cs" />
     <Compile Include="DefaultCacheManager.cs" />
     <Compile Include="ICacheKeyGenerator.cs" />
     <Compile Include="ICacheManager.cs" />

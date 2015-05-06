@@ -49,6 +49,7 @@
     <Compile Include="Lite\TopicRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rdbms\MeGrabUserRepository.cs" />
+    <Compile Include="Rdbms\RedPacketGrabActivityParticipantRepository.cs" />
     <Compile Include="Sql\MeGrabUserRepository.cs" />
     <Compile Include="Rdbms\RedPacketGrabActivityRepository.cs" />
     <Compile Include="Sql\RedPacketGrabActivityRepository.cs" />

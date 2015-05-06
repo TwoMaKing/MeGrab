@@ -10,6 +10,6 @@ namespace MeGrab.Domain.Repositories
 {
     public interface IRedPacketGrabActivitySqlRepository : ISqlRepository<RedPacketGrabActivity, Guid>
     {
-
+        
     }
 }

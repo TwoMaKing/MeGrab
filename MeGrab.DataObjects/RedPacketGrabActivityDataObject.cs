@@ -11,7 +11,6 @@ namespace MeGrab.DataObjects
     /// <summary>
     /// 代表抢红包活动的数据传输对象
     /// </summary>
-    [Serializable()]
     [DataContract()]
     public class RedPacketGrabActivityDataObject : DataTransferObjectBase<RedPacketGrabActivity, Guid>
     {

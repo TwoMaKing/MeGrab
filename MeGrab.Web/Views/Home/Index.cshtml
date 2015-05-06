@@ -58,39 +58,36 @@
     .redPacketActivity_handle {
     }
 
-    .redPacketActivity_handle ul {
-    }
+        .redPacketActivity_handle ul {
+        }
 
-    .page 
-    {
+    .page {
         margin-bottom: 20px;
-        width : 80%;
-        float : right;
+        width: 80%;
+        float: right;
     }
 
-    .page a {
+        .page a {
+            float: left;
+            height: 36px;
+            line-height: 36px;
+            padding: 0 14px;
+            margin-right: 5px;
+            font-size: 14px;
+            color: #333;
+            border: 1px solid #ddd;
+            background-color: #f7f7f7;
+            background-repeat: repeat-x;
+            background-image: -moz-linear-gradient(top,#f7f7f7,#f2f2f2);
+            background-image: -webkit-linear-gradient(top,#f7f7f7,#f2f2f2);
+            background-image: -o-linear-gradient(top,#f7f7f7,#f2f2f2);
+            background-image: linear-gradient(top,#f7f7f7,#f2f2f2);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#f2f2f2', GradientType=0);
+        }
 
-        float: left;
-        height: 36px;
-        line-height: 36px;
-        padding: 0 14px;
-        margin-right: 5px;
-        font-size: 14px;
-        color: #333;
-        border: 1px solid #ddd;
-        background-color: #f7f7f7;
-        background-repeat: repeat-x;
-        background-image: -moz-linear-gradient(top,#f7f7f7,#f2f2f2);
-        background-image: -webkit-linear-gradient(top,#f7f7f7,#f2f2f2);
-        background-image: -o-linear-gradient(top,#f7f7f7,#f2f2f2);
-        background-image: linear-gradient(top,#f7f7f7,#f2f2f2);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#f2f2f2', GradientType=0);
-    }
-
-    .selector_line
-    {
-        width:80%;
-        display:block;
+    .selector_line {
+        width: 80%;
+        display: block;
     }
 
     .sl-key {
@@ -107,24 +104,23 @@
         zoom: 1;
     }
 
-    .sl-value-list ul {
-        float: left;
-        overflow: hidden;
-        zoom: 1;
-        position: relative;
-        height: 30px;
-    }
+        .sl-value-list ul {
+            float: left;
+            overflow: hidden;
+            zoom: 1;
+            position: relative;
+            height: 30px;
+        }
 
-    .sl-value-list li {
-        margin-right: 50px;
-        float: left;
-        _display: inline;
-        margin-right: 16px;
-        margin-bottom: 4px;
-        height: 26px;
-        line-height: 26px;
-    }
-
+        .sl-value-list li {
+            margin-right: 50px;
+            float: left;
+            _display: inline;
+            margin-right: 16px;
+            margin-bottom: 4px;
+            height: 26px;
+            line-height: 26px;
+        }
 </style>
 
 <div class="page clearfix">
@@ -140,15 +136,15 @@
         <div class="sl-value-list">
             <ul>
                 <li>
-                    <a target="_self" 
+                    <a target="_self"
                        href="~/Home/RedPacketGrabActivityList?startDateTime=@currentDate.ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">今天</a>
                 </li>
                 <li>
-                    <a target="_self" 
+                    <a target="_self"
                        href="~/Home/RedPacketGrabActivityList?startDateTime=@currentDate.AddDays(1).ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">明天</a>
                 </li>
                 <li>
-                    <a target="_self" 
+                    <a target="_self"
                        href="~/Home/RedPacketGrabActivityList?startDateTime=@currentDate.AddDays(2).ToString("yyyy-MM-dd")&expireDateTime=@Eagle.Common.Util.DateTimeUtils.ToDateTimeString(Model.SelectedExpireDateTime, "yyyy-MM-dd")&totalAmountRange=@string.Join("-", Model.SelectedTotalAmountRange)&playMode=@Model.SelectedPlayModel&pageNumber=@Model.PageNo.ToString()&pageSize=@Model.PageSize.ToString()">后天</a>
                 </li>
                 <li>
@@ -256,13 +252,16 @@
                                 红包个数: @activity.RedPacketCount
                             </p>
                         </div>
+                        <div>
+                            <a href="" target="_self" class="">我要参加啊</a>
+                        </div>
                         <div class="redPacketActivity_handle">
                             <ul>
                                 <li>
-                                    当前参加人数: 10
+                                    当前参加人数: <a href="" class="">10</a>
                                 </li>
                                 <li>
-                                    评论: 5
+                                    评论:<a href="" class=""> 5</a>
                                 </li>
                                 <li>
                                     收藏: 100
@@ -270,6 +269,7 @@
                             </ul>
                         </div>
                     </div>
+
                 </div>
             }
         }

@@ -66,6 +66,18 @@ CREATE TABLE `redpacket_grab_activity` (
   KEY `Id_DispatchDateTime_Index` (`rpga_id`,`rpga_dispatch_datetime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redpacket grab activity ';
 
+CREATE TABLE `redpacket_grab_activity_participants` (
+  `rpgap_id` char(36) NOT NULL,
+  `rpgap_rpga_id` char(36) NOT NULL,
+  `rpgap_user_id` int(11) NOT NULL,
+  `rpgap_joined_datetime` datetime NOT NULL,
+  `rpgap_quitted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rpgap_id`),
+  KEY `rpgap_rpga_id_INDEX` (`rpgap_rpga_id`),
+  KEY `rpgap_user_id_INDEX` (`rpgap_user_id`),
+  CONSTRAINT `FK_rpga_id_rpgap_rpga_id` FOREIGN KEY (`rpgap_rpga_id`) REFERENCES `redpacket_grab_activity` (`rpga_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_wa_users_id_rpgap_user_id` FOREIGN KEY (`rpgap_user_id`) REFERENCES `webapp_users` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 

@@ -1,4 +1,5 @@
-﻿using Eagle.Domain.Application;
+﻿using Eagle.Domain;
+using Eagle.Domain.Application;
 using MeGrab.Domain.Models;
 using System;
 using System.Runtime.Serialization;
@@ -25,8 +26,11 @@ namespace MeGrab.DataObjects
         {
             this.Id = domainModel.Id;
             this.Name = domainModel.Name;
-            this.Email = domainModel.Membership.Email;
-            this.CellPhoneNo = domainModel.Membership.CellPhoneNo;
+            if (domainModel.Membership != null)
+            {
+                this.Email = domainModel.Membership.Email;
+                this.CellPhoneNo = domainModel.Membership.CellPhoneNo;
+            }
         }
 
         protected override MeGrabUser DoMapTo()
@@ -38,6 +42,32 @@ namespace MeGrab.DataObjects
             user.Membership.CellPhoneNo = this.CellPhoneNo;
 
             return user;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj == null)
+            {
+                return false;
+            }
+
+            MeGrabUserDataObject other = obj as MeGrabUserDataObject;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.Id.Equals(other.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return Utils.GetHashCode(this.Id);
         }
     }
 }

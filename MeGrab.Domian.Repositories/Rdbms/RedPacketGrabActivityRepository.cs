@@ -19,12 +19,31 @@ namespace MeGrab.Domain.Repositories.Sql
 
         protected override string GetSingleAggregateRootQuerySqlStatementByCriteria(ISqlCriteriaExpression sqlCriteriaExpression)
         {
-            throw new NotImplementedException();
+            ISqlBuilder sqlBuilder = SqlBuilder.Create();
+
+            sqlBuilder.From("redpacket_grab_activity")
+                      .Where(sqlCriteriaExpression)
+                      .Select("rpga_id AS Id",
+                              "rpga_total_amount AS TotalAmount",
+                              "rpga_redpacket_count AS RedPacketCount",
+                              "rpga_play_mode AS Mode",
+                              "rpga_limit_member AS MemberLimit",
+                              "rpga_start_datetime AS StartDateTime",
+                              "rpga_expire_datetime AS ExpireDateTime",
+                              "rpga_message AS Message",
+                              "rpga_dispatcher_id AS DispatcherId",
+                              "rpga_dispatch_datetime AS DispatchDateTime",
+                              "rpga_cancelled AS Cancelled",
+                              "rpga_finished AS Finished",
+                              "rpga_last_modified_datetime AS LastModifiedUserId",
+                              "rpga_last_modified_user_id AS LastModifiedUserId");
+
+            return sqlBuilder.GetQuerySql();
         }
 
         protected override object GetSingleAggregateRootQueryParametersByCriteria(ISqlCriteriaExpression sqlCriteriaExpression)
         {
-            throw new NotImplementedException();
+            return sqlCriteriaExpression.ParameterColumnValues;
         }
 
         protected override string GetAggregateRootListQuerySqlStatementByCriteria(ISqlCriteriaExpression sqlCriteriaExpression)

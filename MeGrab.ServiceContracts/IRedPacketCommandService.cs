@@ -7,12 +7,8 @@ using System.ServiceModel;
 
 namespace MeGrab.ServiceContracts
 {
-    public interface IRedPacketCommandService : IApplicationServiceContract
+    public interface IRedPacketGrabActivityCommandService : IApplicationServiceContract
     {
-        void AddNewRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity);
-
-        void UpdateRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity);
-
-        void DeleteRedPacketGrabActivity(RedPacketGrabActivityDataObject redPacketGrabActivity);
+        IEnumerable<MeGrabUserDataObject> Join(Guid redPacketGrabActivityId, int userId);
     }
 }

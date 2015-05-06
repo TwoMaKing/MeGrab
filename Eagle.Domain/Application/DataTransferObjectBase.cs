@@ -38,7 +38,8 @@ namespace Eagle.Domain.Application
     [Serializable()]
     [DataContract()]
     [XmlRoot()]
-    public abstract class DataTransferObjectBase<TModel> : DataTransferObjectBase<TModel, int>, IDataTransferObject<TModel> where TModel : class, IEntity
+    public abstract class DataTransferObjectBase<TModel> : 
+        DataTransferObjectBase<TModel, int>, IDataTransferObject<TModel> where TModel : class, IEntity
     {
 
     }

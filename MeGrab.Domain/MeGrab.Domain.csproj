@@ -67,6 +67,7 @@
     <Compile Include="Models\Giveaway.cs" />
     <Compile Include="Models\GrabActivity.cs" />
     <Compile Include="Models\RedPacketGrabActivity.cs" />
+    <Compile Include="Models\RedPacketGrabActivityParticipant.cs" />
     <Compile Include="Models\Topic.cs" />
     <Compile Include="Models\SnatchGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,9 +75,12 @@
     <Compile Include="Repositories\IGrabActivityRepository.cs" />
     <Compile Include="Repositories\IGrabActivitySqlRepository.cs" />
     <Compile Include="Repositories\IMeGrabUserSqlRepository.cs" />
+    <Compile Include="Repositories\IRedPacketGrabActivityParticipantSqlRepository.cs" />
     <Compile Include="Repositories\ISnatchGroupRepository.cs" />
     <Compile Include="Repositories\ITopicRepository.cs" />
     <Compile Include="Repositories\IMeGrabUserRepository.cs" />
+    <Compile Include="Service\DomainService.cs" />
+    <Compile Include="Service\IDomainService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Eagle.Common\Eagle.Common.csproj">
@@ -112,9 +116,7 @@
       <Name>ServiceStack.OrmLite</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WebReferences Include="Web References\" />
   </ItemGroup>

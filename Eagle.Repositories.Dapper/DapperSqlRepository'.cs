@@ -3,6 +3,7 @@ using Eagle.Core;
 using Eagle.Core.Query;
 using Eagle.Core.SqlQueries;
 using Eagle.Core.SqlQueries.Criterias;
+using Eagle.Core.SqlQueries.DialectProvider;
 using Eagle.Domain;
 using Eagle.Domain.Repositories;
 using System;
@@ -77,12 +78,27 @@ namespace Eagle.Repositories.Dapper
 
         protected override TAggregateRoot DoFindByKey(TIdentityKey id)
         {
-            throw new NotImplementedException();
+            using (IDbConnection dbConnection = this.DapperRepositoryContext.CreateConnection())
+            {
+                ISqlCriteriaExpression sqlCriteriaExpression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+                sqlCriteriaExpression.Equals("Id", id);
+
+                string sqlStatement = this.GetSingleAggregateRootQuerySqlStatementByCriteria(sqlCriteriaExpression);
+                object parameters = this.GetSingleAggregateRootQueryParametersByCriteria(sqlCriteriaExpression);
+
+                return dbConnection.Query<TAggregateRoot>(sqlStatement, parameters, null, true, null, CommandType.Text).SingleOrDefault();
+            }
         }
 
         protected override TAggregateRoot DoFind(ISqlCriteriaExpression sqlCriteriaExpression)
         {
-            throw new NotImplementedException();
+            using (IDbConnection dbConnection = this.DapperRepositoryContext.CreateConnection())
+            {
+                string sqlStatement = this.GetSingleAggregateRootQuerySqlStatementByCriteria(sqlCriteriaExpression);
+                object parameters = this.GetSingleAggregateRootQueryParametersByCriteria(sqlCriteriaExpression);
+
+                return dbConnection.Query<TAggregateRoot>(sqlStatement, parameters, null, true, null, CommandType.Text).SingleOrDefault();
+            }
         }
 
         protected override IEnumerable<TAggregateRoot> DoFindAll()

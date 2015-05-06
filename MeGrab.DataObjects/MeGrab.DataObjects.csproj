@@ -50,6 +50,7 @@
     <Compile Include="FaultData.cs" />
     <Compile Include="DispatchServiceResponse.cs" />
     <Compile Include="DispatchServiceRequest.cs" />
+    <Compile Include="RedPacketGrabActivityParticipantDataObject.cs" />
     <Compile Include="RedPacketQueryServiceRequest.cs" />
     <Compile Include="RedPacketQueryServiceResponse.cs" />
     <Compile Include="SnatchGroupDataObject.cs" />
@@ -81,9 +82,6 @@
       <Project>{509f2ab9-73a8-4603-84a4-fac0cf1006f4}</Project>
       <Name>MeGrab.Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferences Include="Web References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
