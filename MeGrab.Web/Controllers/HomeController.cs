@@ -115,5 +115,17 @@ namespace MeGrab.Web.Controllers
                 return View("Index", model);
             }
         }
+
+        [HttpPost()]
+        public ActionResult Join(Guid activityId)
+        {
+            using (IRedPacketGrabActivityCommandService commandService = ServiceLocator.Instance.GetService<IRedPacketGrabActivityCommandService>())
+            {       
+                IEnumerable<MeGrabUserDataObject> participants = commandService.Join(activityId, 5);
+
+                return new JsonResult() { Data = participants };
+            }
+        }
+
     }
 }

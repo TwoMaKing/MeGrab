@@ -8,35 +8,6 @@
     var currentDate = new DateTime(2015, 4, 27);
 }
 
-<h2>RedPacket</h2>
-
-<script type="text/javascript">
-
-    //$(document).ready(function () {
-
-    //    var redPacketService = $.connection.RedPacketService;
-
-    //    redPacketService.client.redPacketActivityDispatched = function (clientRedPacketGrabActivity) {
-
-    //        var totalAmount = clientRedPacketGrabActivity.TotalAmount;
-    //        var userName = clientRedPacketGrabActivity.Dispatcher.Name;
-    //        var message = clientRedPacketGrabActivity.Message;
-
-    //        $("testInfo").html("金额:" + totalAmount + "; 用户:" + userName);
-
-    //        redPacketService.server.DisplayNewRedPacketActivity();
-    //    };
-
-    //    $.connection.hub.start().done(function () {
-    //        redPacketService.server.connect();
-    //        redPacketService.server.DisplayNewRedPacketActivity();
-    //    });
-
-    //});
-
-
-</script>
-
 <style>
     .redPacketActivity {
         padding: 10px 16px 10px 10px;
@@ -58,8 +29,8 @@
     .redPacketActivity_handle {
     }
 
-        .redPacketActivity_handle ul {
-        }
+    .redPacketActivity_handle ul {
+    }
 
     .page {
         margin-bottom: 20px;
@@ -67,23 +38,23 @@
         float: right;
     }
 
-        .page a {
-            float: left;
-            height: 36px;
-            line-height: 36px;
-            padding: 0 14px;
-            margin-right: 5px;
-            font-size: 14px;
-            color: #333;
-            border: 1px solid #ddd;
-            background-color: #f7f7f7;
-            background-repeat: repeat-x;
-            background-image: -moz-linear-gradient(top,#f7f7f7,#f2f2f2);
-            background-image: -webkit-linear-gradient(top,#f7f7f7,#f2f2f2);
-            background-image: -o-linear-gradient(top,#f7f7f7,#f2f2f2);
-            background-image: linear-gradient(top,#f7f7f7,#f2f2f2);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#f2f2f2', GradientType=0);
-        }
+    .page a {
+        float: left;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 14px;
+        margin-right: 5px;
+        font-size: 14px;
+        color: #333;
+        border: 1px solid #ddd;
+        background-color: #f7f7f7;
+        background-repeat: repeat-x;
+        background-image: -moz-linear-gradient(top,#f7f7f7,#f2f2f2);
+        background-image: -webkit-linear-gradient(top,#f7f7f7,#f2f2f2);
+        background-image: -o-linear-gradient(top,#f7f7f7,#f2f2f2);
+        background-image: linear-gradient(top,#f7f7f7,#f2f2f2);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#f2f2f2', GradientType=0);
+    }
 
     .selector_line {
         width: 80%;
@@ -104,24 +75,29 @@
         zoom: 1;
     }
 
-        .sl-value-list ul {
-            float: left;
-            overflow: hidden;
-            zoom: 1;
-            position: relative;
-            height: 30px;
-        }
+    .sl-value-list ul {
+        float: left;
+        overflow: hidden;
+        zoom: 1;
+        position: relative;
+        height: 30px;
+    }
 
-        .sl-value-list li {
-            margin-right: 50px;
-            float: left;
-            _display: inline;
-            margin-right: 16px;
-            margin-bottom: 4px;
-            height: 26px;
-            line-height: 26px;
-        }
+    .sl-value-list li {
+        margin-right: 50px;
+        float: left;
+        _display: inline;
+        margin-right: 16px;
+        margin-bottom: 4px;
+        height: 26px;
+        line-height: 26px;
+    }
+
+
+
 </style>
+
+<h2>红包活动列表</h2>
 
 <div class="page clearfix">
 
@@ -213,7 +189,6 @@
 
 </div>
 
-
 <div class="page clearfix">
 
     <a type="text/html" href="~/Home/RedPacketGrabActivitiesByPaging?pageNo=1&pageSize=10" target="_self">1</a>
@@ -224,7 +199,7 @@
 
 </div>
 
-<div style="float: left;width:80%" class="clearfix">
+<div id="redPacketContent" style="float: left;width:80%" class="clearfix">
 
     @{
         if (Model != null &&
@@ -253,7 +228,7 @@
                             </p>
                         </div>
                         <div>
-                            <a href="" target="_self" class="">我要参加啊</a>
+                            <a class="" data-activityId="@activity.Id">我要参加啊</a>
                         </div>
                         <div class="redPacketActivity_handle">
                             <ul>
@@ -278,3 +253,50 @@
 
 </div>
 
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#redPacketContent a[]").click(function () {
+
+            $.ajax({
+                type: "Post",
+                url: "~/Home/Join",
+                data: "activityId=&userId=",
+                dataType: "json",
+                success: function (result) {
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("error");
+                }
+            });
+
+        });
+
+    });
+
+    //$(document).ready(function () {
+
+    //    var redPacketService = $.connection.RedPacketService;
+
+    //    redPacketService.client.redPacketActivityDispatched = function (clientRedPacketGrabActivity) {
+
+    //        var totalAmount = clientRedPacketGrabActivity.TotalAmount;
+    //        var userName = clientRedPacketGrabActivity.Dispatcher.Name;
+    //        var message = clientRedPacketGrabActivity.Message;
+
+    //        $("testInfo").html("金额:" + totalAmount + "; 用户:" + userName);
+
+    //        redPacketService.server.DisplayNewRedPacketActivity();
+    //    };
+
+    //    $.connection.hub.start().done(function () {
+    //        redPacketService.server.connect();
+    //        redPacketService.server.DisplayNewRedPacketActivity();
+    //    });
+
+    //});
+
+
+</script>

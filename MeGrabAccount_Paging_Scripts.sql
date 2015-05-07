@@ -17,7 +17,7 @@ open id_cursor;
 cursor_loop:loop
 	FETCH id_cursor into _id; 
     
-    set ids = _id;
+    set ids = ids + '''' + _id + ''',';
     
 	if done = 1 then
 		leave cursor_loop;
