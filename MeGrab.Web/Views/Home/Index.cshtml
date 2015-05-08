@@ -257,12 +257,14 @@
 
     $(document).ready(function () {
 
-        $("#redPacketContent a[]").click(function () {
+        $("#redPacketContent a[data-activityId]").click(function () {
+
+            var activityId = $(this).attr("data-activityId");
 
             $.ajax({
                 type: "Post",
                 url: "~/Home/Join",
-                data: "activityId=&userId=",
+                data: "activityId=" + activityId,
                 dataType: "json",
                 success: function (result) {
 

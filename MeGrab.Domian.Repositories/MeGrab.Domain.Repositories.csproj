@@ -50,9 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rdbms\MeGrabUserRepository.cs" />
     <Compile Include="Rdbms\RedPacketGrabActivityParticipantRepository.cs" />
-    <Compile Include="Sql\MeGrabUserRepository.cs" />
     <Compile Include="Rdbms\RedPacketGrabActivityRepository.cs" />
-    <Compile Include="Sql\RedPacketGrabActivityRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Eagle.Common\Eagle.Common.csproj">
@@ -94,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MongoDB\" />
+    <Folder Include="Sql\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
