@@ -123,7 +123,8 @@ namespace MeGrab.Web.Controllers
             {       
                 IEnumerable<MeGrabUserDataObject> participants = commandService.Join(activityId, 15);
 
-                return new JsonResult() { Data = participants };
+                return Json(participants, JsonRequestBehavior.AllowGet);
+
             }
         }
 

@@ -24,7 +24,7 @@ namespace MeGrab.Domain.Service
 
         public void JoinRedPacketGrabActivity(RedPacketGrabActivity activity, MeGrabUser user)
         {
-            RedPacketGrabActivityParticipant participant = new RedPacketGrabActivityParticipant(activity.Id, user.Id);
+            RedPacketGrabActivityParticipant participant = new RedPacketGrabActivityParticipant(activity.Id, user.Id, DateTime.Now);
 
             redPacketGrabActivityParticipantRepository.Add(participant);
 

@@ -27,7 +27,7 @@ namespace MeGrab.Domain.Repositories.Sql
 
         protected override object GetSingleAggregateRootQueryParametersById(Guid id)
         {
-            return new { id };
+            return new { rpga_id = id };
         }
 
         protected override string GetSingleAggregateRootQuerySqlStatementByCriteria(ISqlCriteriaExpression sqlCriteriaExpression)

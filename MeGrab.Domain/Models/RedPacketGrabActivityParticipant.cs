@@ -16,10 +16,12 @@ namespace MeGrab.Domain.Models
         public RedPacketGrabActivityParticipant() : base()
         { }
 
-        public RedPacketGrabActivityParticipant(Guid redPacketGrabActivityId, int userId)
+        public RedPacketGrabActivityParticipant(Guid redPacketGrabActivityId, int userId, DateTime joinedDateTime)
         {
+            this.Id = (Guid)SequenceGenerator.Instance.Next;
             this.RedPacketGrabActivityId = redPacketGrabActivityId;
             this.UserId = userId;
+            this.JoinedDateTime = joinedDateTime;
         }
 
         public Guid RedPacketGrabActivityId { get; set; }

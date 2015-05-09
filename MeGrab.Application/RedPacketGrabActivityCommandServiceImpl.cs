@@ -75,14 +75,14 @@ namespace MeGrab.Application
 
             string cacheKey = string.Format("RedPacketGrabActivity_{0}_Participants", redPacketGrabActivityId);
 
-            IEnumerable<MeGrabUserDataObject> currentParticipants = this.cacheManager.Get<MeGrabUserDataObject>(cacheKey, retrieveFunc, 3600);
+            IEnumerable<MeGrabUserDataObject> currentParticipantsDTO = this.cacheManager.Get<IEnumerable<MeGrabUserDataObject>>(cacheKey, retrieveFunc, 3600);
 
-            List<MeGrabUserDataObject> currentParticipantsDTOList = currentParticipants.ToList();
+            List<MeGrabUserDataObject> currentParticipantsDTOList = currentParticipantsDTO.ToList();
 
             MeGrabUserDataObject currentParticipantDTO = new MeGrabUserDataObject();
             currentParticipantDTO.MapFrom(joinedUser);
 
-            if (!currentParticipants.Contains(currentParticipantDTO))
+            if (!currentParticipantsDTOList.Contains(currentParticipantDTO))
             {
                 currentParticipantsDTOList.Add(currentParticipantDTO);
             }

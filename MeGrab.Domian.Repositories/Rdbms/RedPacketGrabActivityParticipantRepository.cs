@@ -74,7 +74,7 @@ namespace MeGrab.Domain.Repositories.Sql
                      ?RedPacketGrabActivityId,
                      ?UserId,
                      ?JoinedDateTime,
-                     ?Quitted";
+                     ?Quitted);";
         }
 
         protected override object GetAggregateRootInsertParameters(RedPacketGrabActivityParticipant aggregateRoot)
@@ -126,10 +126,10 @@ namespace MeGrab.Domain.Repositories.Sql
         {
             using(IDbConnection connection = this.DapperRepositoryContext.CreateConnection())
             {
-                string querySql = @"select UserId, Name from webapp_users in UserId in 
-                                    (select rpgap_user_id from redpacket_grab_activity_participants where rpgap_rpga_id = ?rpgap_rpga_id)";
+                string querySql = @"select UserId AS Id, Name, Enabled from webapp_users where UserId in 
+                                    (select rpgap_user_id from redpacket_grab_activity_participants where rpgap_rpga_id = ?ActivityId)";
 
-                return connection.Query<MeGrabUser>(querySql, activity.Id);
+                return connection.Query<MeGrabUser>(querySql, new { ActivityId = activity.Id });
             }
         }
 

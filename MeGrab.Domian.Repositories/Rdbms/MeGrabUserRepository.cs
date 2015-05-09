@@ -50,7 +50,7 @@ namespace MeGrab.Domain.Repositories.Sql
 
         protected override object GetSingleAggregateRootQueryParametersById(int id)
         {
-            return new { id };
+            return new { UserId = id };
         }
 
         protected override string GetSingleAggregateRootQuerySqlStatementByCriteria(ISqlCriteriaExpression sqlCriteriaExpression)

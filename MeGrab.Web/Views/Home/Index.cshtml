@@ -128,6 +128,33 @@
         font-size: 12px;
     }
 
+    .participants-overlay {
+        width: 200px;
+        height: 100px;
+        background-color: yellow;
+        border: 2px solid blue;
+        border-radius: 3px 4px;
+        padding: 20px 20px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -50px;
+        margin-left: -100px;
+        overflow: hidden;
+        z-index: 9999;
+        display: none;
+    }
+
+    .participants-overlay ul {
+        width:180px;
+        margin: 0 auto;
+    }
+
+    .participants-overlay ul li{
+        color: blue;
+        font-weight:bold;
+    }
+
 </style>
 
 <h2>红包活动列表</h2>
@@ -285,7 +312,7 @@
 
 </div>
 
-<div id="participantsOverlay">
+<div id="participantsOverlay" class="participants-overlay">
 
     <ul>
 
@@ -299,8 +326,6 @@
 
         $("#redPacketContent a[data-activityId]").click(function () {
 
-            debugger;
-
             var activityId = $(this).attr("data-activityId");
 
             $.ajax({
@@ -310,13 +335,12 @@
                 dataType: "json",
                 success: function (result) {
 
-                    debugger;
+                    $.each(result, function (index, item) {
 
-                    for (var user in result)
-                    {
-                        $("#participantsOverlay ul").append("li").html(user.Name).fadeIn();
-                    }
+                        $("#participantsOverlay ul").append("<li>" + item.Name + "</li>");
+                    });
 
+                    $("#participantsOverlay").show();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("error");
