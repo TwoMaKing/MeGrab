@@ -17,6 +17,19 @@ namespace MeGrab.Domain.Repositories.Sql
     {
         public RedPacketGrabActivityRepository(IRepositoryContext repositoryContext) : base(repositoryContext) { }
 
+        protected override string GetSingleAggregateRootQuerySqlStatementById(Guid id)
+        {
+            ISqlCriteriaExpression sqlCriteriaExpression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+            sqlCriteriaExpression.Equals("rpga_id", id);
+
+            return this.GetSingleAggregateRootQuerySqlStatementByCriteria(sqlCriteriaExpression);
+        }
+
+        protected override object GetSingleAggregateRootQueryParametersById(Guid id)
+        {
+            return new { id };
+        }
+
         protected override string GetSingleAggregateRootQuerySqlStatementByCriteria(ISqlCriteriaExpression sqlCriteriaExpression)
         {
             ISqlBuilder sqlBuilder = SqlBuilder.Create();

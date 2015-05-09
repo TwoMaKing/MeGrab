@@ -21,6 +21,16 @@ namespace MeGrab.Domain.Repositories.Sql
         public RedPacketGrabActivityParticipantRepository(IRepositoryContext repositoryContext)
             : base(repositoryContext) { }
 
+        protected override string GetSingleAggregateRootQuerySqlStatementById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override object GetSingleAggregateRootQueryParametersById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override string GetSingleAggregateRootQuerySqlStatementByCriteria(ISqlCriteriaExpression sqlCriteriaExpression)
         {
             throw new NotImplementedException();

@@ -1,4 +1,5 @@
-﻿using Eagle.Core.Query;
+﻿using Dappers;
+using Eagle.Core.Query;
 using Eagle.Core.SqlQueries;
 using Eagle.Core.SqlQueries.Criterias;
 using Eagle.Core.SqlQueries.DialectProvider;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Dappers;
 
 namespace MeGrab.Domain.Repositories.Sql
 {
@@ -38,6 +38,19 @@ namespace MeGrab.Domain.Repositories.Sql
 
                 return users.SingleOrDefault();
             }
+        }
+
+        protected override string GetSingleAggregateRootQuerySqlStatementById(int id)
+        {
+            ISqlCriteriaExpression sqlCriteriaExpression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
+            sqlCriteriaExpression.Equals("webapp_users.UserId", id);
+
+            return this.GetSingleAggregateRootQuerySqlStatementByCriteria(sqlCriteriaExpression);
+        }
+
+        protected override object GetSingleAggregateRootQueryParametersById(int id)
+        {
+            return new { id };
         }
 
         protected override string GetSingleAggregateRootQuerySqlStatementByCriteria(ISqlCriteriaExpression sqlCriteriaExpression)

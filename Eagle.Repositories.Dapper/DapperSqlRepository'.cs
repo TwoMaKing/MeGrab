@@ -80,11 +80,8 @@ namespace Eagle.Repositories.Dapper
         {
             using (IDbConnection dbConnection = this.DapperRepositoryContext.CreateConnection())
             {
-                ISqlCriteriaExpression sqlCriteriaExpression = SqlQueryDialectProviderFactory.Default.SqlCriteriaExpression();
-                sqlCriteriaExpression.Equals("Id", id);
-
-                string sqlStatement = this.GetSingleAggregateRootQuerySqlStatementByCriteria(sqlCriteriaExpression);
-                object parameters = this.GetSingleAggregateRootQueryParametersByCriteria(sqlCriteriaExpression);
+                string sqlStatement = this.GetSingleAggregateRootQuerySqlStatementById(id);
+                object parameters = this.GetSingleAggregateRootQueryParametersById(id);
 
                 return dbConnection.Query<TAggregateRoot>(sqlStatement, parameters, null, true, null, CommandType.Text).SingleOrDefault();
             }
@@ -139,6 +136,10 @@ namespace Eagle.Repositories.Dapper
                                                         pagedAggregateRoots.Select(aggregateRoot => aggregateRoot).ToList());
             }
         }
+
+        protected abstract string GetSingleAggregateRootQuerySqlStatementById(TIdentityKey id);
+
+        protected abstract object GetSingleAggregateRootQueryParametersById(TIdentityKey id);
 
         protected abstract string GetSingleAggregateRootQuerySqlStatementByCriteria(ISqlCriteriaExpression sqlCriteriaExpression);
 

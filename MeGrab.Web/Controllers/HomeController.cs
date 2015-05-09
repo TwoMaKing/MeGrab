@@ -121,7 +121,7 @@ namespace MeGrab.Web.Controllers
         {
             using (IRedPacketGrabActivityCommandService commandService = ServiceLocator.Instance.GetService<IRedPacketGrabActivityCommandService>())
             {       
-                IEnumerable<MeGrabUserDataObject> participants = commandService.Join(activityId, 5);
+                IEnumerable<MeGrabUserDataObject> participants = commandService.Join(activityId, 15);
 
                 return new JsonResult() { Data = participants };
             }

@@ -50,14 +50,23 @@ namespace Eagle.Core.SqlQueries.DialectProvider
         /// <returns></returns>
         public string BuildParameterName(string name) 
         {
-            name = name.Trim(this.ParameterLeftToken, this.ParameterRightToken);
-
-            if (!name[0].Equals(this.ParameterPrefix))
+            if (name.Contains("."))
             {
-                return name.Insert(0, this.ParameterPrefix.ToString());
+                string[] splittedColumnSections = name.Split('.');
+                if (splittedColumnSections.Length > 0)
+                {
+                    name = splittedColumnSections[splittedColumnSections.Length - 1];
+                }
             }
 
-            return name;
+            string parameterName = name.Trim(this.ParameterLeftToken, this.ParameterRightToken);
+
+            if (!parameterName[0].Equals(this.ParameterPrefix))
+            {
+                return parameterName.Insert(0, new string(this.ParameterPrefix, 1));
+            }
+
+            return parameterName;
         }
 
         /// <summary>
@@ -90,7 +99,11 @@ namespace Eagle.Core.SqlQueries.DialectProvider
                         sectionName = sectionName + this.ParameterRightToken.ToString();
                     }
 
-                    if (i > 0)
+                    if (i == 0)
+                    {
+                        buildedColumnName = sectionName;
+                    }
+                    else if (i > 0)
                     {
                         buildedColumnName += "." + sectionName;
                     }

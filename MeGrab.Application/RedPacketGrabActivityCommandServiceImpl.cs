@@ -22,17 +22,17 @@ namespace MeGrab.Application
     public class RedPacketGrabActivityCommandServiceImpl : ApplicationService, IRedPacketGrabActivityCommandService
     {
         private IRedPacketGrabActivitySqlRepository redPacketRepository;
-        private IMeGrabUserRepository userRepository;
+        private IMeGrabUserSqlRepository userRepository;
         private IRedPacketGrabActivityParticipantSqlRepository redPacketActivityParticipantRepository;
         private IDomainService domainService;
         private ICacheManager cacheManager;
 
-        public RedPacketGrabActivityCommandServiceImpl(IRepositoryContext repositoryContext, 
-                                       IMeGrabUserRepository userRepository,
-                                       IRedPacketGrabActivitySqlRepository redPacketRepository,
-                                       IRedPacketGrabActivityParticipantSqlRepository redPacketActivityParticipantRepository,
-                                       IDomainService domainService,
-                                       ICacheManager cacheManager)
+        public RedPacketGrabActivityCommandServiceImpl(IRepositoryContext repositoryContext,
+                                                       IMeGrabUserSqlRepository userRepository,
+                                                       IRedPacketGrabActivitySqlRepository redPacketRepository,
+                                                       IRedPacketGrabActivityParticipantSqlRepository redPacketActivityParticipantRepository,
+                                                       IDomainService domainService,
+                                                       ICacheManager cacheManager)
             : base(repositoryContext) 
         {
             this.redPacketRepository = redPacketRepository;
