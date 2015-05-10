@@ -14,7 +14,13 @@ namespace Eagle.Web.Caches
         /// <summary>
         /// 获取缓存键
         /// </summary>
-        /// <param name="cache">缓存键</param>
+        /// <param name="key">缓存键</param>
         string GetKey(string key);
+
+        /// <summary>
+        /// 获取缓存过期标记键
+        /// </summary>
+        /// <param name="key">缓存键</param>
+        string GetSignKey(string key);
     }
 }

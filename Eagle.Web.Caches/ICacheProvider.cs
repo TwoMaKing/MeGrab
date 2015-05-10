@@ -61,6 +61,11 @@ namespace Eagle.Web.Caches
         void Replace<T>(string key, T item, int expire);
 
         /// <summary>
+        /// 替换指定的缓存对象
+        /// </summary>
+        void Replace<T>(string key, IEnumerable<T> item, int expire);
+
+        /// <summary>
         /// 是否存在指定Key的Item
         /// </summary>
         bool ContainsKey(string key);

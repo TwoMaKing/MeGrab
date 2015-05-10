@@ -169,6 +169,11 @@ namespace Eagle.Web.Caches
             }
         }
 
+        public void Replace<T>(string key, IEnumerable<T> item, int expire)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool ContainsKey(string key)
         {
             using (RedisClient redisClient = this.CreateRedisClient())
@@ -235,5 +240,6 @@ namespace Eagle.Web.Caches
         }
 
         public void Dispose() { }
+
     }
 }

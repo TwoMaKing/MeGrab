@@ -63,6 +63,11 @@ namespace Eagle.Web.Caches
             memcachedClient.Store(StoreMode.Replace, key, item, DateTime.Now.AddSeconds(expire));
         }
 
+        public void Replace<T>(string key, IEnumerable<T> item, int expire)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool ContainsKey(string key)
         {
             return memcachedClient.CheckAndSet(key, new object(), 0);
@@ -119,5 +124,6 @@ namespace Eagle.Web.Caches
         {
             memcachedClient.Dispose();
         }
+
     }
 }

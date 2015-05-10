@@ -11,6 +11,8 @@ namespace Eagle.Web.Caches
 {
     public abstract class CacheManagerBase : ICacheManager
     {
+        protected const string cacheSignValue = "SIGN";
+
         protected CacheManagerBase(ICacheProvider cacheProvider, ICacheKeyGenerator cacheKey) 
         {
             Guard.NotNull(cacheProvider, "Cache Provider");
@@ -32,13 +34,20 @@ namespace Eagle.Web.Caches
             protected set; 
         }
 
+        /// <summary>
+        /// 获取缓存对象，如果缓存对象不存在，则执行retrieveFunc获取对象并添加到缓存中
+        /// </summary>
+        ///<param name="key">缓存键</param>
+        ///<param name="retrieveFunc">获取要缓存的对象的方法， 如果缓存对象不存在，则执行该retrieveFunc获得对象并添加到缓存中</param>
+        ///<param name="expire">过期时间，秒</param>
         public T Get<T>(string key, Func<T> retrieveFunc, int expire = 0)
         {
             string cacheKey = this.GetCacheKey(key);
 
             // 缓存标记
-            string cacheSign = string.Format("{0}_Sign", cacheKey);
-            var sign = this.CacheProvider.GetItem<string>(cacheSign);
+            string cacheSignKey = this.GetSignKey(key);
+
+            var sign = this.CacheProvider.GetItem<string>(cacheSignKey);
 
             var cacheItem = this.CacheProvider.GetItem<T>(cacheKey);
 
@@ -47,36 +56,34 @@ namespace Eagle.Web.Caches
                 return cacheItem;
             }
 
-            lock (cacheSign)
+            lock (cacheSignKey)
             {
-                sign = this.CacheProvider.GetItem<string>(cacheSign);
+                sign = this.CacheProvider.GetItem<string>(cacheSignKey);
                 if (sign != null)
                 {
                     return cacheItem;
                 }
 
-                this.CacheProvider.Add<string>(cacheSign, "Sign", (Convertor.ConvertToInteger(expire / 2).Value));
+                this.CacheProvider.Add<string>(cacheSignKey, cacheSignValue, this.GetSignCacheExpireTime(expire));
 
-                Task t = Task.Factory.StartNew(() =>
-                {
-                    cacheItem = retrieveFunc();
-                    this.CacheProvider.Add<T>(cacheKey, cacheItem, expire);
-                });
-
-                t.Wait();
-
+                return this.AddOrUpdateCache<T>(retrieveFunc, cacheKey, expire, cacheItem);
             }
-
-            return cacheItem;
         }
 
+        /// <summary>
+        /// 获取缓存对象集合，如果缓存对象集合不存在，则执行retrieveFunc获取对象集合并添加到缓存中
+        /// </summary>
+        ///<param name="key">缓存键</param>
+        ///<param name="retrieveFunc">获取要缓存的对象集合的方法， 如果缓存对象不存在，则执行该retrieveFunc获得对象集合并添加到缓存中</param>
+        ///<param name="expire">过期时间，秒</param>
         public IEnumerable<T> Get<T>(string key, Func<IEnumerable<T>> retrieveFunc, int expire = 0)
         {
             string cacheKey = this.GetCacheKey(key);
-            
+
             // 缓存标记
-            string cacheSign = string.Format("{0}_Sign", cacheKey);
-            var sign = this.CacheProvider.Get(cacheSign);
+            string cacheSignKey = this.GetSignKey(key);
+
+            var sign = this.CacheProvider.Get(cacheSignKey);
 
             var cacheItems = this.CacheProvider.GetItems<T>(cacheKey);
 
@@ -85,26 +92,17 @@ namespace Eagle.Web.Caches
                 return cacheItems;
             }
 
-            lock (cacheSign)
+            lock (cacheSignKey)
             {
-                sign = this.CacheProvider.Get(cacheSign);
+                sign = this.CacheProvider.Get(cacheSignKey);
                 if (sign != null)
                 {
                     return cacheItems;
                 }
 
-                this.CacheProvider.Add(cacheSign, "Sign", (Convertor.ConvertToInteger(expire / 2).Value));
-
-                Task t = Task.Factory.StartNew(() =>
-                {
-                    cacheItems = retrieveFunc();
-                    this.CacheProvider.Add<T>(cacheKey, cacheItems, expire);
-                });
-
-                t.Wait();
+                this.CacheProvider.Add(cacheSignKey, cacheSignValue, this.GetSignCacheExpireTime(expire));
+                return this.AddOrUpdateCache<T>(retrieveFunc, cacheKey, expire, cacheItems);
             }
-
-            return cacheItems;
         }
 
         public void Update(string key, object target, int expire = 0)
@@ -116,13 +114,16 @@ namespace Eagle.Web.Caches
                 return;
             }
 
-            string lockKey = cacheKey + "n(*≧▽≦*)n";
+            string signCacheKey = this.GetSignKey(key);
+            string lockKey = this.GetLockKey(key);
 
             lock (lockKey)
             {
+
                 if (this.CacheProvider.ContainsKey(cacheKey))
                 {
-                    this.CacheProvider.Replace(cacheKey, target);
+                    this.CacheProvider.Replace(signCacheKey, cacheSignValue, this.GetSignCacheExpireTime(expire));
+                    this.CacheProvider.Replace(cacheKey, target, expire);
                 }
             }
         }
@@ -136,14 +137,13 @@ namespace Eagle.Web.Caches
                 return;
             }
 
-            string lockKey = cacheKey + "n(*≧▽≦*)n";
+            string signCacheKey = this.GetSignKey(key);
+            string lockKey = this.GetLockKey(key);
 
             lock (lockKey)
             {
-                if (this.CacheProvider.ContainsKey(cacheKey))
-                {
-                    this.CacheProvider.Remove(cacheKey);
-                }
+                this.CacheProvider.Remove(signCacheKey);
+                this.CacheProvider.Remove(cacheKey);
             }
         }
 
@@ -152,5 +152,56 @@ namespace Eagle.Web.Caches
             return this.CacheKeyGenerator.GetKey(key);
         }
 
+        /// <summary>
+        /// 获取缓存过期标记
+        /// </summary>
+        protected string GetSignKey(string key)
+        {
+            return string.Intern(this.CacheKeyGenerator.GetSignKey(key));
+        }
+
+        protected string GetLockKey(string key)
+        {
+            return string.Intern(string.Format("{0}_n(*≧▽≦*)n", key));
+        }
+
+        protected int GetSignCacheExpireTime(int expire)
+        {
+            return Convertor.ConvertToInteger(expire / 2).Value;
+        }
+
+        /// <summary>
+        /// 更新缓存
+        /// </summary>
+        protected T AddOrUpdateCache<T>(Func<T> retrieveFunc, string cacheKey, int expire, T cacheItem)
+        {
+            if (Equals(cacheItem, null))
+            {
+                cacheItem = retrieveFunc();
+                this.CacheProvider.Add<T>(cacheKey, cacheItem, expire);
+                return cacheItem;
+            }
+
+            Task t = Task.Factory.StartNew(() => this.CacheProvider.Replace<T>(cacheKey, retrieveFunc(), expire));
+
+            return cacheItem;
+        }
+
+        /// <summary>
+        /// 更新缓存集合
+        /// </summary>
+        protected IEnumerable<T> AddOrUpdateCache<T>(Func<IEnumerable<T>> retrieveFunc, string cacheKey, int expire, IEnumerable<T> cacheItems)
+        {
+            if (Equals(cacheItems, null))
+            {
+                cacheItems = retrieveFunc();
+                this.CacheProvider.Add<T>(cacheKey, cacheItems, expire);
+                return cacheItems;
+            }
+
+            Task t = Task.Factory.StartNew(() => this.CacheProvider.Replace<T>(cacheKey, retrieveFunc(), expire));
+
+            return cacheItems;
+        }
     }
 }
